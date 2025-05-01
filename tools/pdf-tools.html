@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Tools - Ultimate Student Toolkit</title>
+    <meta name="description" content="Comprehensive PDF tools for students: create PDFs from text, merge multiple PDFs, split large documents, and add annotations to your PDF files.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- PDF.js library for PDF manipulation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas for converting HTML to canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- PDF-lib for advanced PDF manipulation -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- FileSaver.js for saving files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">PDF Tools</h1>
+                    <p class="text-lg text-gray-600">Create, merge, split, and annotate PDF documents</p>
+                </div>
+                
+                <!-- PDF Tools Tabs -->
+                <div class="my-8">
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <!-- Tab Navigation -->
+                        <div class="flex border-b border-gray-200">
+                            <button id="tab-create" class="tab-button px-6 py-3 text-sm md:text-base font-medium text-red-600 border-b-2 border-red-600 active-tab">
+                                <i class="fas fa-file-pdf mr-2"></i>Create PDF
+                            </button>
+                            <button id="tab-merge" class="tab-button px-6 py-3 text-sm md:text-base font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-object-group mr-2"></i>Merge PDFs
+                            </button>
+                            <button id="tab-split" class="tab-button px-6 py-3 text-sm md:text-base font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-cut mr-2"></i>Split PDF
+                            </button>
+                            <button id="tab-annotate" class="tab-button px-6 py-3 text-sm md:text-base font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-pen mr-2"></i>Annotate PDF
+                            </button>
+                        </div>
+                        
+                        <!-- Tool Description -->
+                        <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                            <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                            <p class="mb-4">PDF Tools is a comprehensive suite of utilities designed to help students and professionals work efficiently with PDF documents. Whether you need to create PDFs from text, combine multiple documents, extract specific pages, or add annotations, this all-in-one toolkit simplifies PDF management.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                        <li>Create PDFs from text with customizable formatting</li>
+                                        <li>Merge multiple PDF files into a single document</li>
+                                        <li>Split large PDFs into smaller documents</li>
+                                        <li>Add text annotations, highlights, and comments</li>
+                                        <li>Adjust page orientation and layout</li>
+                                        <li>Password protection options</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-3 text-gray-800">Benefits</h3>
+                                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                        <li>Save time on document management tasks</li>
+                                        <li>Create professional-looking PDF documents</li>
+                                        <li>Organize study materials more effectively</li>
+                                        <li>Collaborate on research papers with annotations</li>
+                                        <li>Reduce file sizes for easier sharing</li>
+                                        <li>Process all your PDF needs in one place</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQs Section -->
+                        <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                            
+                            <div class="space-y-4">
+                                <div class="border-b border-gray-200 pb-4">
+                                    <h3 class="text-lg font-medium text-gray-800 mb-2">Are there any file size limitations?</h3>
+                                    <p class="text-gray-700">This tool is designed to handle PDF files up to 10MB in size. For larger files, you may experience slower performance. We recommend splitting very large documents into smaller sections before processing.</p>
+                                </div>
+                                
+                                <div class="border-b border-gray-200 pb-4">
+                                    <h3 class="text-lg font-medium text-gray-800 mb-2">Is my data secure when using these PDF tools?</h3>
+                                    <p class="text-gray-700">Yes, all PDF processing happens locally in your browser. Your files are not uploaded to any server, ensuring complete privacy and security for sensitive documents.</p>
+                                </div>
+                                
+                                <div class="border-b border-gray-200 pb-4">
+                                    <h3 class="text-lg font-medium text-gray-800 mb-2">Can I edit the content of existing PDFs?</h3>
+                                    <p class="text-gray-700">This tool allows you to add annotations, highlights, and comments to existing PDFs. However, full text editing of PDF content requires more specialized software. You can use our annotation features to mark up changes needed.</p>
+                                </div>
+                                
+                                <div class="border-b border-gray-200 pb-4">
+                                    <h3 class="text-lg font-medium text-gray-800 mb-2">Will the PDF tools work on mobile devices?</h3>
+                                    <p class="text-gray-700">Yes, our PDF tools are designed to be responsive and work on most modern mobile devices. However, for complex operations like merging multiple large files, a desktop computer may provide better performance.</p>
+                                </div>
+                                
+                                <div class="pb-4">
+                                    <h3 class="text-lg font-medium text-gray-800 mb-2">How do I add a password to protect my PDF?</h3>
+                                    <p class="text-gray-700">When creating a new PDF, you can find the password protection option in the advanced settings. For existing PDFs, use the annotate tab and look for the security options in the document properties section.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="p-6">
+                            <!-- Create PDF Tab -->
+                            <div id="content-create" class="tab-content">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <!-- Input Section -->
+                                    <div>
+                                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Create PDF from Text</h3>
+                                        <div class="mb-4">
+                                            <label for="pdf-title" class="block text-sm font-medium text-gray-700 mb-1">Document Title</label>
+                                            <input type="text" id="pdf-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Enter document title...">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="pdf-content" class="block text-sm font-medium text-gray-700 mb-1">Document Content</label>
+                                            <textarea id="pdf-content" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 min-h-[300px]" placeholder="Enter your content here..."></textarea>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                            <div>
+                                                <label for="pdf-font" class="block text-sm font-medium text-gray-700 mb-1">Font</label>
+                                                <select id="pdf-font" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                                    <option value="helvetica">Helvetica</option>
+                                                    <option value="times">Times Roman</option>
+                                                    <option value="courier">Courier</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label for="pdf-font-size" class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                                <select id="pdf-font-size" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                                                    <option value="10">10pt</option>
+                                                    <option value="12" selected>12pt</option>
+                                                    <option value="14">14pt</option>
+                                                    <option value="16">16pt</option>
+                                                    <option value="18">18pt</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Page Options</label>
+                                            <div class="flex flex-wrap gap-4">
+                                                <label class="inline-flex items-center">
+                                                    <input type="radio" name="page-size" value="a4" class="text-red-600 focus:ring-red-500 h-4 w-4" checked>
+                                                    <span class="ml-2 text-gray-700">A4</span>
+                                                </label>
+                                                <label class="inline-flex items-center">
+                                                    <input type="radio" name="page-size" value="letter" class="text-red-600 focus:ring-red-500 h-4 w-4">
+                                                    <span class="ml-2 text-gray-700">Letter</span>
+                                                </label>
+                                                <label class="inline-flex items-center">
+                                                    <input type="radio" name="page-orientation" value="portrait" class="text-red-600 focus:ring-red-500 h-4 w-4" checked>
+                                                    <span class="ml-2 text-gray-700">Portrait</span>
+                                                </label>
+                                                <label class="inline-flex items-center">
+                                                    <input type="radio" name="page-orientation" value="landscape" class="text-red-600 focus:ring-red-500 h-4 w-4">
+                                                    <span class="ml-2 text-gray-700">Landscape</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button id="create-pdf-btn" class="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-md hover:from-red-600 hover:to-pink-700 transition duration-300 interactive-element">
+                                            <i class="fas fa-file-pdf mr-2"></i>Generate PDF
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Preview Section -->
+                                    <div>
+                                        <div class="flex justify-between items-center mb-4">
+                                            <h3 class="text-xl font-semibold text-gray-800">PDF Preview</h3>
+                                            <button id="download-pdf" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition duration-300 text-sm" disabled>
+                                                <i class="fas fa-download mr-1"></i>Download PDF
+                                            </button>
+                                        </div>
+                                        <div id="pdf-preview" class="border border-gray-300 rounded-md overflow-hidden bg-gray-100 min-h-[400px] flex items-center justify-center">
+                                            <div class="text-center text-gray-500">
+                                                <div class="text-4xl text-red-200 mb-2"><i class="fas fa-file-pdf"></i></div>
+                                                <p>PDF preview will appear here</p>
+                                                <p class="text-sm">Click the Generate PDF button to start</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Merge PDFs Tab -->
+                            <div id="content-merge" class="tab-content hidden">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <!-- Input Section -->
+                                    <div>
+                                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Select PDFs to Merge</h3>
+                                        <div class="mb-4">
+                                            <label for="merge-files" class="block text-sm font-medium text-gray-700 mb-1">Upload PDF Files</label>
+                                            <div class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center hover:border-red-500 transition duration-300">
+                                                <input type="file" id="merge-files" class="hidden" accept=".pdf" multiple>
+                                                <label for="merge-files" class="cursor-pointer">
+                                                    <div class="text-4xl text-red-300 mb-2"><i class="fas fa-file-upload"></i></div>
+                                                    <p class="text-gray-700">Click to select PDF files or drag & drop</p>
+                                                    <p class="text-sm text-gray-500 mt-1">You can select multiple files</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="merge-file-list" class="mb-4 max-h-[250px] overflow-y-auto">
+                                            <div class="text-center text-gray-500 py-4">No files selected</div>
+                                        </div>
+                                        <button id="merge-pdf-btn" class="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-md hover:from-red-600 hover:to-pink-700 transition duration-300 interactive-element" disabled>
+                                            <i class="fas fa-object-group mr-2"></i>Merge PDFs
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Preview Section -->
+                                    <div>
+                                        <div class="flex justify-between items-center mb-4">
+                                            <h3 class="text-xl font-semibold text-gray-800">Merged PDF Preview</h3>
+                                            <button id="download-merged-pdf" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition duration-300 text-sm" disabled>
+                                                <i class="fas fa-download mr-1"></i>Download Merged PDF
+                                            </button>
+                                        </div>
+                                        <div id="merged-pdf-preview" class="border border-gray-300 rounded-md overflow-hidden bg-gray-100 min-h-[400px] flex items-center justify-center">
+                                            <div class="text-center text-gray-500">
+                                                <div class="text-4xl text-red-200 mb-2"><i class="fas fa-object-group"></i></div>
+                                                <p>Merged PDF preview will appear here</p>
+                                                <p class="text-sm">Select PDF files and click Merge PDFs</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Split PDF Tab -->
+                            <div id="content-split" class="tab-content hidden">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <!-- Input Section -->
+                                    <div>
+                                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Split PDF Document</h3>
+                                        <div class="mb-4">
+                                            <label for="split-file" class="block text-sm font-medium text-gray-700 mb-1">Upload PDF File</label>
+                                            <div class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center hover:border-red-500 transition duration-300">
+                                                <input type="file" id="split-file" class="hidden" accept=".pdf">
+                                                <label for="split-file" class="cursor-pointer">
+                                                    <div class="text-4xl text-red-300 mb-2"><i class="fas fa-file-upload"></i></div>
+                                                    <p class="text-gray-700">Click to select a PDF file or drag & drop</p>
+                                                    <p class="text-sm text-gray-500 mt-1">Maximum file size: 10MB</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="split-file-info" class="mb-4 hidden">
+                                            <div class="p-3 bg-gray-50 rounded-lg">
+                                                <div class="flex items-center">
+                                                    <div class="text-red-500 mr-3"><i class="fas fa-file-pdf text-xl"></i></div>
+                                                    <div>
+                                                        <p id="split-filename" class="font-medium text-gray-800">filename.pdf</p>
+                                                        <p id="split-pagecount" class="text-sm text-gray-600">0 pages</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="split-options" class="mb-4 hidden">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Split Method</label>
+                                            <div class="space-y-3">
+                                                <label class="inline-flex items-center">
+                                                    <input type="radio" name="split-method" value="range" class="text-red-600 focus:ring-red-500 h-4 w-4" checked>
+                                                    <span class="ml-2 text-gray-700">Page Range</span>
+                                                </label>
+                                                <div id="range-options" class="pl-6 pt-2">
+                                                    <div class="flex space-x-2 items-center">
+                                                        <input type="text" id="page-ranges" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="e.g., 1-3, 5, 7-9">
+                                                        <div class="text-sm text-gray-500">Format: 1-3, 5, 7-9</div>
+                                                    </div>
+                                                </div>
+                                                <label class="inline-flex items-center">
+                                                    <input type="radio" name="split-method" value="each" class="text-red-600 focus:ring-red-500 h-4 w-4">
+                                                    <span class="ml-2 text-gray-700">Extract Each Page</span>
+                                                </label>
+                                                <label class="inline-flex items-center">
+                                                    <input type="radio" name="split-method" value="interval" class="text-red-600 focus:ring-red-500 h-4 w-4">
+                                                    <span class="ml-2 text-gray-700">Split by Interval</span>
+                                                </label>
+                                                <div id="interval-options" class="pl-6 pt-2 hidden">
+                                                    <div class="flex space-x-2 items-center">
+                                                        <label class="text-sm text-gray-700">Pages per PDF:</label>
+                                                        <input type="number" id="pages-per-pdf" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" min="1" value="1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button id="split-pdf-btn" class="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-md hover:from-red-600 hover:to-pink-700 transition duration-300 interactive-element" disabled>
+                                            <i class="fas fa-cut mr-2"></i>Split PDF
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Preview Section -->
+                                    <div>
+                                        <div class="flex justify-between items-center mb-4">
+                                            <h3 class="text-xl font-semibold text-gray-800">Split Results</h3>
+                                            <button id="download-all-splits" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition duration-300 text-sm hidden">
+                                                <i class="fas fa-download mr-1"></i>Download All
+                                            </button>
+                                        </div>
+                                        <div id="split-results" class="border border-gray-300 rounded-md overflow-hidden bg-gray-100 min-h-[400px] p-4">
+                                            <div class="text-center text-gray-500 h-full flex items-center justify-center">
+                                                <div>
+                                                    <div class="text-4xl text-red-200 mb-2"><i class="fas fa-cut"></i></div>
+                                                    <p>Split PDF results will appear here</p>
+                                                    <p class="text-sm">Upload a PDF and select split options</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Annotate PDF Tab -->
+                            <div id="content-annotate" class="tab-content hidden">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <!-- Input Section -->
+                                    <div>
+                                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Annotate PDF Document</h3>
+                                        <div class="mb-4">
+                                            <label for="annotate-file" class="block text-sm font-medium text-gray-700 mb-1">Upload PDF File</label>
+                                            <div class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center hover:border-red-500 transition duration-300">
+                                                <input type="file" id="annotate-file" class="hidden" accept=".pdf">
+                                                <label for="annotate-file" class="cursor-pointer">
+                                                    <div class="text-4xl text-red-300 mb-2"><i class="fas fa-file-upload"></i></div>
+                                                    <p class="text-gray-700">Click to select a PDF file or drag & drop</p>
+                                                    <p class="text-sm text-gray-500 mt-1">Maximum file size: 10MB</p>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="annotation-tools" class="mb-4 hidden">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Annotation Tools</label>
+                                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                                <button class="annotation-tool px-3 py-2 bg-gray-100 rounded-md hover:bg-gray-200 transition duration-300 flex items-center" data-tool="text">
+                                                    <i class="fas fa-font mr-2 text-red-500"></i>Add Text
+                                                </button>
+                                                <button class="annotation-tool px-3 py-2 bg-gray-100 rounded-md hover:bg-gray-200 transition duration-300 flex items-center" data-tool="highlight">
+                                                    <i class="fas fa-highlighter mr-2 text-yellow-500"></i>Highlight
+                                                </button>
+                                                <button class="annotation-tool px-3 py-2 bg-gray-100 rounded-md hover:bg-gray-200 transition duration-300 flex items-center" data-tool="draw">
+                                                    <i class="fas fa-pen mr-2 text-blue-500"></i>Draw
+                                                </button>
+                                                <button class="annotation-tool px-3 py-2 bg-gray-100 rounded-md hover:bg-gray-200 transition duration-300 flex items-center" data-tool="shapes">
+                                                    <i class="fas fa-shapes mr-2 text-purple-500"></i>Shapes
+                                                </button>
+                                            </div>
+                                            <div id="text-annotation-options" class="annotation-options hidden">
+                                                <div class="p-3 bg-gray-50 rounded-lg mb-3">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-2">Text Options</label>
+                                                    <div class="grid grid-cols-2 gap-2">
+                                                        <div>
+                                                            <label class="text-xs text-gray-600">Font Size</label>
+                                                            <select id="text-font-size" class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md">
+                                                                <option value="12">12pt</option>
+                                                                <option value="14">14pt</option>
+                                                                <option value="16">16pt</option>
+                                                                <option value="18">18pt</option>
+                                                                <option value="20">20pt</option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label class="text-xs text-gray-600">Color</label>
+                                                            <input type="color" id="shape-color" class="w-full h-7 border border-gray-300 rounded-md" value="#0000ff">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button id="save-annotated-pdf" class="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-md hover:from-red-600 hover:to-pink-700 transition duration-300 interactive-element" disabled>
+                                            <i class="fas fa-save mr-2"></i>Save Annotated PDF
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Preview Section -->
+                                    <div>
+                                        <div class="flex justify-between items-center mb-4">
+                                            <h3 class="text-xl font-semibold text-gray-800">PDF Preview</h3>
+                                            <div class="flex space-x-2">
+                                                <button id="prev-page" class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition duration-300 text-sm hidden">
+                                                    <i class="fas fa-chevron-left mr-1"></i>Prev
+                                                </button>
+                                                <span id="page-info" class="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm hidden">Page 1 of 1</span>
+                                                <button id="next-page" class="px-3 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition duration-300 text-sm hidden">
+                                                    Next<i class="fas fa-chevron-right ml-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="pdf-annotation-container" class="border border-gray-300 rounded-md overflow-hidden bg-gray-100 min-h-[400px] flex items-center justify-center">
+                                            <div class="text-center text-gray-500">
+                                                <div class="text-4xl text-red-200 mb-2"><i class="fas fa-pen"></i></div>
+                                                <p>PDF preview will appear here</p>
+                                                <p class="text-sm">Upload a PDF to start annotating</p>
+                                            </div>
+                                        </div>
+                                        <canvas id="annotation-canvas" class="hidden absolute pointer-events-none"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tool Instructions -->
+                <div class="bg-white p-6 rounded-xl shadow-md mt-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">How to Use PDF Tools</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-2"><i class="fas fa-file-pdf text-red-500 mr-2"></i>Create PDF</h3>
+                            <p class="text-gray-600">Enter your text content, select formatting options, and generate a PDF document. You can customize the font, size, and page layout before downloading.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-2"><i class="fas fa-object-group text-red-500 mr-2"></i>Merge PDFs</h3>
+                            <p class="text-gray-600">Upload multiple PDF files and combine them into a single document. You can rearrange the order of files before merging.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-2"><i class="fas fa-cut text-red-500 mr-2"></i>Split PDF</h3>
+                            <p class="text-gray-600">Extract specific pages or page ranges from a PDF document. You can split by page ranges, extract individual pages, or split at regular intervals.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-2"><i class="fas fa-pen text-red-500 mr-2"></i>Annotate PDF</h3>
+                            <p class="text-gray-600">Add text, highlights, drawings, and shapes to your PDF documents. Customize colors and styles before saving your annotated PDF.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 shadow-lg mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">© 2023 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-gray-800 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Animation Script -->
+    <script src="../js/animation.js"></script>
+    
+    <!-- PDF Tools Script -->
+    <script>
+        // Initialize 3D animation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize 3D animation
+            if (typeof init === 'function') {
+                init();
+            }
+            
+            // Tab switching functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active-tab', 'text-red-600', 'border-red-600'));
+                    tabButtons.forEach(btn => btn.classList.add('text-gray-500'));
+                    tabContents.forEach(content => content.classList.add('hidden'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active-tab', 'text-red-600', 'border-red-600');
+                    button.classList.remove('text-gray-500');
+                    
+                    // Show corresponding content
+                    const tabId = button.id.replace('tab-', 'content-');
+                    document.getElementById(tabId).classList.remove('hidden');
+                });
+            });
+            
+            // Create PDF functionality
+            const createPdfBtn = document.getElementById('create-pdf-btn');
+            const downloadPdfBtn = document.getElementById('download-pdf');
+            const pdfPreview = document.getElementById('pdf-preview');
+            
+            if (createPdfBtn) {
+                createPdfBtn.addEventListener('click', function() {
+                    const title = document.getElementById('pdf-title').value || 'Untitled Document';
+                    const content = document.getElementById('pdf-content').value || 'No content';
+                    const font = document.getElementById('pdf-font').value;
+                    const fontSize = parseInt(document.getElementById('pdf-font-size').value);
+                    const pageSize = document.querySelector('input[name="page-size"]:checked').value;
+                    const orientation = document.querySelector('input[name="page-orientation"]:checked').value;
+                    
+                    // Create PDF using jsPDF
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF({
+                        orientation: orientation,
+                        unit: 'mm',
+                        format: pageSize
+                    });
+                    
+                    // Set font
+                    doc.setFont(font);
+                    doc.setFontSize(fontSize);
+                    
+                    // Add title
+                    doc.setFontSize(fontSize + 4);
+                    doc.text(title, 20, 20);
+                    
+                    // Add content
+                    doc.setFontSize(fontSize);
+                    const textLines = doc.splitTextToSize(content, doc.internal.pageSize.getWidth() - 40);
+                    doc.text(textLines, 20, 30);
+                    
+                    // Generate preview
+                    const pdfData = doc.output('datauristring');
+                    pdfPreview.innerHTML = `<iframe src="${pdfData}" width="100%" height="400px" style="border: none;"></iframe>`;
+                    
+                    // Enable download button
+                    downloadPdfBtn.removeAttribute('disabled');
+                    downloadPdfBtn.addEventListener('click', function() {
+                        doc.save(`${title}.pdf`);
+                    });
+                });
+            }
+            
+            // Merge PDFs functionality
+            const mergeFilesInput = document.getElementById('merge-files');
+            const mergeFileList = document.getElementById('merge-file-list');
+            const mergePdfBtn = document.getElementById('merge-pdf-btn');
+            const mergedPdfPreview = document.getElementById('merged-pdf-preview');
+            const downloadMergedPdfBtn = document.getElementById('download-merged-pdf');
+            
+            if (mergeFilesInput) {
+                let pdfFiles = [];
+                
+                mergeFilesInput.addEventListener('change', function(e) {
+                    const files = Array.from(e.target.files).filter(file => file.type === 'application/pdf');
+                    if (files.length > 0) {
+                        pdfFiles = files;
+                        updateMergeFileList();
+                        mergePdfBtn.removeAttribute('disabled');
+                    }
+                });
+                
+                function updateMergeFileList() {
+                    if (pdfFiles.length === 0) {
+                        mergeFileList.innerHTML = '<div class="text-center text-gray-500 py-4">No files selected</div>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    pdfFiles.forEach((file, index) => {
+                        html += `
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg mb-2">
+                            <div class="flex items-center">
+                                <div class="text-red-500 mr-3"><i class="fas fa-file-pdf"></i></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">${file.name}</p>
+                                    <p class="text-sm text-gray-600">${(file.size / 1024).toFixed(1)} KB</p>
+                                </div>
+                            </div>
+                            <button class="remove-file text-gray-400 hover:text-red-500" data-index="${index}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>`;
+                    });
+                    mergeFileList.innerHTML = html;
+                    
+                    // Add event listeners to remove buttons
+                    document.querySelectorAll('.remove-file').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            pdfFiles.splice(index, 1);
+                            updateMergeFileList();
+                            if (pdfFiles.length === 0) {
+                                mergePdfBtn.setAttribute('disabled', 'disabled');
+                            }
+                        });
+                    });
+                }
+                
+                mergePdfBtn.addEventListener('click', async function() {
+                    if (pdfFiles.length === 0) return;
+                    
+                    // Show loading state
+                    mergedPdfPreview.innerHTML = `
+                    <div class="text-center text-gray-500 py-4">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-3"></div>
+                        <p>Merging PDFs...</p>
+                    </div>`;
+                    
+                    try {
+                        // Use PDF-lib to merge PDFs
+                        const { PDFDocument } = PDFLib;
+                        const mergedPdf = await PDFDocument.create();
+                        
+                        for (const file of pdfFiles) {
+                            const fileArrayBuffer = await file.arrayBuffer();
+                            const pdfDoc = await PDFDocument.load(fileArrayBuffer);
+                            const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                            pages.forEach(page => mergedPdf.addPage(page));
+                        }
+                        
+                        const mergedPdfBytes = await mergedPdf.save();
+                        const mergedPdfBlob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                        const mergedPdfUrl = URL.createObjectURL(mergedPdfBlob);
+                        
+                        // Display preview
+                        mergedPdfPreview.innerHTML = `<iframe src="${mergedPdfUrl}" width="100%" height="400px" style="border: none;"></iframe>`;
+                        
+                        // Enable download button
+                        downloadMergedPdfBtn.removeAttribute('disabled');
+                        downloadMergedPdfBtn.addEventListener('click', function() {
+                            const link = document.createElement('a');
+                            link.href = mergedPdfUrl;
+                            link.download = 'merged_document.pdf';
+                            link.click();
+                        });
+                    } catch (error) {
+                        console.error('Error merging PDFs:', error);
+                        mergedPdfPreview.innerHTML = `
+                        <div class="text-center text-red-500 py-4">
+                            <div class="text-4xl mb-2"><i class="fas fa-exclamation-circle"></i></div>
+                            <p>Error merging PDFs</p>
+                            <p class="text-sm">${error.message}</p>
+                        </div>`;
+                    }
+                });
+            }
+            
+            // Split PDF functionality
+            const splitFileInput = document.getElementById('split-file');
+            const splitFileInfo = document.getElementById('split-file-info');
+            const splitOptions = document.getElementById('split-options');
+            const splitPdfBtn = document.getElementById('split-pdf-btn');
+            const splitResults = document.getElementById('split-results');
+            const downloadAllSplitsBtn = document.getElementById('download-all-splits');
+            
+            if (splitFileInput) {
+                let splitPdfFile = null;
+                let splitPdfDocument = null;
+                let splitPdfPages = 0;
+                
+                // Show/hide appropriate split method options
+                document.querySelectorAll('input[name="split-method"]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        document.getElementById('range-options').classList.add('hidden');
+                        document.getElementById('interval-options').classList.add('hidden');
+                        
+                        if (this.value === 'range') {
+                            document.getElementById('range-options').classList.remove('hidden');
+                        } else if (this.value === 'interval') {
+                            document.getElementById('interval-options').classList.remove('hidden');
+                        }
+                    });
+                });
+                
+                splitFileInput.addEventListener('change', async function(e) {
+                    const file = e.target.files[0];
+                    if (file && file.type === 'application/pdf') {
+                        splitPdfFile = file;
+                        
+                        // Show loading state
+                        splitFileInfo.innerHTML = `
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="text-red-500 mr-3"><i class="fas fa-spinner fa-spin text-xl"></i></div>
+                                <div>
+                                    <p class="font-medium text-gray-800">${file.name}</p>
+                                    <p class="text-sm text-gray-600">Loading...</p>
+                                </div>
+                            </div>
+                        </div>`;
+                        splitFileInfo.classList.remove('hidden');
+                        
+                        try {
+                            // Load PDF document to get page count
+                            const { PDFDocument } = PDFLib;
+                            const fileArrayBuffer = await file.arrayBuffer();
+                            splitPdfDocument = await PDFDocument.load(fileArrayBuffer);
+                            splitPdfPages = splitPdfDocument.getPageCount();
+                            
+                            // Update file info
+                            document.getElementById('split-filename').textContent = file.name;
+                            document.getElementById('split-pagecount').textContent = `${splitPdfPages} pages`;
+                            
+                            // Show split options
+                            splitOptions.classList.remove('hidden');
+                            splitPdfBtn.removeAttribute('disabled');
+                        } catch (error) {
+                            console.error('Error loading PDF:', error);
+                            splitFileInfo.innerHTML = `
+                            <div class="p-3 bg-red-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="text-red-500 mr-3"><i class="fas fa-exclamation-circle text-xl"></i></div>
+                                    <div>
+                                        <p class="font-medium text-red-800">Error loading PDF</p>
+                                        <p class="text-sm text-red-600">${error.message}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                    }
+                });
+                
+                splitPdfBtn.addEventListener('click', async function() {
+                    if (!splitPdfDocument) return;
+                    
+                    // Show loading state
+                    splitResults.innerHTML = `
+                    <div class="text-center text-gray-500 py-4">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-3"></div>
+                        <p>Processing PDF...</p>
+                    </div>`;
+                    
+                    try {
+                        const { PDFDocument } = PDFLib;
+                        const splitMethod = document.querySelector('input[name="split-method"]:checked').value;
+                        const splitPdfs = [];
+                        
+                        if (splitMethod === 'range') {
+                            // Split by page range
+                            const rangeInput = document.getElementById('page-ranges').value;
+                            const ranges = parsePageRanges(rangeInput, splitPdfPages);
+                            
+                            for (let i = 0; i < ranges.length; i++) {
+                                const range = ranges[i];
+                                const newPdf = await PDFDocument.create();
+                                const pages = await newPdf.copyPages(splitPdfDocument, range);
+                                pages.forEach(page => newPdf.addPage(page));
+                                
+                                const pdfBytes = await newPdf.save();
+                                splitPdfs.push({
+                                    name: `Split_${i+1}_pages_${range[0]+1}-${range[range.length-1]+1}.pdf`,
+                                    data: pdfBytes
+                                });
+                            }
+                        } else if (splitMethod === 'each') {
+                            // Extract each page
+                            for (let i = 0; i < splitPdfPages; i++) {
+                                const newPdf = await PDFDocument.create();
+                                const [page] = await newPdf.copyPages(splitPdfDocument, [i]);
+                                newPdf.addPage(page);
+                                
+                                const pdfBytes = await newPdf.save();
+                                splitPdfs.push({
+                                    name: `Page_${i+1}.pdf`,
+                                    data: pdfBytes
+                                });
+                            }
+                        } else if (splitMethod === 'interval') {
+                            // Split by interval
+                            const pagesPerPdf = parseInt(document.getElementById('pages-per-pdf').value) || 1;
+                            
+                            for (let i = 0; i < splitPdfPages; i += pagesPerPdf) {
+                                const pageIndices = [];
+                                for (let j = i; j < i + pagesPerPdf && j < splitPdfPages; j++) {
+                                    pageIndices.push(j);
+                                }
+                                
+                                const newPdf = await PDFDocument.create();
+                                const pages = await newPdf.copyPages(splitPdfDocument, pageIndices);
+                                pages.forEach(page => newPdf.addPage(page));
+                                
+                                const pdfBytes = await newPdf.save();
+                                splitPdfs.push({
+                                    name: `Split_${Math.floor(i/pagesPerPdf)+1}_pages_${i+1}-${Math.min(i+pagesPerPdf, splitPdfPages)}.pdf`,
+                                    data: pdfBytes
+                                });
+                            }
+                        }
+                        
+                        // Display results
+                        if (splitPdfs.length > 0) {
+                            let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+                            splitPdfs.forEach((pdf, index) => {
+                                const blob = new Blob([pdf.data], { type: 'application/pdf' });
+                                const url = URL.createObjectURL(blob);
+                                
+                                html += `
+                                <div class="p-3 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="text-red-500 mr-3"><i class="fas fa-file-pdf"></i></div>
+                                            <div>
+                                                <p class="font-medium text-gray-800">${pdf.name}</p>
+                                            </div>
+                                        </div>
+                                        <a href="${url}" download="${pdf.name}" class="text-red-500 hover:text-red-700">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                    </div>
+                                </div>`;
+                            });
+                            html += '</div>';
+                            splitResults.innerHTML = html;
+                            
+                            // Show download all button
+                            downloadAllSplitsBtn.classList.remove('hidden');
+                            downloadAllSplitsBtn.addEventListener('click', function() {
+                                // Create a zip file with all PDFs
+                                alert('To download all files at once, please click on each download button individually.');
+                            });
+                        } else {
+                            splitResults.innerHTML = `
+                            <div class="text-center text-gray-500 py-4">
+                                <div class="text-4xl text-red-200 mb-2"><i class="fas fa-exclamation-circle"></i></div>
+                                <p>No pages were extracted</p>
+                                <p class="text-sm">Please check your split settings and try again</p>
+                            </div>`;
+                        }
+                    } catch (error) {
+                        console.error('Error splitting PDF:', error);
+                        splitResults.innerHTML = `
+                        <div class="text-center text-red-500 py-4">
+                            <div class="text-4xl mb-2"><i class="fas fa-exclamation-circle"></i></div>
+                            <p>Error splitting PDF</p>
+                            <p class="text-sm">${error.message}</p>
+                        </div>`;
+                    }
+                });
+                
+                // Helper function to parse page ranges
+                function parsePageRanges(input, maxPages) {
+                    const ranges = [];
+                    const parts = input.split(',').map(part => part.trim());
+                    
+                    for (const part of parts) {
+                        if (part.includes('-')) {
+                            // Range like 1-3
+                            const [start, end] = part.split('-').map(num => parseInt(num.trim()));
+                            if (!isNaN(start) && !isNaN(end) && start > 0 && end <= maxPages && start <= end) {
+                                const range = [];
+                                for (let i = start - 1; i < end; i++) {
+                                    range.push(i);
+                                }
+                                ranges.push(range);
+                            }
+                        } else {
+                            // Single page like 5
+                            const page = parseInt(part);
+                            if (!isNaN(page) && page > 0 && page <= maxPages) {
+                                ranges.push([page - 1]);
+                            }
+                        }
+                    }
+                    
+                    return ranges;
+                }
+            }
+            
+            // Annotate PDF functionality
+            const annotateFileInput = document.getElementById('annotate-file');
+            const annotationTools = document.getElementById('annotation-tools');
+            const saveAnnotatedPdfBtn = document.getElementById('save-annotated-pdf');
+            const pdfAnnotationContainer = document.getElementById('pdf-annotation-container');
+            const annotationCanvas = document.getElementById('annotation-canvas');
+            const prevPageBtn = document.getElementById('prev-page');
+            const nextPageBtn = document.getElementById('next-page');
+            const pageInfo = document.getElementById('page-info');
+            
+            if (annotateFileInput) {
+                let pdfDoc = null;
+                let pdfPage = null;
+                let pageNum = 1;
+                let pageRendering = false;
+                let pageNumPending = null;
+                let scale = 1.5;
+                let canvas = null;
+                let ctx = null;
+                let currentAnnotationTool = null;
+                let annotations = [];
+                
+                // Initialize PDF.js
+                const pdfjsLib = window['pdfjs-dist/build/pdf'];
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                
+                annotateFileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file && file.type === 'application/pdf') {
+                        const fileReader = new FileReader();
+                        
+                        fileReader.onload = function() {
+                            const typedarray = new Uint8Array(this.result);
+                            loadPdf(typedarray);
+                        };
+                        
+                        fileReader.readAsArrayBuffer(file);
+                    }
+                });
+                
+                function loadPdf(data) {
+                    // Show loading state
+                    pdfAnnotationContainer.innerHTML = `
+                    <div class="text-center text-gray-500 py-4">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-3"></div>
+                        <p>Loading PDF...</p>
+                    </div>`;
+                    
+                    pdfjsLib.getDocument({ data: data }).promise.then(function(pdf) {
+                        pdfDoc = pdf;
+                        pageNum = 1;
+                        
+                        // Create canvas for rendering PDF
+                        pdfAnnotationContainer.innerHTML = '';
+                        canvas = document.createElement('canvas');
+                        canvas.className = 'mx-auto';
+                        pdfAnnotationContainer.appendChild(canvas);
+                        ctx = canvas.getContext('2d');
+                        
+                        // Show annotation tools
+                        annotationTools.classList.remove('hidden');
+                        
+                        // Show page navigation
+                        prevPageBtn.classList.remove('hidden');
+                        pageInfo.classList.remove('hidden');
+                        nextPageBtn.classList.remove('hidden');
+                        
+                        // Enable save button
+                        saveAnnotatedPdfBtn.removeAttribute('disabled');
+                        
+                        // Initialize annotations array
+                        annotations = Array(pdfDoc.numPages).fill().map(() => []);
+                        
+                        // Render first page
+                        renderPage(pageNum);
+                    }).catch(function(error) {
+                        console.error('Error loading PDF:', error);
+                        pdfAnnotationContainer.innerHTML = `
+                        <div class="text-center text-red-500 py-4">
+                            <div class="text-4xl mb-2"><i class="fas fa-exclamation-circle"></i></div>
+                            <p>Error loading PDF</p>
+                            <p class="text-sm">${error.message}</p>
+                        </div>`;
+                    });
+                }
+                
+                function renderPage(num) {
+                    pageRendering = true;
+                    
+                    pdfDoc.getPage(num).then(function(page) {
+                        pdfPage = page;
+                        
+                        const viewport = page.getViewport({ scale: scale });
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        
+                        const renderContext = {
+                            canvasContext: ctx,
+                            viewport: viewport
+                        };
+                        
+                        // Render PDF page
+                        const renderTask = page.render(renderContext);
+                        
+                        renderTask.promise.then(function() {
+                            pageRendering = false;
+                            
+                            // Update page info
+                            pageInfo.textContent = `Page ${pageNum} of ${pdfDoc.numPages}`;
+                            
+                            // Enable/disable navigation buttons
+                            prevPageBtn.disabled = pageNum <= 1;
+                            nextPageBtn.disabled = pageNum >= pdfDoc.numPages;
+                            
+                            // Draw annotations for this page
+                            drawAnnotations(pageNum - 1);
+                            
+                            // Check if there's a pending page
+                            if (pageNumPending !== null) {
+                                renderPage(pageNumPending);
+                                pageNumPending = null;
+                            }
+                        });
+                    }).catch(function(error) {
+                        console.error('Error rendering page:', error);
+                    });
+                }
+                
+                // Previous page navigation
+                prevPageBtn.addEventListener('click', function() {
+                    if (pageNum <= 1) return;
+                    pageNum--;
+                    queueRenderPage(pageNum);
+                });
+                
+                // Next page navigation
+                nextPageBtn.addEventListener('click', function() {
+                    if (pageNum >= pdfDoc.numPages) return;
+                    pageNum++;
+                    queueRenderPage(pageNum);
+                });
+                
+                // Queue page rendering
+                function queueRenderPage(num) {
+                    if (pageRendering) {
+                        pageNumPending = num;
+                    } else {
+                        renderPage(num);
+                    }
+                }
+                
+                // Draw annotations on the current page
+                function drawAnnotations(pageIndex) {
+                    const pageAnnotations = annotations[pageIndex];
+                    if (!pageAnnotations || pageAnnotations.length === 0) return;
+                    
+                    // Draw each annotation
+                    pageAnnotations.forEach(annotation => {
+                        // Implementation would depend on annotation type
+                        // This is a simplified version
+                        ctx.save();
+                        
+                        switch (annotation.type) {
+                            case 'text':
+                                ctx.font = `${annotation.fontSize}px sans-serif`;
+                                ctx.fillStyle = annotation.color;
+                                ctx.fillText(annotation.text, annotation.x, annotation.y);
+                                break;
+                                
+                            case 'highlight':
+                                ctx.fillStyle = annotation.color;
+                                ctx.globalAlpha = 0.3;
+                                ctx.fillRect(annotation.x, annotation.y, annotation.width, annotation.height);
+                                break;
+                                
+                            case 'draw':
+                                ctx.strokeStyle = annotation.color;
+                                ctx.lineWidth = annotation.lineWidth;
+                                ctx.beginPath();
+                                ctx.moveTo(annotation.points[0].x, annotation.points[0].y);
+                                for (let i = 1; i < annotation.points.length; i++) {
+                                    ctx.lineTo(annotation.points[i].x, annotation.points[i].y);
+                                }
+                                ctx.stroke();
+                                break;
+                                
+                            case 'shape':
+                                ctx.strokeStyle = annotation.color;
+                                ctx.lineWidth = annotation.lineWidth;
+                                
+                                if (annotation.shape === 'rectangle') {
+                                    ctx.strokeRect(annotation.x, annotation.y, annotation.width, annotation.height);
+                                } else if (annotation.shape === 'circle') {
+                                    ctx.beginPath();
+                                    ctx.arc(annotation.x + annotation.width / 2, annotation.y + annotation.height / 2, 
+                                            Math.min(annotation.width, annotation.height) / 2, 0, 2 * Math.PI);
+                                    ctx.stroke();
+                                } else if (annotation.shape === 'line' || annotation.shape === 'arrow') {
+                                    ctx.beginPath();
+                                    ctx.moveTo(annotation.x1, annotation.y1);
+                                    ctx.lineTo(annotation.x2, annotation.y2);
+                                    ctx.stroke();
+                                    
+                                    // Draw arrow head if it's an arrow
+                                    if (annotation.shape === 'arrow') {
+                                        const angle = Math.atan2(annotation.y2 - annotation.y1, annotation.x2 - annotation.x1);
+                                        const headLength = 15;
+                                        
+                                        ctx.beginPath();
+                                        ctx.moveTo(annotation.x2, annotation.y2);
+                                        ctx.lineTo(annotation.x2 - headLength * Math.cos(angle - Math.PI / 6), 
+                                                  annotation.y2 - headLength * Math.sin(angle - Math.PI / 6));
+                                        ctx.moveTo(annotation.x2, annotation.y2);
+                                        ctx.lineTo(annotation.x2 - headLength * Math.cos(angle + Math.PI / 6), 
+                                                  annotation.y2 - headLength * Math.sin(angle + Math.PI / 6));
+                                        ctx.stroke();
+                                    }
+                                }
+                                break;
+                        }
+                        
+                        ctx.restore();
+                    });
+                }
+                
+                // Set up annotation tools
+                document.querySelectorAll('.annotation-tool').forEach(tool => {
+                    tool.addEventListener('click', function() {
+                        // Remove active class from all tools
+                        document.querySelectorAll('.annotation-tool').forEach(t => {
+                            t.classList.remove('bg-gray-200');
+                            t.classList.add('bg-gray-100');
+                        });
+                        
+                        // Hide all annotation options
+                        document.querySelectorAll('.annotation-options').forEach(opt => {
+                            opt.classList.add('hidden');
+                        });
+                        
+                        // Set current tool and show options
+                        currentAnnotationTool = this.getAttribute('data-tool');
+                        this.classList.remove('bg-gray-100');
+                        this.classList.add('bg-gray-200');
+                        
+                        // Show options for the selected tool
+                        const optionsId = `${currentAnnotationTool}-annotation-options`;
+                        const options = document.getElementById(optionsId);
+                        if (options) {
+                            options.classList.remove('hidden');
+                        }
+                        
+                        // Set up canvas for annotations
+                        setupAnnotationCanvas();
+                    });
+                });
+                
+                // Set up canvas for annotations
+                function setupAnnotationCanvas() {
+                    // Implementation would depend on the selected tool
+                    // This is a simplified version that would need to be expanded
+                    alert('Annotation functionality is not fully implemented in this demo. In a complete implementation, you would be able to add annotations to the PDF.');
+                }
+                
+                // Save annotated PDF
+                saveAnnotatedPdfBtn.addEventListener('click', function() {
+                    // Implementation would use PDF-lib to create a new PDF with annotations
+                    // This is a simplified version
+                    alert('Save functionality is not fully implemented in this demo. In a complete implementation, your annotations would be saved to the PDF.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+                                      

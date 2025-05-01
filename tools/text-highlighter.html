@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Highlighter - Ultimate Student Toolkit</title>
+    <meta name="description" content="Highlight and annotate important text with our Text Highlighter tool. Perfect for study notes, research papers, and important documents.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Text Highlighter</h1>
+                    <p class="text-lg text-gray-600">Highlight and annotate important text for better studying</p>
+                </div>
+                
+                <!-- Text Highlighter App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Input Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Input Text</h3>
+                            <div class="mb-4">
+                                <label for="text-input" class="block text-sm font-medium text-gray-700 mb-1">Paste your text here</label>
+                                <textarea id="text-input" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 min-h-[300px]" placeholder="Paste or type the text you want to highlight..."></textarea>
+                            </div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <span id="character-count" class="text-sm text-gray-600">0 characters</span>
+                                    <span class="text-gray-400 mx-2">|</span>
+                                    <span id="word-count" class="text-sm text-gray-600">0 words</span>
+                                </div>
+                                <button id="clear-text" class="text-sm text-yellow-600 hover:text-yellow-800 transition duration-300">
+                                    <i class="fas fa-eraser mr-1"></i>Clear
+                                </button>
+                            </div>
+                            <button id="process-text-btn" class="w-full px-4 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-md hover:from-yellow-600 hover:to-amber-700 transition duration-300 interactive-element">
+                                <i class="fas fa-highlighter mr-2"></i>Process Text
+                            </button>
+                        </div>
+                        
+                        <!-- Highlighting Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800">Highlight & Annotate</h3>
+                                <div class="flex space-x-2">
+                                    <button id="copy-highlighted" class="px-3 py-1 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300 text-sm" disabled>
+                                        <i class="fas fa-copy mr-1"></i>Copy
+                                    </button>
+                                    <button id="download-highlighted" class="px-3 py-1 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300 text-sm" disabled>
+                                        <i class="fas fa-download mr-1"></i>Export
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="highlight-container" class="p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-[300px] overflow-y-auto">
+                                <div class="text-center text-gray-500 h-full flex items-center justify-center">
+                                    <div>
+                                        <div class="text-4xl text-yellow-200 mb-2"><i class="fas fa-highlighter"></i></div>
+                                        <p>Your text will appear here for highlighting</p>
+                                        <p class="text-sm">Click the Process Text button to start</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tool Description -->
+                    <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                        <p class="mb-4">The Text Highlighter is a powerful study aid that helps students identify, mark, and organize important information in texts. Whether you're reviewing lecture notes, reading research papers, or studying for exams, this tool makes it easy to highlight key concepts and add annotations.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                    <li>Multiple highlight colors for different categories of information</li>
+                                    <li>Add notes and annotations to highlighted sections</li>
+                                    <li>Organize highlights by color or category</li>
+                                    <li>Word and character count tracking</li>
+                                    <li>Export highlighted text with annotations</li>
+                                    <li>Save and share your highlighted documents</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-3 text-gray-800">Benefits</h3>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                    <li>Improve reading comprehension and retention</li>
+                                    <li>Create visual cues for important information</li>
+                                    <li>Organize complex texts by themes or topics</li>
+                                    <li>Prepare more effective study materials</li>
+                                    <li>Focus on key concepts during review sessions</li>
+                                    <li>Collaborate on text analysis with classmates</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQs Section -->
+                    <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">How do I use the Text Highlighter effectively?</h3>
+                                <p class="text-gray-700">For best results, first read through the entire text to understand the context. Then, process the text and use different highlight colors to categorize information (e.g., yellow for key concepts, green for examples, pink for definitions). Add annotations to explain why certain sections are important or to add your own insights.</p>
+                            </div>
+                            
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">Can I save my highlighted text for later?</h3>
+                                <p class="text-gray-700">Yes, you can export your highlighted text as an HTML file that preserves all your highlights and annotations. You can also copy the highlighted text to paste into your notes or documents.</p>
+                            </div>
+                            
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">Is there a limit to how much text I can highlight?</h3>
+                                <p class="text-gray-700">The tool is optimized for texts up to about 10,000 words. While you can process larger texts, you might experience better performance by breaking very long documents into sections.</p>
+                            </div>
+                            
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">Can I customize the highlight colors?</h3>
+                                <p class="text-gray-700">Yes, you can select from a palette of predefined colors, and you can also customize the meaning or category associated with each color to match your study system.</p>
+                            </div>
+                            
+                            <div class="pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">How does highlighting improve my studying?</h3>
+                                <p class="text-gray-700">Highlighting activates active reading strategies that improve comprehension and retention. By physically marking important information and categorizing it by color, you engage more deeply with the material and create visual cues that make review more efficient. Adding annotations further reinforces your understanding by putting concepts in your own words.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Highlighting Tools -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Highlighting Tools</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Color Selection -->
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-3">Highlight Colors</h4>
+                                <div class="flex flex-wrap gap-3 mb-4">
+                                    <button class="highlight-color w-8 h-8 rounded-full bg-yellow-300 border-2 border-gray-300 hover:border-gray-500 transition duration-300 active" data-color="yellow"></button>
+                                    <button class="highlight-color w-8 h-8 rounded-full bg-green-300 border-2 border-gray-300 hover:border-gray-500 transition duration-300" data-color="green"></button>
+                                    <button class="highlight-color w-8 h-8 rounded-full bg-blue-300 border-2 border-gray-300 hover:border-gray-500 transition duration-300" data-color="blue"></button>
+                                    <button class="highlight-color w-8 h-8 rounded-full bg-purple-300 border-2 border-gray-300 hover:border-gray-500 transition duration-300" data-color="purple"></button>
+                                    <button class="highlight-color w-8 h-8 rounded-full bg-pink-300 border-2 border-gray-300 hover:border-gray-500 transition duration-300" data-color="pink"></button>
+                                    <button class="highlight-color w-8 h-8 rounded-full bg-red-300 border-2 border-gray-300 hover:border-gray-500 transition duration-300" data-color="red"></button>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h4 class="font-medium text-gray-800 mb-2">Highlighting Actions</h4>
+                                    <div class="flex space-x-2">
+                                        <button id="highlight-btn" class="px-3 py-2 rounded-lg bg-yellow-100 text-yellow-800 border border-yellow-300 hover:bg-yellow-200 transition duration-300 text-sm">
+                                            <i class="fas fa-highlighter mr-1"></i>Highlight
+                                        </button>
+                                        <button id="remove-highlight-btn" class="px-3 py-2 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 transition duration-300 text-sm">
+                                            <i class="fas fa-eraser mr-1"></i>Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Annotations -->
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-3">Add Annotations</h4>
+                                <div class="mb-4">
+                                    <textarea id="annotation-text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 h-24" placeholder="Add notes about your highlighted text..."></textarea>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button id="add-annotation-btn" class="px-3 py-2 rounded-lg bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200 transition duration-300 text-sm">
+                                        <i class="fas fa-comment-alt mr-1"></i>Add Note
+                                    </button>
+                                    <button id="view-annotations-btn" class="px-3 py-2 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 transition duration-300 text-sm">
+                                        <i class="fas fa-list mr-1"></i>View Notes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips Section -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Highlighting Tips</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 bg-yellow-50 rounded-lg">
+                                <div class="text-yellow-600 text-xl mb-2"><i class="fas fa-lightbulb"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Use Different Colors</h4>
+                                <p class="text-sm text-gray-600">Assign different colors to different types of information for better organization.</p>
+                            </div>
+                            <div class="p-4 bg-yellow-50 rounded-lg">
+                                <div class="text-yellow-600 text-xl mb-2"><i class="fas fa-check-double"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Highlight Selectively</h4>
+                                <p class="text-sm text-gray-600">Focus on key concepts and important details rather than highlighting everything.</p>
+                            </div>
+                            <div class="p-4 bg-yellow-50 rounded-lg">
+                                <div class="text-yellow-600 text-xl mb-2"><i class="fas fa-comment"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Add Annotations</h4>
+                                <p class="text-sm text-gray-600">Include your own notes to explain why the highlighted text is important.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Saved Highlights -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Saved Highlights</h3>
+                            <button id="clear-saved" class="text-sm text-yellow-600 hover:text-yellow-800 transition duration-300">Clear All</button>
+                        </div>
+                        <div id="saved-highlights" class="space-y-3 max-h-60 overflow-y-auto">
+                            <div class="text-center text-gray-500 py-4">No highlights saved yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const textInput = document.getElementById('text-input');
+            const characterCount = document.getElementById('character-count');
+            const wordCount = document.getElementById('word-count');
+            const processTextBtn = document.getElementById('process-text-btn');
+            const highlightContainer = document.getElementById('highlight-container');
+            const clearTextBtn = document.getElementById('clear-text');
+            const copyHighlightedBtn = document.getElementById('copy-highlighted');
+            const downloadHighlightedBtn = document.getElementById('download-highlighted');
+            const highlightColorBtns = document.querySelectorAll('.highlight-color');
+            const highlightBtn = document.getElementById('highlight-btn');
+            const removeHighlightBtn = document.getElementById('remove-highlight-btn');
+            const annotationText = document.getElementById('annotation-text');
+            const addAnnotationBtn = document.getElementById('add-annotation-btn');
+            const viewAnnotationsBtn = document.getElementById('view-annotations-btn');
+            const savedHighlights = document.getElementById('saved-highlights');
+            const clearSavedBtn = document.getElementById('clear-saved');
+            
+            // State variables
+            let currentHighlightColor = 'yellow';
+            let currentMode = 'highlight'; // 'highlight' or 'remove'
+            let selectedText = '';
+            let selectedRange = null;
+            let annotations = [];
+            let savedHighlightsList = [];
+            
+            // Load saved highlights from localStorage
+            loadSavedHighlights();
+            
+            // Update character and word count
+            textInput.addEventListener('input', updateCounts);
+            
+            function updateCounts() {
+                const text = textInput.value;
+                characterCount.textContent = `${text.length} characters`;
+                const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+                wordCount.textContent = `${words} words`;
+            }
+            
+            // Clear text
+            clearTextBtn.addEventListener('click', () => {
+                textInput.value = '';
+                updateCounts();
+            });
+            
+            // Process text for highlighting
+            processTextBtn.addEventListener('click', () => {
+                const text = textInput.value;
+                if (text.trim() === '') {
+                    alert('Please enter some text to highlight.');
+                    return;
+                }
+                
+                // Prepare text for highlighting
+                highlightContainer.innerHTML = `<div id="highlightable-text" class="whitespace-pre-wrap">${text}</div>`;
+                
+                // Enable buttons
+                copyHighlightedBtn.disabled = false;
+                downloadHighlightedBtn.disabled = false;
+            });
+            
+            // Select highlight color
+            highlightColorBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    highlightColorBtns.forEach(b => b.classList.remove('active', 'border-gray-500'));
+                    
+                    // Add active class to clicked button
+                    btn.classList.add('active', 'border-gray-500');
+                    
+                    // Set current highlight color
+                    currentHighlightColor = btn.dataset.color;
+                });
+            });
+            
+            // Set highlighting mode
+            highlightBtn.addEventListener('click', () => {
+                currentMode = 'highlight';
+                highlightBtn.classList.add('bg-yellow-200');
+                removeHighlightBtn.classList.remove('bg-gray-200');
+            });
+            
+            removeHighlightBtn.addEventListener('click', () => {
+                currentMode = 'remove';
+                removeHighlightBtn.classList.add('bg-gray-200');
+                highlightBtn.classList.remove('bg-yellow-200');
+            });
+            
+            // Handle text selection for highlighting
+            document.addEventListener('mouseup', () => {
+                const selection = window.getSelection();
+                if (selection.toString().trim() !== '' && highlightContainer.contains(selection.anchorNode)) {
+                    selectedText = selection.toString();
+                    selectedRange = selection.getRangeAt(0);
+                    
+                    if (currentMode === 'highlight') {
+                        applyHighlight(selectedRange, currentHighlightColor);
+                    } else if (currentMode === 'remove') {
+                        removeHighlight(selectedRange);
+                    }
+                }
+            });
+            
+            // Apply highlight to selected text
+            function applyHighlight(range, color) {
+                const span = document.createElement('span');
+                span.className = `bg-${color}-200 highlighted-text`;
+                span.dataset.color = color;
+                
+                try {
+                    range.surroundContents(span);
+                } catch (e) {
+                    console.error('Cannot highlight overlapping selections', e);
+                    alert('Cannot highlight overlapping text. Please try again with a clean selection.');
+                }
+            }
+            
+            // Remove highlight from selected text
+            function removeHighlight(range) {
+                const highlightedElements = document.querySelectorAll('.highlighted-text');
+                
+                highlightedElements.forEach(el => {
+                    if (range.intersectsNode(el)) {
+                        const parent = el.parentNode;
+                        while (el.firstChild) {
+                            parent.insertBefore(el.firstChild, el);
+                        }
+                        parent.removeChild(el);
+                    }
+                });
+            }
+            
+            // Add annotation to highlighted text
+            addAnnotationBtn.addEventListener('click', () => {
+                const note = annotationText.value.trim();
+                if (note === '') {
+                    alert('Please enter an annotation.');
+                    return;
+                }
+                
+                if (selectedText === '') {
+                    alert('Please select some text to annotate.');
+                    return;
+                }
+                
+                const annotation = {
+                    text: selectedText,
+                    note: note,
+                    color: currentHighlightColor,
+                    timestamp: new Date().toISOString()
+                };
+                
+                annotations.push(annotation);
+                saveAnnotations();
+                annotationText.value = '';
+                
+                alert('Annotation added successfully!');
+            });
+            
+            // View annotations
+            viewAnnotationsBtn.addEventListener('click', () => {
+                if (annotations.length === 0) {
+                    alert('No annotations available.');
+                    return;
+                }
+                
+                let annotationsList = 'Your Annotations:\n\n';
+                annotations.forEach((annotation, index) => {
+                    annotationsList += `${index + 1}. "${annotation.text}" - ${annotation.note}\n`;
+                });
+                
+                alert(annotationsList);
+            });
+            
+            // Copy highlighted text
+            copyHighlightedBtn.addEventListener('click', () => {
+                const highlightableText = document.getElementById('highlightable-text');
+                if (!highlightableText) return;
+                
+                const range = document.createRange();
+                range.selectNodeContents(highlightableText);
+                
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                
+                document.execCommand('copy');
+                selection.removeAllRanges();
+                
+                alert('Highlighted text copied to clipboard!');
+            });
+            
+            // Download highlighted text as HTML
+            downloadHighlightedBtn.addEventListener('click', () => {
+                const highlightableText = document.getElementById('highlightable-text');
+                if (!highlightableText) return;
+                
+                const content = highlightableText.outerHTML;
+                const blob = new Blob([`<!DOCTYPE html><html><head><title>Highlighted Text</title><style>.bg-yellow-200{background-color:#fef08a;}.bg-green-200{background-color:#bbf7d0;}.bg-blue-200{background-color:#bfdbfe;}.bg-purple-200{background-color:#e9d5ff;}.bg-pink-200{background-color:#fbcfe8;}.bg-red-200{background-color:#fecaca;}</style></head><body>${content}</body></html>`], {type: 'text/html'});
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'highlighted-text.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+            
+            // Save current highlight to saved highlights
+            function saveCurrentHighlight() {
+                const highlightableText = document.getElementById('highlightable-text');
+                if (!highlightableText) return;
+                
+                const title = prompt('Enter a title for this highlight:');
+                if (!title) return;
+                
+                const savedHighlight = {
+                    title: title,
+                    content: highlightableText.innerHTML,
+                    timestamp: new Date().toISOString()
+                };
+                
+                savedHighlightsList.push(savedHighlight);
+                saveSavedHighlights();
+                updateSavedHighlightsList();
+            }
+            
+            // Add save button event listener
+            const saveBtn = document.createElement('button');
+            saveBtn.className = 'px-3 py-1 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300 text-sm';
+            saveBtn.innerHTML = '<i class="fas fa-save mr-1"></i>Save';
+            saveBtn.addEventListener('click', saveCurrentHighlight);
+            
+            // Add save button to the UI
+            const buttonContainer = copyHighlightedBtn.parentElement;
+            buttonContainer.insertBefore(saveBtn, downloadHighlightedBtn);
+            
+            // Update saved highlights list
+            function updateSavedHighlightsList() {
+                if (savedHighlightsList.length === 0) {
+                    savedHighlights.innerHTML = '<div class="text-center text-gray-500 py-4">No highlights saved yet</div>';
+                    return;
+                }
+                
+                savedHighlights.innerHTML = '';
+                savedHighlightsList.forEach((highlight, index) => {
+                    const date = new Date(highlight.timestamp).toLocaleDateString();
+                    const highlightItem = document.createElement('div');
+                    highlightItem.className = 'p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition duration-300';
+                    highlightItem.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-medium text-gray-800">${highlight.title}</h4>
+                            <span class="text-xs text-gray-500">${date}</span>
+                        </div>
+                        <div class="flex mt-2 space-x-2">
+                            <button class="load-highlight-btn px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded hover:bg-yellow-200 transition duration-300" data-index="${index}">Load</button>
+                            <button class="delete-highlight-btn px-2 py-1 text-xs bg-red-100 text-red-800 rounded hover:bg-red-200 transition duration-300" data-index="${index}">Delete</button>
+                        </div>
+                    `;
+                    savedHighlights.appendChild(highlightItem);
+                });
+                
+                // Add event listeners to load and delete buttons
+                document.querySelectorAll('.load-highlight-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        loadHighlight(index);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-highlight-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        deleteHighlight(index);
+                    });
+                });
+            }
+            
+            // Load a saved highlight
+            function loadHighlight(index) {
+                const highlight = savedHighlightsList[index];
+                highlightContainer.innerHTML = `<div id="highlightable-text" class="whitespace-pre-wrap">${highlight.content}</div>`;
+                copyHighlightedBtn.disabled = false;
+                downloadHighlightedBtn.disabled = false;
+            }
+            
+            // Delete a saved highlight
+            function deleteHighlight(index) {
+                if (confirm('Are you sure you want to delete this highlight?')) {
+                    savedHighlightsList.splice(index, 1);
+                    saveSavedHighlights();
+                    updateSavedHighlightsList();
+                }
+            }
+            
+            // Clear all saved highlights
+            clearSavedBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all saved highlights?')) {
+                    savedHighlightsList = [];
+                    saveSavedHighlights();
+                    updateSavedHighlightsList();
+                }
+            });
+            
+            // Save annotations to localStorage
+            function saveAnnotations() {
+                localStorage.setItem('textHighlighterAnnotations', JSON.stringify(annotations));
+            }
+            
+            // Load annotations from localStorage
+            function loadAnnotations() {
+                const savedAnnotations = localStorage.getItem('textHighlighterAnnotations');
+                if (savedAnnotations) {
+                    annotations = JSON.parse(savedAnnotations);
+                }
+            }
+            
+            // Save highlights to localStorage
+            function saveSavedHighlights() {
+                localStorage.setItem('textHighlighterSavedHighlights', JSON.stringify(savedHighlightsList));
+            }
+            
+            // Load saved highlights from localStorage
+            function loadSavedHighlights() {
+                const saved = localStorage.getItem('textHighlighterSavedHighlights');
+                if (saved) {
+                    savedHighlightsList = JSON.parse(saved);
+                    updateSavedHighlightsList();
+                }
+                loadAnnotations();
+            }
+        });
+    </script>
+</body>
+</html>

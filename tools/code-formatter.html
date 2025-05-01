@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Formatter - Ultimate Student Toolkit</title>
+    <meta name="description" content="Format and beautify code snippets with our Code Formatter tool. Supports multiple programming languages with syntax highlighting and indentation control.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- Load common languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/csharp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/ruby.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/swift.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/markdown.min.js"></script>
+    <!-- js-beautify for code formatting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-css.min.js"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Code Formatter</h1>
+                    <p class="text-lg text-gray-600">Format and beautify code snippets in various programming languages</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                    <p class="mb-4">The Code Formatter is an essential tool for students, developers, and professionals who work with code. It helps you transform messy, unformatted code into clean, properly indented, and readable code with just a click.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Support for 17+ programming languages including JavaScript, Python, Java, HTML, CSS, and more</li>
+                                <li>Syntax highlighting with customizable themes</li>
+                                <li>Adjustable indentation settings</li>
+                                <li>One-click code beautification</li>
+                                <li>Copy formatted code to clipboard</li>
+                                <li>Download formatted code as a file</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Benefits</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Improve code readability for assignments and projects</li>
+                                <li>Make debugging easier with properly formatted code</li>
+                                <li>Follow coding best practices and style guides</li>
+                                <li>Save time on manual formatting</li>
+                                <li>Learn proper code structure for different languages</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQs Section -->
+                <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">How does the Code Formatter work?</h3>
+                            <p class="text-gray-700">Our Code Formatter uses industry-standard libraries like js-beautify to analyze your code and apply proper formatting rules based on the selected language. It adjusts indentation, spacing, line breaks, and other formatting elements according to best practices for each language.</p>
+                        </div>
+                        
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Will formatting change the functionality of my code?</h3>
+                            <p class="text-gray-700">No, the formatter only changes the appearance of your code, not its functionality. It preserves all variables, functions, and logic while making the code more readable and maintainable.</p>
+                        </div>
+                        
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Can I customize the formatting style?</h3>
+                            <p class="text-gray-700">Yes, you can adjust indentation size, choose between tabs or spaces, and select different syntax highlighting themes to match your preferences or project requirements.</p>
+                        </div>
+                        
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Is there a limit to how much code I can format?</h3>
+                            <p class="text-gray-700">The tool is designed to handle code snippets of reasonable size. For very large files (over 100KB), you might experience some performance slowdown. For best results, we recommend formatting code in manageable chunks.</p>
+                        </div>
+                        
+                        <div class="pb-4">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Can I use this tool for my school assignments?</h3>
+                            <p class="text-gray-700">Absolutely! This tool is perfect for formatting code in your programming assignments, making them more professional and easier for instructors to review. Just remember that while good formatting is important, it doesn't replace good programming logic.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Code Formatter App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Input Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Input Code</h3>
+                            <div class="mb-4">
+                                <label for="language-select" class="block text-sm font-medium text-gray-700 mb-1">Select Language</label>
+                                <select id="language-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500">
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="html">HTML</option>
+                                    <option value="css">CSS</option>
+                                    <option value="python">Python</option>
+                                    <option value="java">Java</option>
+                                    <option value="cpp">C++</option>
+                                    <option value="csharp">C#</option>
+                                    <option value="php">PHP</option>
+                                    <option value="ruby">Ruby</option>
+                                    <option value="go">Go</option>
+                                    <option value="swift">Swift</option>
+                                    <option value="typescript">TypeScript</option>
+                                    <option value="json">JSON</option>
+                                    <option value="xml">XML</option>
+                                    <option value="sql">SQL</option>
+                                    <option value="bash">Bash</option>
+                                    <option value="markdown">Markdown</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="code-input" class="block text-sm font-medium text-gray-700 mb-1">Paste your code here</label>
+                                <textarea id="code-input" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 font-mono text-sm min-h-[300px]" placeholder="Paste or type your code here..."></textarea>
+                            </div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <span id="character-count" class="text-sm text-gray-600">0 characters</span>
+                                    <span class="text-gray-400 mx-2">|</span>
+                                    <span id="line-count" class="text-sm text-gray-600">0 lines</span>
+                                </div>
+                                <button id="clear-code" class="text-sm text-slate-600 hover:text-slate-800 transition duration-300">
+                                    <i class="fas fa-eraser mr-1"></i>Clear
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="indent-size" class="block text-sm font-medium text-gray-700 mb-1">Indentation Size</label>
+                                    <select id="indent-size" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500">
+                                        <option value="2">2 spaces</option>
+                                        <option value="4" selected>4 spaces</option>
+                                        <option value="8">8 spaces</option>
+                                        <option value="tab">Tab</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="theme-select" class="block text-sm font-medium text-gray-700 mb-1">Color Theme</label>
+                                    <select id="theme-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500">
+                                        <option value="atom-one-dark">Atom One Dark</option>
+                                        <option value="github">GitHub</option>
+                                        <option value="monokai">Monokai</option>
+                                        <option value="vs">Visual Studio</option>
+                                        <option value="dracula">Dracula</option>
+                                        <option value="solarized-light">Solarized Light</option>
+                                        <option value="solarized-dark">Solarized Dark</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Formatting Options</label>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" id="preserve-newlines" class="text-slate-600 focus:ring-slate-500 h-4 w-4" checked>
+                                        <span class="ml-2 text-gray-700">Preserve newlines</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" id="wrap-line-length" class="text-slate-600 focus:ring-slate-500 h-4 w-4" checked>
+                                        <span class="ml-2 text-gray-700">Wrap long lines</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" id="end-with-newline" class="text-slate-600 focus:ring-slate-500 h-4 w-4" checked>
+                                        <span class="ml-2 text-gray-700">End with newline</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button id="format-btn" class="w-full px-4 py-3 bg-gradient-to-r from-slate-500 to-gray-600 text-white rounded-md hover:from-slate-600 hover:to-gray-700 transition duration-300 interactive-element">
+                                <i class="fas fa-code mr-2"></i>Format Code
+                            </button>
+                        </div>
+                        
+                        <!-- Output Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800">Formatted Code</h3>
+                                <div class="flex space-x-2">
+                                    <button id="copy-btn" class="px-3 py-1 bg-slate-100 text-slate-700 rounded hover:bg-slate-200 transition duration-300 text-sm">
+                                        <i class="fas fa-copy mr-1"></i>Copy
+                                    </button>
+                                    <button id="download-btn" class="px-3 py-1 bg-slate-100 text-slate-700 rounded hover:bg-slate-200 transition duration-300 text-sm">
+                                        <i class="fas fa-download mr-1"></i>Download
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="code-output-container" class="border border-gray-300 rounded-md overflow-hidden mb-4">
+                                <pre><code id="code-output" class="hljs p-4 overflow-auto min-h-[300px] max-h-[500px]">// Your formatted code will appear here</code></pre>
+                            </div>
+                            <div class="text-sm text-gray-600 mb-4">
+                                <p><i class="fas fa-info-circle mr-1"></i> Tip: You can change the theme and indentation settings before formatting.</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-medium text-gray-800 mb-2">About Code Formatting</h4>
+                                <p class="text-gray-600 text-sm">Code formatting improves readability and maintainability by applying consistent style rules. It helps with collaboration and makes debugging easier.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Information -->
+                <div class="mt-12 bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Supported Languages</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-js text-yellow-500 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">JavaScript</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-html5 text-orange-500 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">HTML</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-css3-alt text-blue-500 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">CSS</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-python text-blue-600 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">Python</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-java text-red-500 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">Java</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fas fa-code text-purple-500 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">C++</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-microsoft text-blue-700 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">C#</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-php text-indigo-500 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">PHP</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fas fa-gem text-red-600 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">Ruby</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-golang text-blue-400 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">Go</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-swift text-orange-600 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">Swift</p>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg text-center">
+                            <i class="fab fa-js-square text-blue-500 text-2xl mb-2"></i>
+                            <p class="text-sm font-medium">TypeScript</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2023 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-gray-800 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const languageSelect = document.getElementById('language-select');
+            const codeInput = document.getElementById('code-input');
+            const codeOutput = document.getElementById('code-output');
+            const formatBtn = document.getElementById('format-btn');
+            const clearBtn = document.getElementById('clear-code');
+            const copyBtn = document.getElementById('copy-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const indentSize = document.getElementById('indent-size');
+            const themeSelect = document.getElementById('theme-select');
+            const preserveNewlines = document.getElementById('preserve-newlines');
+            const wrapLineLength = document.getElementById('wrap-line-length');
+            const endWithNewline = document.getElementById('end-with-newline');
+            const characterCount = document.getElementById('character-count');
+            const lineCount = document.getElementById('line-count');
+            
+            // Update character and line count
+            function updateCounts() {
+                const text = codeInput.value;
+                characterCount.textContent = `${text.length} characters`;
+                lineCount.textContent = `${text.split('\n').length} lines`;
+            }
+            
+            codeInput.addEventListener('input', updateCounts);
+            
+            // Change theme
+            themeSelect.addEventListener('change', function() {
+                const theme = themeSelect.value;
+                document.querySelector('link[rel="stylesheet"][href*="highlight.js"]').href = 
+                    `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/${theme}.min.css`;
+                
+                // Re-highlight if there's code
+                if (codeOutput.textContent.trim() !== '// Your formatted code will appear here') {
+                    hljs.highlightElement(codeOutput);
+                }
+            });
+            
+            // Format code
+            formatBtn.addEventListener('click', function() {
+                const code = codeInput.value;
+                if (!code.trim()) {
+                    alert('Please enter some code to format.');
+                    return;
+                }
+                
+                const language = languageSelect.value;
+                const indent = indentSize.value === 'tab' ? '\t' : ' '.repeat(parseInt(indentSize.value));
+                
+                let formattedCode;
+                const options = {
+                    indent_size: indentSize.value === 'tab' ? 1 : parseInt(indentSize.value),
+                    indent_char: indentSize.value === 'tab' ? '\t' : ' ',
+                    preserve_newlines: preserveNewlines.checked,
+                    wrap_line_length: wrapLineLength.checked ? 80 : 0,
+                    end_with_newline: endWithNewline.checked
+                };
+                
+                try {
+                    // Format based on language
+                    if (language === 'html' || language === 'xml') {
+                        formattedCode = html_beautify(code, options);
+                    } else if (language === 'css') {
+                        formattedCode = css_beautify(code, options);
+                    } else if (language === 'javascript' || language === 'json' || language === 'typescript') {
+                        formattedCode = js_beautify(code, options);
+                    } else {
+                        // For other languages, we'll just set the language for highlighting
+                        formattedCode = code;
+                    }
+                    
+                    // Set the formatted code and highlight it
+                    codeOutput.textContent = formattedCode;
+                    codeOutput.className = `hljs language-${language}`;
+                    hljs.highlightElement(codeOutput);
+                } catch (error) {
+                    console.error('Formatting error:', error);
+                    alert('Error formatting code. Please check your input and try again.');
+                }
+            });
+            
+            // Clear code
+            clearBtn.addEventListener('click', function() {
+                codeInput.value = '';
+                updateCounts();
+            });
+            
+            // Copy formatted code
+            copyBtn.addEventListener('click', function() {
+                const code = codeOutput.textContent;
+                if (code.trim() === '// Your formatted code will appear here') {
+                    alert('No formatted code to copy.');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(code).then(function() {
+                    // Change button text temporarily
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+                    setTimeout(function() {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                }).catch(function() {
+                    alert('Failed to copy code. Please try again.');
+                });
+            });
+            
+            // Download formatted code
+            downloadBtn.addEventListener('click', function() {
+                const code = codeOutput.textContent;
+                if (code.trim() === '// Your formatted code will appear here') {
+                    alert('No formatted code to download.');
+                    return;
+                }
+                
+                const language = languageSelect.value;
+                let extension;
+                
+                // Set file extension based on language
+                switch (language) {
+                    case 'javascript': extension = 'js'; break;
+                    case 'html': extension = 'html'; break;
+                    case 'css': extension = 'css'; break;
+                    case 'python': extension = 'py'; break;
+                    case 'java': extension = 'java'; break;
+                    case 'cpp': extension = 'cpp'; break;
+                    case 'csharp': extension = 'cs'; break;
+                    case 'php': extension = 'php'; break;
+                    case 'ruby': extension = 'rb'; break;
+                    case 'go': extension = 'go'; break;
+                    case 'swift': extension = 'swift'; break;
+                    case 'typescript': extension = 'ts'; break;
+                    case 'json': extension = 'json'; break;
+                    case 'xml': extension = 'xml'; break;
+                    case 'sql': extension = 'sql'; break;
+                    case 'bash': extension = 'sh'; break;
+                    case 'markdown': extension = 'md'; break;
+                    default: extension = 'txt';
+                }
+                
+                const blob = new Blob([code], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `formatted-code.${extension}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+            
+            // Initialize counts
+            updateCounts();
+        });
+    </script>
+</body>
+</html>

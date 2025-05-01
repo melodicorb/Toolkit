@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Ultimate Student Toolkit</title>
+    <meta name="description" content="Get in touch with the Ultimate Student Toolkit team. Send us your feedback, suggestions, or report issues with our academic tools.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">Contact</a>
+                    <a href="privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Content -->
+    <section class="relative z-10 py-12 md:py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-white bg-opacity-90 rounded-xl shadow-lg p-8 animate-fade-in">
+                <h1 class="text-3xl md:text-4xl font-bold mb-6 text-center gradient-text">Contact Us</h1>
+                <p class="text-lg text-gray-600 text-center mb-8">Have questions, suggestions, or feedback? We'd love to hear from you!</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                    <!-- Contact Form -->
+                    <div>
+                        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Send Us a Message</h2>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                                <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                                <select id="subject" name="subject" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <option value="general">General Inquiry</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="bug">Report a Bug</option>
+                                    <option value="feature">Feature Request</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Your Message</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                                    <i class="fas fa-paper-plane mr-2"></i>Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div>
+                        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Get in Touch</h2>
+                        <p class="text-gray-700 mb-6">We're here to help! Choose the most convenient way to reach us.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-envelope text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-800">Email Us</h3>
+                                    <p class="text-gray-600">support@studenttoolkit.example.com</p>
+                                    <p class="text-sm text-gray-500">We'll respond within 24-48 hours</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-comments text-pink-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-800">Live Chat</h3>
+                                    <p class="text-gray-600">Available Monday-Friday</p>
+                                    <p class="text-sm text-gray-500">9:00 AM - 5:00 PM EST</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-question-circle text-indigo-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-800">FAQ</h3>
+                                    <p class="text-gray-600">Check our <a href="#" class="text-indigo-600 hover:text-indigo-800 transition duration-300">Frequently Asked Questions</a></p>
+                                    <p class="text-sm text-gray-500">Find quick answers to common questions</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-share-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-medium text-gray-800">Connect With Us</h3>
+                                    <div class="flex space-x-3 mt-2">
+                                        <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300"><i class="fab fa-twitter text-xl"></i></a>
+                                        <a href="#" class="text-gray-600 hover:text-blue-800 transition duration-300"><i class="fab fa-facebook text-xl"></i></a>
+                                        <a href="#" class="text-gray-600 hover:text-pink-600 transition duration-300"><i class="fab fa-instagram text-xl"></i></a>
+                                        <a href="#" class="text-gray-600 hover:text-blue-500 transition duration-300"><i class="fab fa-linkedin text-xl"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQ Section -->
+                <div class="mt-12">
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Frequently Asked Questions</h2>
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Are all the tools really free to use?</h3>
+                            <p class="text-gray-700">Yes, all 30 tools in the Ultimate Student Toolkit are completely free to use. We believe in providing accessible resources for students and professionals.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Do I need to create an account to use the tools?</h3>
+                            <p class="text-gray-700">No account is required. All tools work directly in your browser, and your data is stored locally on your device for privacy.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">How can I suggest a new tool or feature?</h3>
+                            <p class="text-gray-700">We welcome your suggestions! Simply use the contact form on this page and select "Feature Request" from the subject dropdown.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-medium text-gray-800 mb-2">Is my data secure when using these tools?</h3>
+                            <p class="text-gray-700">Your privacy is important to us. All data is stored locally on your device and is not transmitted to our servers. For more information, please see our Privacy Policy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // In a real application, you would send the form data to a server
+                // For this demo, we'll just show a success message
+                
+                const formData = new FormData(contactForm);
+                const formValues = {};
+                
+                for (let [key, value] of formData.entries()) {
+                    formValues[key] = value;
+                }
+                
+                // Store in local storage for demo purposes
+                const messages = JSON.parse(localStorage.getItem('contact-messages')) || [];
+                messages.push({
+                    ...formValues,
+                    date: new Date().toISOString(),
+                    status: 'unread'
+                });
+                localStorage.setItem('contact-messages', JSON.stringify(messages));
+                
+                // Show success message
+                contactForm.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-check text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Message Sent Successfully!</h3>
+                        <p class="text-gray-600 mb-4">Thank you for reaching out. We'll get back to you as soon as possible.</p>
+                        <button id="send-another" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                            Send Another Message
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listener to the "Send Another Message" button
+                document.getElementById('send-another').addEventListener('click', () => {
+                    window.location.reload();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

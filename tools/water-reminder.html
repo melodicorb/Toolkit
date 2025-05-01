@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Reminder - Ultimate Student Toolkit</title>
+    <meta name="description" content="Stay hydrated while studying with our Water Reminder tool. Set customized reminders to drink water regularly and track your daily water intake.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Water Reminder</h1>
+                    <p class="text-lg text-gray-600">Stay hydrated while studying with regular water intake reminders</p>
+                </div>
+                
+                <!-- Water Tracker Display -->
+                <div class="flex flex-col items-center justify-center my-8">
+                    <div class="w-64 h-64 rounded-full bg-white shadow-lg flex items-center justify-center mb-6 relative overflow-hidden">
+                        <div id="water-level" class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-500 to-blue-300 transition-all duration-1000" style="height: 0%"></div>
+                        <div class="text-center relative z-10">
+                            <div id="intake-display" class="text-4xl font-bold text-gray-800 mb-2">0 / 0</div>
+                            <div id="intake-label" class="text-lg text-blue-600 font-medium">ml consumed</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Next Reminder Display -->
+                    <div class="bg-white p-4 rounded-xl shadow-md w-full max-w-md mb-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Next Reminder</h3>
+                                <p id="next-reminder" class="text-blue-600">Not set</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-bell text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Add Buttons -->
+                    <div class="flex flex-wrap justify-center gap-3 mb-6">
+                        <button id="add-100ml" class="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition duration-300">
+                            <i class="fas fa-plus mr-1"></i>100 ml
+                        </button>
+                        <button id="add-200ml" class="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition duration-300">
+                            <i class="fas fa-plus mr-1"></i>200 ml
+                        </button>
+                        <button id="add-300ml" class="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition duration-300">
+                            <i class="fas fa-plus mr-1"></i>300 ml
+                        </button>
+                        <button id="add-500ml" class="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition duration-300">
+                            <i class="fas fa-plus mr-1"></i>500 ml
+                        </button>
+                    </div>
+                    
+                    <!-- Custom Add Form -->
+                    <div class="bg-white p-4 rounded-xl shadow-md w-full max-w-md mb-6">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Add Custom Amount</h3>
+                        <div class="flex items-center">
+                            <input type="number" id="custom-amount" class="w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter amount in ml" min="1" max="2000">
+                            <button id="add-custom" class="px-4 py-2 rounded-r-md bg-gradient-to-r from-blue-500 to-sky-600 text-white font-medium hover:from-blue-600 hover:to-sky-700 transition duration-300">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Reminder Settings -->
+                    <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Reminder Settings</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="col-span-1 md:col-span-2">
+                                <label for="daily-goal" class="block text-sm font-medium text-gray-700 mb-1">Daily Water Goal (ml)</label>
+                                <input type="number" id="daily-goal" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="2000" min="500" max="5000">
+                            </div>
+                            <div>
+                                <label for="reminder-interval" class="block text-sm font-medium text-gray-700 mb-1">Reminder Interval (minutes)</label>
+                                <input type="number" id="reminder-interval" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="30" min="15" max="120">
+                            </div>
+                            <div>
+                                <label for="reminder-start" class="block text-sm font-medium text-gray-700 mb-1">Start Reminders</label>
+                                <select id="reminder-start" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="now">Right Now</option>
+                                    <option value="5min">In 5 Minutes</option>
+                                    <option value="10min">In 10 Minutes</option>
+                                    <option value="15min">In 15 Minutes</option>
+                                </select>
+                            </div>
+                            <div class="col-span-1 md:col-span-2 mt-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="sound-enabled" class="rounded text-blue-600 focus:ring-blue-500 h-5 w-5" checked>
+                                    <span class="ml-2 text-gray-700">Enable Sound Notifications</span>
+                                </label>
+                            </div>
+                            <div class="col-span-1 md:col-span-2 mt-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="desktop-notifications" class="rounded text-blue-600 focus:ring-blue-500 h-5 w-5" checked>
+                                    <span class="ml-2 text-gray-700">Enable Desktop Notifications</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3 mt-4">
+                            <button id="start-reminders" class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-sky-600 text-white rounded-md hover:from-blue-600 hover:to-sky-700 transition duration-300">
+                                <i class="fas fa-play mr-2"></i>Start Reminders
+                            </button>
+                            <button id="stop-reminders" class="flex-1 px-4 py-2 bg-white text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100 transition duration-300" disabled>
+                                <i class="fas fa-stop mr-2"></i>Stop Reminders
+                            </button>
+                        </div>
+                        <button id="reset-tracking" class="mt-3 w-full px-4 py-2 bg-white text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100 transition duration-300">
+                            <i class="fas fa-redo-alt mr-2"></i>Reset Tracking
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Hydration History -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Hydration History</h3>
+                    <div class="bg-white p-4 rounded-xl shadow-md">
+                        <div id="history-container" class="max-h-60 overflow-y-auto">
+                            <p class="text-gray-500 text-center py-4">No water intake recorded yet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hydration Tips -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Hydration Tips</h3>
+                    <div class="bg-white p-4 rounded-xl shadow-md">
+                        <div class="max-h-60 overflow-y-auto">
+                            <div class="border-b border-gray-200 py-3">
+                                <h4 class="font-medium text-blue-600">Why Stay Hydrated?</h4>
+                                <p class="text-gray-600 mt-1">Proper hydration improves concentration, memory, and cognitive performance - essential for effective studying.</p>
+                            </div>
+                            <div class="border-b border-gray-200 py-3">
+                                <h4 class="font-medium text-blue-600">How Much Water?</h4>
+                                <p class="text-gray-600 mt-1">The general recommendation is about 2 liters (8 cups) of water per day, but needs vary based on activity level and environment.</p>
+                            </div>
+                            <div class="border-b border-gray-200 py-3">
+                                <h4 class="font-medium text-blue-600">Signs of Dehydration</h4>
+                                <p class="text-gray-600 mt-1">Watch for headaches, fatigue, dry mouth, and difficulty concentrating - all can be signs you need more water.</p>
+                            </div>
+                            <div class="py-3">
+                                <h4 class="font-medium text-blue-600">Hydration Habits</h4>
+                                <p class="text-gray-600 mt-1">Keep a water bottle at your study space, drink a glass of water between study sessions, and start your day with water.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-blue-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/water-reminder.js"></script>
+</body>
+</html>

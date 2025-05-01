@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Quiz - Ultimate Student Toolkit</title>
+    <meta name="description" content="Test your knowledge with our interactive Flashcard Quiz tool. Create quizzes with multiple-choice questions and track your progress.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Flashcard Quiz</h1>
+                    <p class="text-lg text-gray-600">Create and take quizzes to test your knowledge</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Flashcard Quiz tool allows you to create, manage, and take interactive quizzes with multiple-choice questions. Perfect for self-assessment, exam preparation, or knowledge retention, this tool helps you test your understanding of any subject through customizable quiz decks that you can revisit anytime.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Click "Create New Quiz" to start a new quiz deck</li>
+                            <li>Enter a name, description, and category for your quiz</li>
+                            <li>Add multiple-choice questions with correct and incorrect answer options</li>
+                            <li>Click "Start Quiz" when you're ready to test your knowledge</li>
+                            <li>Answer each question and check your responses</li>
+                            <li>Review your final score and performance at the end of the quiz</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">How many quizzes can I create?</h4>
+                                <p class="text-gray-600">You can create as many quiz decks as you need. All quizzes are stored locally in your browser's storage.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I edit my quizzes after creating them?</h4>
+                                <p class="text-gray-600">Yes, you can edit quiz details, add new questions, modify existing questions, or delete questions at any time.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Is there a limit to how many questions I can add?</h4>
+                                <p class="text-gray-600">There's no practical limit to the number of questions you can add to a quiz, though very large quizzes may affect performance on some devices.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I share my quizzes with others?</h4>
+                                <p class="text-gray-600">Currently, quizzes are stored locally on your device and cannot be directly shared. However, you can export/import functionality may be added in future updates.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flashcard Quiz App -->
+                <div class="my-8">
+                    <!-- Quiz Deck Management -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Your Quiz Decks</h3>
+                            <button id="create-deck-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                <i class="fas fa-plus mr-2"></i>Create New Quiz
+                            </button>
+                        </div>
+                        
+                        <!-- Deck List -->
+                        <div id="deck-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="empty-state text-center py-8 col-span-full">
+                                <div class="text-4xl text-purple-200 mb-2"><i class="fas fa-question-circle"></i></div>
+                                <p class="text-gray-500">No quiz decks yet</p>
+                                <p class="text-gray-500 text-sm">Click the Create New Quiz button to get started</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Create/Edit Deck Modal (Hidden by default) -->
+                    <div id="deck-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 mx-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 id="deck-modal-title" class="text-xl font-semibold text-gray-800">Create New Quiz</h3>
+                                <button id="close-deck-modal" class="text-gray-400 hover:text-gray-600 transition duration-300">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <form id="deck-form" class="space-y-4">
+                                <div>
+                                    <label for="deck-name" class="block text-sm font-medium text-gray-700 mb-1">Quiz Name</label>
+                                    <input type="text" id="deck-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter quiz name" required>
+                                </div>
+                                <div>
+                                    <label for="deck-description" class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                                    <textarea id="deck-description" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter quiz description" rows="2"></textarea>
+                                </div>
+                                <div>
+                                    <label for="deck-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <select id="deck-category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        <option value="general">General</option>
+                                        <option value="science">Science</option>
+                                        <option value="math">Mathematics</option>
+                                        <option value="language">Languages</option>
+                                        <option value="history">History</option>
+                                        <option value="arts">Arts</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="flex justify-end space-x-2">
+                                    <button type="button" id="cancel-deck-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                                        <i class="fas fa-save mr-2"></i>Save Quiz
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Quiz Management Area (Hidden by default) -->
+                    <div id="quiz-area" class="hidden">
+                        <!-- Quiz Controls -->
+                        <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                            <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+                                <div class="mb-4 md:mb-0">
+                                    <h3 id="quiz-deck-name" class="text-xl font-semibold text-gray-800">Quiz Name</h3>
+                                    <p id="quiz-deck-description" class="text-gray-600">Quiz description</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button id="back-to-decks" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        <i class="fas fa-arrow-left mr-2"></i>Back to Quizzes
+                                    </button>
+                                    <button id="edit-deck-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        <i class="fas fa-edit mr-2"></i>Edit Quiz
+                                    </button>
+                                    <button id="add-question-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                                        <i class="fas fa-plus mr-2"></i>Add Question
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button id="start-quiz-btn" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                    <i class="fas fa-play mr-2"></i>Start Quiz
+                                </button>
+                                <button id="shuffle-btn" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                    <i class="fas fa-random mr-2"></i>Shuffle Questions
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Quiz Display (for taking quiz) -->
+                        <div id="quiz-display" class="hidden">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <span id="question-counter" class="text-lg font-medium text-gray-700">Question 1 of 10</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span id="quiz-score" class="mr-4 text-lg font-medium text-gray-700">Score: 0/0</span>
+                                    <button id="end-quiz-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        <i class="fas fa-times mr-2"></i>End Quiz
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Question Card -->
+                            <div id="question-card" class="bg-white rounded-xl shadow-lg p-8 mb-6">
+                                <div id="question-content" class="mb-6">
+                                    <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-4">Question text goes here?</h3>
+                                    <div id="answer-options" class="space-y-3">
+                                        <!-- Answer options will be inserted here -->
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <button id="prev-question-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        <i class="fas fa-arrow-left mr-2"></i>Previous
+                                    </button>
+                                    <button id="check-answer-btn" class="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                                        <i class="fas fa-check mr-2"></i>Check Answer
+                                    </button>
+                                    <button id="next-question-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        Next<i class="fas fa-arrow-right ml-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Quiz Results (Hidden until quiz is completed) -->
+                            <div id="quiz-results" class="hidden bg-white rounded-xl shadow-lg p-8 text-center">
+                                <div class="text-5xl mb-4 text-indigo-500"><i class="fas fa-award"></i></div>
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Quiz Completed!</h3>
+                                <p id="final-score" class="text-xl mb-4">Your score: 8/10 (80%)</p>
+                                <div id="score-breakdown" class="mb-6 max-w-md mx-auto bg-gray-50 p-4 rounded-lg">
+                                    <!-- Score breakdown will be inserted here -->
+                                </div>
+                                <div class="flex justify-center space-x-4">
+                                    <button id="retry-quiz-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                                        <i class="fas fa-redo mr-2"></i>Retry Quiz
+                                    </button>
+                                    <button id="review-answers-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        <i class="fas fa-search mr-2"></i>Review Answers
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Questions List (for editing) -->
+                        <div id="questions-list" class="space-y-4">
+                            <div class="empty-state text-center py-8">
+                                <div class="text-4xl text-purple-200 mb-2"><i class="fas fa-question-circle"></i></div>
+                                <p class="text-gray-500">No questions in this quiz yet</p>
+                                <p class="text-gray-500 text-sm">Click the Add Question button to create your first question</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add/Edit Question Modal (Hidden by default) -->
+                    <div id="question-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 mx-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 id="question-modal-title" class="text-xl font-semibold text-gray-800">Add New Question</h3>
+                                <button id="close-question-modal" class="text-gray-400 hover:text-gray-600 transition duration-300">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <form id="question-form" class="space-y-4">
+                                <div>
+                                    <label for="question-text-input" class="block text-sm font-medium text-gray-700 mb-1">Question</label>
+                                    <textarea id="question-text-input" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter your question" rows="2" required></textarea>
+                                </div>
+                                
+                                <!-- Answer Options -->
+                                <div id="answer-options-container">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Answer Options</label>
+                                    <div class="space-y-3">
+                                        <div class="answer-option flex items-center">
+                                            <input type="radio" name="correct-answer" id="option-1-correct" class="mr-2" value="0" required>
+                                            <input type="text" id="option-1" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Answer option 1" required>
+                                        </div>
+                                        <div class="answer-option flex items-center">
+                                            <input type="radio" name="correct-answer" id="option-2-correct" class="mr-2" value="1">
+                                            <input type="text" id="option-2" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Answer option 2" required>
+                                        </div>
+                                        <div class="answer-option flex items-center">
+                                            <input type="radio" name="correct-answer" id="option-3-correct" class="mr-2" value="2">
+                                            <input type="text" id="option-3" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Answer option 3" required>
+                                        </div>
+                                        <div class="answer-option flex items-center">
+                                            <input type="radio" name="correct-answer" id="option-4-correct" class="mr-2" value="3">
+                                            <input type="text" id="option-4" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Answer option 4" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="explanation" class="block text-sm font-medium text-gray-700 mb-1">Explanation (Optional)</label>
+                                    <textarea id="explanation" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Explain the correct answer" rows="2"></textarea>
+                                </div>
+                                
+                                <div class="flex justify-end space-x-2">
+                                    <button type="button" id="cancel-question-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                                        <i class="fas fa-save mr-2"></i>Save Question
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Quiz Tips -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Quiz Study Tips</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 bg-purple-50 rounded-lg">
+                                <div class="text-purple-600 text-xl mb-2"><i class="fas fa-brain"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Test Yourself Regularly</h4>
+                                <p class="text-sm text-gray-600">Regular quizzing improves retention more than passive review.</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 rounded-lg">
+                                <div class="text-purple-600 text-xl mb-2"><i class="fas fa-lightbulb"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Review Incorrect Answers</h4>
+                                <p class="text-sm text-gray-600">Focus on understanding why you got questions wrong to improve.</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 rounded-lg">
+                                <div class="text-purple-600 text-xl mb-2"><i class="fas fa-random"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Mix Up Questions</h4>
+                                <p class="text-sm text-gray-600">Shuffling questions helps build stronger memory connections.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/flashcard-quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Notes - Ultimate Student Toolkit</title>
+    <meta name="description" content="Capture and organize your thoughts quickly with our Quick Notes tool. Perfect for lectures, research, and brainstorming sessions.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Quick Notes</h1>
+                    <p class="text-lg text-gray-600">Capture and organize your thoughts quickly and efficiently</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">Quick Notes is a versatile note-taking tool designed to help you capture ideas, lecture notes, research findings, and any important information quickly and efficiently. Organize your notes with categories, search through them easily, and access them anytime you need.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Click "New Note" to create a new note</li>
+                            <li>Give your note a title and optional category</li>
+                            <li>Write your content in the editor</li>
+                            <li>Notes are automatically saved as you type</li>
+                            <li>Use the search function to find specific notes</li>
+                            <li>Filter notes by category using the sidebar</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Are my notes saved automatically?</h4>
+                                <p class="text-gray-600">Yes! Your notes are automatically saved to your browser's local storage as you type, so you won't lose your work.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Is there a limit to how many notes I can create?</h4>
+                                <p class="text-gray-600">There's no hard limit, but since notes are stored in your browser's local storage, very large numbers of notes might eventually use up available space.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I format my notes with bold, italics, etc.?</h4>
+                                <p class="text-gray-600">The current version supports plain text only, but we're considering adding rich text formatting in a future update.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I access my notes from different devices?</h4>
+                                <p class="text-gray-600">Notes are stored locally in your browser, so they're only available on the device where you created them. Consider using the same browser across devices for consistency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Notes App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Sidebar -->
+                        <div class="md:col-span-1">
+                            <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-semibold text-gray-800">Your Notes</h3>
+                                    <button id="create-note-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-600 text-white hover:from-indigo-600 hover:to-blue-700 transition duration-300 interactive-element">
+                                        <i class="fas fa-plus mr-2"></i>New Note
+                                    </button>
+                                </div>
+                                
+                                <!-- Search -->
+                                <div class="mb-4">
+                                    <div class="relative">
+                                        <input type="text" id="search-notes" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Search notes...">
+                                        <div class="absolute left-3 top-2.5 text-gray-400">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Categories -->
+                                <div class="mb-4">
+                                    <h4 class="text-sm font-medium text-gray-500 mb-2">Categories</h4>
+                                    <div id="categories-list" class="space-y-1">
+                                        <button class="category-btn w-full text-left px-3 py-1.5 rounded-md bg-indigo-100 text-indigo-700 font-medium hover:bg-indigo-200 transition duration-300" data-category="all">
+                                            All Notes
+                                        </button>
+                                        <!-- Categories will be dynamically added here -->
+                                    </div>
+                                </div>
+                                
+                                <!-- Notes List -->
+                                <div id="notes-list" class="space-y-2 max-h-96 overflow-y-auto">
+                                    <div class="empty-state text-center py-8">
+                                        <div class="text-4xl text-indigo-200 mb-2"><i class="fas fa-sticky-note"></i></div>
+                                        <p class="text-gray-500">No notes yet</p>
+                                        <p class="text-gray-500 text-sm">Click the New Note button to get started</p>
+                                    </div>
+                                    <!-- Notes will be dynamically added here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Statistics -->
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">Statistics</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-4 rounded-lg">
+                                        <h4 class="text-sm font-medium text-gray-500 mb-1">Total Notes</h4>
+                                        <p id="total-notes" class="text-2xl font-bold text-indigo-600">0</p>
+                                    </div>
+                                    <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-4 rounded-lg">
+                                        <h4 class="text-sm font-medium text-gray-500 mb-1">Categories</h4>
+                                        <p id="total-categories" class="text-2xl font-bold text-indigo-600">0</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Note Editor -->
+                        <div class="md:col-span-2">
+                            <div id="note-editor" class="bg-white p-6 rounded-xl shadow-md hidden">
+                                <div class="flex justify-between items-center mb-4">
+                                    <input type="text" id="note-title" class="text-xl font-semibold text-gray-800 bg-transparent border-b border-gray-300 focus:outline-none focus:border-indigo-500 w-full" placeholder="Note Title">
+                                    <div class="flex space-x-2">
+                                        <button id="save-note-btn" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-600 text-white hover:from-indigo-600 hover:to-blue-700 transition duration-300">
+                                            <i class="fas fa-save mr-1"></i>Save
+                                        </button>
+                                        <button id="delete-note-btn" class="px-3 py-1.5 rounded-lg bg-white text-red-600 border border-red-300 hover:bg-red-50 transition duration-300">
+                                            <i class="fas fa-trash-alt mr-1"></i>Delete
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="flex items-center space-x-2">
+                                        <label for="note-category" class="text-sm font-medium text-gray-700">Category:</label>
+                                        <div class="relative flex-grow">
+                                            <input type="text" id="note-category" class="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter category">
+                                            <div id="category-suggestions" class="absolute z-10 w-full mt-1 bg-white shadow-lg rounded-md hidden"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <textarea id="note-content" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Write your note here..." rows="15"></textarea>
+                                </div>
+                                
+                                <div class="flex justify-between items-center text-sm text-gray-500">
+                                    <div id="note-stats">
+                                        <span id="word-count">0 words</span> | <span id="char-count">0 characters</span>
+                                    </div>
+                                    <div id="last-updated">Last updated: Never</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Welcome Screen (shown when no note is selected) -->
+                            <div id="welcome-screen" class="bg-white p-6 rounded-xl shadow-md">
+                                <div class="text-center py-12">
+                                    <div class="text-6xl text-indigo-200 mb-4"><i class="fas fa-sticky-note"></i></div>
+                                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Welcome to Quick Notes</h2>
+                                    <p class="text-gray-600 mb-6">Capture your thoughts, ideas, and information quickly and efficiently</p>
+                                    <button id="welcome-create-note-btn" class="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-600 text-white hover:from-indigo-600 hover:to-blue-700 transition duration-300">
+                                        <i class="fas fa-plus mr-2"></i>Create Your First Note
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-8 border-t border-gray-200 pt-6">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Quick Tips:</h3>
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Create multiple notes to organize different subjects</li>
+                                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Use categories to group related notes together</li>
+                                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Search through your notes to find information quickly</li>
+                                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>All notes are saved automatically to your browser</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 shadow-lg mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2023</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-gray-800 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/quick-notes.js"></script>
+</body>
+</html>

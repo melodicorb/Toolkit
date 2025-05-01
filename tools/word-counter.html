@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter - Ultimate Student Toolkit</title>
+    <meta name="description" content="Count words, characters, sentences and paragraphs in your text with our free Word Counter tool. Perfect for essays, assignments and research papers.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Word Counter</h1>
+                    <p class="text-lg text-gray-600">Count words, characters, sentences and paragraphs in your text</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Word Counter tool helps you analyze your text by counting words, characters, sentences, and paragraphs. It's perfect for students working on essays with specific length requirements, writers tracking their progress, or anyone who needs to ensure their text meets certain criteria. The tool also provides detailed statistics like reading time, speaking time, and word frequency analysis.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Type or paste your text in the input box</li>
+                            <li>View the real-time statistics as you type</li>
+                            <li>Check detailed statistics like reading time and word frequency</li>
+                            <li>Use the clear button to start over or the copy button to copy your text</li>
+                            <li>Adjust the minimum word length slider to filter word frequency results</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">How is reading time calculated?</h4>
+                                <p class="text-gray-600">Reading time is calculated based on an average reading speed of 225 words per minute, which is the typical reading speed for most adults.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">How is speaking time calculated?</h4>
+                                <p class="text-gray-600">Speaking time is calculated based on an average speaking rate of 150 words per minute, which is the typical pace for presentations or speeches.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">What counts as a word?</h4>
+                                <p class="text-gray-600">Any sequence of characters separated by spaces or punctuation is counted as a word. Numbers and special characters may be counted as words if they're separated by spaces.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Does the tool save my text?</h4>
+                                <p class="text-gray-600">No, your text is processed entirely in your browser and is not saved or transmitted to any server. When you close or refresh the page, your text will be lost.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Word Counter App -->
+                <div class="my-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Enter Your Text</h3>
+                        <textarea id="text-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 h-64 resize-none" placeholder="Type or paste your text here..."></textarea>
+                        
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <button id="clear-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-trash-alt mr-2"></i>Clear Text
+                            </button>
+                            <button id="copy-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-copy mr-2"></i>Copy Text
+                            </button>
+                            <button id="sample-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-font mr-2"></i>Sample Text
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-xl shadow-md text-center">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-font text-purple-600 text-xl"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-1">Words</h4>
+                            <p id="word-count" class="text-3xl font-bold text-purple-600">0</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-xl shadow-md text-center">
+                            <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-keyboard text-pink-600 text-xl"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-1">Characters</h4>
+                            <p id="character-count" class="text-3xl font-bold text-pink-600">0</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-xl shadow-md text-center">
+                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-quote-right text-indigo-600 text-xl"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-1">Sentences</h4>
+                            <p id="sentence-count" class="text-3xl font-bold text-indigo-600">0</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-xl shadow-md text-center">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-paragraph text-blue-600 text-xl"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-700 mb-1">Paragraphs</h4>
+                            <p id="paragraph-count" class="text-3xl font-bold text-blue-600">0</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Statistics -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Detailed Statistics</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-700">Characters (no spaces):</span>
+                                    <span id="characters-no-spaces" class="font-semibold text-purple-600">0</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-700">Reading Time:</span>
+                                    <span id="reading-time" class="font-semibold text-purple-600">0 min</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-700">Speaking Time:</span>
+                                    <span id="speaking-time" class="font-semibold text-purple-600">0 min</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-700">Unique Words:</span>
+                                    <span id="unique-words" class="font-semibold text-purple-600">0</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-700">Longest Word:</span>
+                                    <span id="longest-word" class="font-semibold text-purple-600">-</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-700">Average Word Length:</span>
+                                    <span id="avg-word-length" class="font-semibold text-purple-600">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Word Frequency -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Word Frequency</h3>
+                        <div class="mb-4">
+                            <label for="min-word-length" class="block text-sm font-medium text-gray-700 mb-1">Minimum Word Length</label>
+                            <input type="range" id="min-word-length" min="1" max="10" value="3" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>1</span>
+                                <span>5</span>
+                                <span>10</span>
+                            </div>
+                        </div>
+                        <div id="word-frequency" class="max-h-60 overflow-y-auto mt-4 p-2 bg-gray-50 rounded-lg">
+                            <div class="text-center text-gray-500 py-4">Enter text to see word frequency</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // DOM Elements
+            const textInput = document.getElementById('text-input');
+            const wordCount = document.getElementById('word-count');
+            const characterCount = document.getElementById('character-count');
+            const sentenceCount = document.getElementById('sentence-count');
+            const paragraphCount = document.getElementById('paragraph-count');
+            const charactersNoSpaces = document.getElementById('characters-no-spaces');
+            const readingTime = document.getElementById('reading-time');
+            const speakingTime = document.getElementById('speaking-time');
+            const uniqueWords = document.getElementById('unique-words');
+            const longestWord = document.getElementById('longest-word');
+            const avgWordLength = document.getElementById('avg-word-length');
+            const wordFrequency = document.getElementById('word-frequency');
+            const minWordLength = document.getElementById('min-word-length');
+            const clearTextBtn = document.getElementById('clear-text');
+            const copyTextBtn = document.getElementById('copy-text');
+            const sampleTextBtn = document.getElementById('sample-text');
+            
+            // Event Listeners
+            textInput.addEventListener('input', updateCounts);
+            clearTextBtn.addEventListener('click', clearText);
+            copyTextBtn.addEventListener('click', copyText);
+            sampleTextBtn.addEventListener('click', insertSampleText);
+            minWordLength.addEventListener('input', updateWordFrequency);
+            
+            // Functions
+            function updateCounts() {
+                const text = textInput.value;
+                
+                // Word count
+                const words = text.trim() ? text.trim().split(/\s+/) : [];
+                wordCount.textContent = words.length;
+                
+                // Character count
+                characterCount.textContent = text.length;
+                
+                // Characters without spaces
+                charactersNoSpaces.textContent = text.replace(/\s+/g, '').length;
+                
+                // Sentence count
+                const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+                sentenceCount.textContent = sentences.length;
+                
+                // Paragraph count
+                const paragraphs = text.split(/\n+/).filter(para => para.trim().length > 0);
+                paragraphCount.textContent = paragraphs.length;
+                
+                // Reading time (average 200 words per minute)
+                const readingMinutes = Math.ceil(words.length / 200);
+                readingTime.textContent = `${readingMinutes} min`;
+                
+                // Speaking time (average 130 words per minute)
+                const speakingMinutes = Math.ceil(words.length / 130);
+                speakingTime.textContent = `${speakingMinutes} min`;
+                
+                // Unique words
+                const uniqueWordSet = new Set(words.map(word => word.toLowerCase().replace(/[^a-z0-9]/gi, '')));
+                uniqueWords.textContent = uniqueWordSet.size;
+                
+                // Longest word
+                if (words.length > 0) {
+                    const longest = words.reduce((a, b) => a.length > b.length ? a : b);
+                    longestWord.textContent = longest;
+                } else {
+                    longestWord.textContent = '-';
+                }
+                
+                // Average word length
+                if (words.length > 0) {
+                    const totalChars = words.join('').length;
+                    avgWordLength.textContent = (totalChars / words.length).toFixed(1);
+                } else {
+                    avgWordLength.textContent = '0';
+                }
+                
+                // Update word frequency
+                updateWordFrequency();
+            }
+            
+            function updateWordFrequency() {
+                const text = textInput.value;
+                const minLength = parseInt(minWordLength.value);
+                
+                if (!text.trim()) {
+                    wordFrequency.innerHTML = '<div class="text-center text-gray-500 py-4">Enter text to see word frequency</div>';
+                    return;
+                }
+                
+                // Get all words and count frequency
+                const words = text.toLowerCase().match(/\b[\w']+\b/g) || [];
+                const frequency = {};
+                
+                words.forEach(word => {
+                    if (word.length >= minLength) {
+                        frequency[word] = (frequency[word] || 0) + 1;
+                    }
+                });
+                
+                // Sort by frequency
+                const sortedWords = Object.keys(frequency).sort((a, b) => frequency[b] - frequency[a]);
+                
+                // Display top 20 words
+                const topWords = sortedWords.slice(0, 20);
+                
+                if (topWords.length === 0) {
+                    wordFrequency.innerHTML = '<div class="text-center text-gray-500 py-4">No words match the minimum length criteria</div>';
+                    return;
+                }
+                
+                // Create HTML for word frequency
+                let html = '';
+                topWords.forEach(word => {
+                    const count = frequency[word];
+                    const percentage = ((count / words.length) * 100).toFixed(1);
+                    
+                    html += `
+                    <div class="mb-2">
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">${word}</span>
+                            <span class="text-gray-600">${count} (${percentage}%)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 h-2.5 rounded-full" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>`;
+                });
+                
+                wordFrequency.innerHTML = html;
+            }
+            
+            function clearText() {
+                textInput.value = '';
+                updateCounts();
+                textInput.focus();
+            }
+            
+            function copyText() {
+                textInput.select();
+                document.execCommand('copy');
+                
+                // Show copy notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md z-50';
+                notification.innerHTML = '<div class="flex"><div class="py-1"><i class="fas fa-check-circle mr-2"></i></div><div><p class="font-bold">Copied!</p><p>Text copied to clipboard</p></div></div>';
+                document.body.appendChild(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+            
+            function insertSampleText() {
+                textInput.value = `The Ultimate Student Toolkit is a comprehensive collection of tools designed to help students excel in their academic pursuits. From organizing tasks with the To-Do List to managing study sessions with the Pomodoro Timer, these tools provide everything a student needs to succeed.
+
+Effective time management is crucial for academic success. The Pomodoro Technique, which involves working in focused 25-minute intervals followed by short breaks, can significantly improve productivity and reduce burnout.
+
+Note-taking is another essential skill for students. The Quick Notes tool allows for rapid capture of ideas and information, which can later be organized and reviewed for better retention.
+
+Studying becomes more efficient when using tools like Flashcards, which leverage active recall to strengthen memory and improve learning outcomes. Regular practice with flashcards can help students retain information for longer periods.
+
+For complex subjects, the Mind Map Creator helps visualize connections between concepts, making it easier to understand and remember related information. This visual approach to learning can be particularly helpful for visual learners.`;
+                updateCounts();
+            }
+            
+            // Initialize
+            updateCounts();
+        });
+    </script>
+</body>
+</html>

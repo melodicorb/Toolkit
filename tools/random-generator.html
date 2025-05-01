@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Generator - Ultimate Student Toolkit</title>
+    <meta name="description" content="Generate random numbers, names, groups, roll dice, and flip coins with our versatile Random Generator tool for students and educators.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-violet-100 via-purple-100 to-indigo-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Random Generator</h1>
+                    <p class="text-lg text-gray-600">Generate random numbers, names, groups, roll dice, and flip coins</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-700 mb-4">The Random Generator is a versatile tool designed to introduce randomness and fairness into various academic and recreational activities. From generating random numbers to creating balanced study groups, rolling dice, or flipping coins, this tool provides multiple randomization functions in one convenient interface.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Random number generation with customizable ranges</li>
+                                <li>Name picker for fair selection from a list</li>
+                                <li>Group creator for balanced team formation</li>
+                                <li>Virtual dice roller with various dice types (D4-D100)</li>
+                                <li>Coin flipper for simple binary decisions</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">How It Helps</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Creates fair and unbiased selections for group projects</li>
+                                <li>Facilitates random sampling for research and surveys</li>
+                                <li>Helps make decisions when multiple options exist</li>
+                                <li>Supports game-based learning activities</li>
+                                <li>Eliminates bias in selection processes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Guide -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">User Guide</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 1: Choose Your Generator Type</h3>
+                            <p class="text-gray-700">Select which type of random generation you need: numbers, names/groups, dice, or coins. Each section of the tool provides different randomization functions for specific purposes.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 2: Configure Your Settings</h3>
+                            <p class="text-gray-700">For number generation, set your minimum and maximum values and quantity. For name picking, enter your list of names. For dice and coins, select the type and quantity you wish to roll or flip.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 3: Generate Random Results</h3>
+                            <p class="text-gray-700">Click the appropriate button ("Generate Numbers," "Pick Random Name," "Create Groups," "Roll Dice," or "Flip Coin") to produce your random results based on your configured settings.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 4: View and Use Your Results</h3>
+                            <p class="text-gray-700">The results will appear in the designated results area below each generator section. For dice and coins, visual representations will be displayed along with the numerical results.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 5: Regenerate as Needed</h3>
+                            <p class="text-gray-700">Click the generation buttons again to create new random results with the same settings, or adjust your parameters to generate different types of results.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQs -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">How random are the results from this generator?</h3>
+                            <p class="text-gray-700">This tool uses high-quality pseudorandom number generation algorithms to ensure results are as random as possible within a computer system. The randomness is suitable for educational and recreational purposes.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">What's the maximum number of names I can enter for group creation?</h3>
+                            <p class="text-gray-700">There is no strict limit on the number of names you can enter, but for optimal performance, we recommend keeping your list under 100 names. The tool will distribute names as evenly as possible among your specified number of groups.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Can I save or export my random results?</h3>
+                            <p class="text-gray-700">Currently, you can copy and paste the results into another document. We're working on adding direct export functionality in a future update to allow saving results as text or CSV files.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">What does the "unique numbers only" option do?</h3>
+                            <p class="text-gray-700">When checked, this option ensures that each random number generated is unique (no duplicates). This is useful for applications like lottery number generation or random sampling without replacement.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Why would I use a D20 or D100 dice?</h3>
+                            <p class="text-gray-700">Different dice types serve various purposes. D20 (20-sided) dice are commonly used in role-playing games to determine success of actions, while D100 (percentile dice) are useful for calculating percentage chances or creating random tables with many options.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Random Generator Main Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    <!-- Left Column: Random Number Generator -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Random Number Generator</h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex flex-col space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="min-number" class="block text-sm font-medium text-gray-700 mb-1">Minimum</label>
+                                        <input type="number" id="min-number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500" value="1">
+                                    </div>
+                                    <div>
+                                        <label for="max-number" class="block text-sm font-medium text-gray-700 mb-1">Maximum</label>
+                                        <input type="number" id="max-number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500" value="100">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">How many numbers?</label>
+                                    <input type="number" id="quantity" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500" value="1" min="1" max="100">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Options</label>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="unique-numbers" class="rounded text-violet-600 focus:ring-violet-500">
+                                        <label for="unique-numbers" class="text-sm text-gray-700">Generate unique numbers only</label>
+                                    </div>
+                                </div>
+                                <button id="generate-numbers-btn" class="w-full py-2 px-4 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-lg hover:from-violet-600 hover:to-purple-700 transition duration-300 mt-2">
+                                    Generate Numbers
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="number-results" class="p-4 bg-gray-50 rounded-lg min-h-[100px] flex items-center justify-center">
+                            <p class="text-gray-500 text-center">Your random numbers will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Name/Group Generator -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Name/Group Generator</h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex flex-col space-y-4">
+                                <div>
+                                    <label for="name-list" class="block text-sm font-medium text-gray-700 mb-1">Enter names (one per line)</label>
+                                    <textarea id="name-list" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500" placeholder="John
+Emma
+Michael
+Sophia
+David"></textarea>
+                                </div>
+                                <div>
+                                    <label for="group-count" class="block text-sm font-medium text-gray-700 mb-1">Number of groups</label>
+                                    <input type="number" id="group-count" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500" value="2" min="1">
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button id="pick-random-btn" class="flex-1 py-2 px-4 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-lg hover:from-violet-600 hover:to-purple-700 transition duration-300">
+                                        Pick Random Name
+                                    </button>
+                                    <button id="create-groups-btn" class="flex-1 py-2 px-4 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-lg hover:from-violet-600 hover:to-purple-700 transition duration-300">
+                                        Create Groups
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="name-results" class="p-4 bg-gray-50 rounded-lg min-h-[100px] overflow-y-auto">
+                            <p class="text-gray-500 text-center">Results will appear here</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dice and Coin Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    <!-- Left Column: Dice Roller -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Dice Roller</h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex flex-col space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="dice-type" class="block text-sm font-medium text-gray-700 mb-1">Dice Type</label>
+                                        <select id="dice-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
+                                            <option value="4">D4</option>
+                                            <option value="6" selected>D6</option>
+                                            <option value="8">D8</option>
+                                            <option value="10">D10</option>
+                                            <option value="12">D12</option>
+                                            <option value="20">D20</option>
+                                            <option value="100">D100</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="dice-count" class="block text-sm font-medium text-gray-700 mb-1">Number of Dice</label>
+                                        <input type="number" id="dice-count" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500" value="1" min="1" max="10">
+                                    </div>
+                                </div>
+                                <button id="roll-dice-btn" class="w-full py-2 px-4 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-lg hover:from-violet-600 hover:to-purple-700 transition duration-300">
+                                    Roll Dice
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="dice-results" class="p-4 bg-gray-50 rounded-lg min-h-[100px] flex flex-col items-center justify-center">
+                            <div id="dice-display" class="flex flex-wrap justify-center gap-2 mb-2"></div>
+                            <p id="dice-total" class="text-gray-700 font-semibold mt-2"></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Coin Flipper -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Coin Flipper</h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex flex-col space-y-4">
+                                <div>
+                                    <label for="coin-count" class="block text-sm font-medium text-gray-700 mb-1">Number of Coins</label>
+                                    <input type="number" id="coin-count" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500" value="1" min="1" max="10">
+                                </div>
+                                <button id="flip-coin-btn" class="w-full py-2 px-4 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-lg hover:from-violet-600 hover:to-purple-700 transition duration-300">
+                                    Flip Coin
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="coin-results" class="p-4 bg-gray-50 rounded-lg min-h-[100px] flex items-center justify-center">
+                            <div id="coin-display" class="flex flex-wrap justify-center gap-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <p class="text-gray-600 mb-2">© 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="../index.html" class="text-gray-500 hover:text-gray-700 transition duration-300">Home</a>
+                    <a href="../about.html" class="text-gray-500 hover:text-gray-700 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-500 hover:text-gray-700 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-500 hover:text-gray-700 transition duration-300">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/random-generator.js"></script>
+</body>
+</html>

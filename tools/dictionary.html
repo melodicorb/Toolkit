@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary - Ultimate Student Toolkit</title>
+    <meta name="description" content="Look up definitions quickly with our online dictionary tool. Perfect for students, researchers, and language learners.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Dictionary</h1>
+                    <p class="text-lg text-gray-600">Look up definitions quickly and easily</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Dictionary tool provides quick access to word definitions, pronunciations, and usage examples. Perfect for students, writers, and language learners, this tool helps you understand unfamiliar words and expand your vocabulary with comprehensive linguistic information.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Type a word in the search box</li>
+                            <li>Click the search button or press Enter</li>
+                            <li>View the word's definition, pronunciation, and examples</li>
+                            <li>Listen to the pronunciation by clicking the audio button (when available)</li>
+                            <li>Browse your recent searches for quick access to previously looked-up words</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Which dictionary source does this tool use?</h4>
+                                <p class="text-gray-600">This tool uses the Free Dictionary API, which provides comprehensive word information from multiple trusted dictionary sources.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Does it work offline?</h4>
+                                <p class="text-gray-600">No, an internet connection is required to look up new words. However, your recent searches are stored locally and can be viewed without an internet connection.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I look up words in other languages?</h4>
+                                <p class="text-gray-600">Currently, the dictionary primarily supports English words. Support for additional languages may be added in future updates.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">How many recent searches are saved?</h4>
+                                <p class="text-gray-600">The tool saves your 10 most recent searches for quick access. These are stored locally in your browser.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dictionary App -->
+                <div class="my-8 flex justify-center">
+                    <div class="bg-white p-6 rounded-xl shadow-lg max-w-2xl w-full">
+                        <!-- Search Bar -->
+                        <div class="mb-6">
+                            <div class="relative">
+                                <input type="text" id="search-input" class="w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition duration-300" placeholder="Enter a word...">
+                                <button id="search-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-1 rounded-md bg-gradient-to-r from-rose-500 to-pink-600 text-white hover:from-rose-600 hover:to-pink-700 transition duration-300">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Area -->
+                        <div id="results-area" class="mb-4 hidden">
+                            <div class="border-b border-gray-200 pb-4 mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h2 id="word-title" class="text-3xl font-bold text-gray-800"></h2>
+                                    <div id="word-phonetics" class="text-lg text-rose-600"></div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-2">
+                                    <button id="play-pronunciation" class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 hover:bg-rose-200 transition duration-300 text-sm hidden">
+                                        <i class="fas fa-volume-up mr-1"></i> Listen
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="definitions-container">
+                                <!-- Definitions will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Loading State -->
+                        <div id="loading-state" class="text-center py-8 hidden">
+                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-rose-600 mb-2"></div>
+                            <p class="text-gray-600">Looking up definition...</p>
+                        </div>
+                        
+                        <!-- Initial State -->
+                        <div id="initial-state" class="text-center py-12">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-rose-100 flex items-center justify-center">
+                                <i class="fas fa-book text-rose-600 text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Search for a word</h3>
+                            <p class="text-gray-600 mb-4">Enter any word above to see its definition, pronunciation, and examples</p>
+                        </div>
+                        
+                        <!-- Error State -->
+                        <div id="error-state" class="text-center py-8 hidden">
+                            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Word not found</h3>
+                            <p id="error-message" class="text-gray-600 mb-4">Sorry, we couldn't find the definition for that word. Please check your spelling and try again.</p>
+                        </div>
+                        
+                        <!-- Recent Searches -->
+                        <div class="mt-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Recent Searches</h3>
+                            <div id="recent-searches" class="flex flex-wrap gap-2">
+                                <div class="text-gray-500 text-sm">Your recent searches will appear here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // DOM Elements
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const resultsArea = document.getElementById('results-area');
+            const initialState = document.getElementById('initial-state');
+            const loadingState = document.getElementById('loading-state');
+            const errorState = document.getElementById('error-state');
+            const wordTitle = document.getElementById('word-title');
+            const wordPhonetics = document.getElementById('word-phonetics');
+            const playPronunciation = document.getElementById('play-pronunciation');
+            const definitionsContainer = document.getElementById('definitions-container');
+            const recentSearchesContainer = document.getElementById('recent-searches');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Audio object for pronunciation
+            let pronunciationAudio = null;
+            
+            // Recent searches
+            let recentSearches = JSON.parse(localStorage.getItem('dictionary-recent-searches')) || [];
+            
+            // Initialize recent searches
+            renderRecentSearches();
+            
+            // Event Listeners
+            searchBtn.addEventListener('click', searchWord);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchWord();
+                }
+            });
+            
+            playPronunciation.addEventListener('click', () => {
+                if (pronunciationAudio) {
+                    pronunciationAudio.play();
+                }
+            });
+            
+            // Search for a word
+            function searchWord() {
+                const word = searchInput.value.trim();
+                
+                if (!word) return;
+                
+                // Show loading state
+                initialState.classList.add('hidden');
+                resultsArea.classList.add('hidden');
+                errorState.classList.add('hidden');
+                loadingState.classList.remove('hidden');
+                
+                // Fetch word definition from API
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Word not found');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Process and display the results
+                        displayResults(data);
+                        
+                        // Add to recent searches
+                        addToRecentSearches(word);
+                    })
+                    .catch(error => {
+                        // Show error state
+                        loadingState.classList.add('hidden');
+                        errorState.classList.remove('hidden');
+                        errorMessage.textContent = error.message === 'Word not found' ? 
+                            `Sorry, we couldn't find the definition for "${word}". Please check your spelling and try again.` : 
+                            'An error occurred while fetching the definition. Please try again later.';
+                    });
+            }
+            
+            // Display search results
+            function displayResults(data) {
+                // Hide loading state
+                loadingState.classList.add('hidden');
+                
+                // Show results area
+                resultsArea.classList.remove('hidden');
+                
+                const wordData = data[0];
+                
+                // Set word title
+                wordTitle.textContent = wordData.word;
+                
+                // Set phonetics
+                const phonetic = wordData.phonetic || (wordData.phonetics.length > 0 ? wordData.phonetics[0].text : '');
+                wordPhonetics.textContent = phonetic || '';
+                
+                // Set pronunciation audio if available
+                const audioSource = wordData.phonetics.find(p => p.audio)?.audio || '';
+                if (audioSource) {
+                    pronunciationAudio = new Audio(audioSource);
+                    playPronunciation.classList.remove('hidden');
+                } else {
+                    playPronunciation.classList.add('hidden');
+                }
+                
+                // Clear previous definitions
+                definitionsContainer.innerHTML = '';
+                
+                // Add meanings
+                wordData.meanings.forEach(meaning => {
+                    const meaningElement = document.createElement('div');
+                    meaningElement.className = 'mb-6';
+                    
+                    // Part of speech
+                    const partOfSpeech = document.createElement('h3');
+                    partOfSpeech.className = 'text-lg font-semibold text-gray-800 mb-2';
+                    partOfSpeech.textContent = meaning.partOfSpeech;
+                    meaningElement.appendChild(partOfSpeech);
+                    
+                    // Definitions
+                    const definitionsList = document.createElement('ul');
+                    definitionsList.className = 'space-y-3';
+                    
+                    meaning.definitions.forEach((def, index) => {
+                        const definitionItem = document.createElement('li');
+                        definitionItem.className = 'pb-2';
+                        
+                        // Definition number and text
+                        const definitionText = document.createElement('p');
+                        definitionText.className = 'text-gray-800';
+                        definitionText.innerHTML = `<span class="font-medium">${index + 1}.</span> ${def.definition}`;
+                        definitionItem.appendChild(definitionText);
+                        
+                        // Example if available
+                        if (def.example) {
+                            const exampleText = document.createElement('p');
+                            exampleText.className = 'text-gray-600 italic mt-1 pl-5';
+                            exampleText.textContent = `"${def.example}"`;
+                            definitionItem.appendChild(exampleText);
+                        }
+                        
+                        definitionsList.appendChild(definitionItem);
+                    });
+                    
+                    meaningElement.appendChild(definitionsList);
+                    
+                    // Synonyms if available
+                    if (meaning.synonyms && meaning.synonyms.length > 0) {
+                        const synonymsContainer = document.createElement('div');
+                        synonymsContainer.className = 'mt-3';
+                        
+                        const synonymsTitle = document.createElement('p');
+                        synonymsTitle.className = 'text-sm font-medium text-gray-700';
+                        synonymsTitle.textContent = 'Synonyms:';
+                        synonymsContainer.appendChild(synonymsTitle);
+                        
+                        const synonymsList = document.createElement('div');
+                        synonymsList.className = 'flex flex-wrap gap-2 mt-1';
+                        
+                        meaning.synonyms.slice(0, 5).forEach(synonym => {
+                            const synonymTag = document.createElement('span');
+                            synonymTag.className = 'px-2 py-1 bg-rose-50 text-rose-700 rounded-full text-sm cursor-pointer hover:bg-rose-100 transition duration-300';
+                            synonymTag.textContent = synonym;
+                            synonymTag.addEventListener('click', () => {
+                                searchInput.value = synonym;
+                                searchWord();
+                            });
+                            synonymsList.appendChild(synonymTag);
+                        });
+                        
+                        synonymsContainer.appendChild(synonymsList);
+                        meaningElement.appendChild(synonymsContainer);
+                    }
+                    
+                    definitionsContainer.appendChild(meaningElement);
+                });
+            }
+            
+            // Add to recent searches
+            function addToRecentSearches(word) {
+                // Remove if already exists
+                recentSearches = recentSearches.filter(item => item.toLowerCase() !== word.toLowerCase());
+                
+                // Add to beginning of array
+                recentSearches.unshift(word);
+                
+                // Keep only the last 5 searches
+                if (recentSearches.length > 5) {
+                    recentSearches = recentSearches.slice(0, 5);
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('dictionary-recent-searches', JSON.stringify(recentSearches));
+                
+                // Update UI
+                renderRecentSearches();
+            }
+            
+            // Render recent searches
+            function renderRecentSearches() {
+                recentSearchesContainer.innerHTML = '';
+                
+                if (recentSearches.length === 0) {
+                    const emptyMessage = document.createElement('div');
+                    emptyMessage.className = 'text-gray-500 text-sm';
+                    emptyMessage.textContent = 'Your recent searches will appear here';
+                    recentSearchesContainer.appendChild(emptyMessage);
+                    return;
+                }
+                
+                recentSearches.forEach(word => {
+                    const searchTag = document.createElement('span');
+                    searchTag.className = 'px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm cursor-pointer hover:bg-gray-200 transition duration-300';
+                    searchTag.textContent = word;
+                    searchTag.addEventListener('click', () => {
+                        searchInput.value = word;
+                        searchWord();
+                    });
+                    recentSearchesContainer.appendChild(searchTag);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

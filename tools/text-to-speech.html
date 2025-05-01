@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech - Ultimate Student Toolkit</title>
+    <meta name="description" content="Convert text to speech with our free Text to Speech tool. Perfect for accessibility, language learning, and proofreading your work.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Text to Speech</h1>
+                    <p class="text-lg text-gray-600">Convert your text into natural-sounding speech</p>
+                </div>
+                
+                <!-- Text to Speech App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Input Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Input Text</h3>
+                            <div class="mb-4">
+                                <label for="text-input" class="block text-sm font-medium text-gray-700 mb-1">Enter or paste your text here</label>
+                                <textarea id="text-input" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[250px]" placeholder="Type or paste the text you want to convert to speech..."></textarea>
+                            </div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <span id="character-count" class="text-sm text-gray-600">0 characters</span>
+                                    <span class="text-gray-400 mx-2">|</span>
+                                    <span id="word-count" class="text-sm text-gray-600">0 words</span>
+                                </div>
+                                <button id="clear-text" class="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
+                                    <i class="fas fa-eraser mr-1"></i>Clear
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="voice-select" class="block text-sm font-medium text-gray-700 mb-1">Voice</label>
+                                    <select id="voice-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Loading voices...</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="language-select" class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                    <select id="language-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="en-US">English (US)</option>
+                                        <option value="en-GB">English (UK)</option>
+                                        <option value="es-ES">Spanish</option>
+                                        <option value="fr-FR">French</option>
+                                        <option value="de-DE">German</option>
+                                        <option value="it-IT">Italian</option>
+                                        <option value="ja-JP">Japanese</option>
+                                        <option value="ko-KR">Korean</option>
+                                        <option value="zh-CN">Chinese (Simplified)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="rate-slider" class="block text-sm font-medium text-gray-700 mb-1">Speech Rate: <span id="rate-value">1</span></label>
+                                    <input type="range" id="rate-slider" min="0.5" max="2" value="1" step="0.1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                </div>
+                                <div>
+                                    <label for="pitch-slider" class="block text-sm font-medium text-gray-700 mb-1">Pitch: <span id="pitch-value">1</span></label>
+                                    <input type="range" id="pitch-slider" min="0.5" max="2" value="1" step="0.1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                </div>
+                            </div>
+                            <button id="speak-btn" class="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-md hover:from-blue-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                <i class="fas fa-play mr-2"></i>Speak Text
+                            </button>
+                        </div>
+                        
+                        <!-- Output Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Audio Controls</h3>
+                            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                <div class="flex items-center justify-center space-x-4 mb-4">
+                                    <button id="pause-btn" class="p-3 bg-white text-blue-600 rounded-full shadow hover:bg-blue-50 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                    <button id="stop-btn" class="p-3 bg-white text-red-600 rounded-full shadow hover:bg-red-50 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                        <i class="fas fa-stop"></i>
+                                    </button>
+                                    <button id="resume-btn" class="p-3 bg-white text-green-600 rounded-full shadow hover:bg-green-50 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="volume-slider" class="block text-sm font-medium text-gray-700 mb-1">Volume: <span id="volume-value">1</span></label>
+                                    <input type="range" id="volume-slider" min="0" max="1" value="1" step="0.1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Save Options</h3>
+                            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                <p class="text-sm text-gray-600 mb-4">Note: Audio download is available in browsers that support it. Some mobile browsers may have limitations.</p>
+                                <button id="download-btn" class="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-md hover:from-green-600 hover:to-teal-700 transition duration-300 interactive-element disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    <i class="fas fa-download mr-2"></i>Download Audio
+                                </button>
+                            </div>
+                            
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Status</h3>
+                            <div id="status-container" class="bg-gray-50 p-4 rounded-lg">
+                                <p id="status-message" class="text-gray-600">Ready to convert text to speech</p>
+                                <div id="progress-container" class="hidden mt-2">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips Section -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mt-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Tips for Better Results</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-800 mb-2">For Natural-Sounding Speech</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Use proper punctuation to create natural pauses</li>
+                                    <li>Break long text into smaller paragraphs</li>
+                                    <li>Adjust speech rate for better comprehension</li>
+                                </ul>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-purple-800 mb-2">Common Uses</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Proofread your written work by listening to it</li>
+                                    <li>Create audio versions of study materials</li>
+                                    <li>Practice pronunciation for language learning</li>
+                                    <li>Accessibility for visual impairments</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2023</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // DOM Elements
+            const textInput = document.getElementById('text-input');
+            const characterCount = document.getElementById('character-count');
+            const wordCount = document.getElementById('word-count');
+            const voiceSelect = document.getElementById('voice-select');
+            const languageSelect = document.getElementById('language-select');
+            const rateSlider = document.getElementById('rate-slider');
+            const rateValue = document.getElementById('rate-value');
+            const pitchSlider = document.getElementById('pitch-slider');
+            const pitchValue = document.getElementById('pitch-value');
+            const volumeSlider = document.getElementById('volume-slider');
+            const volumeValue = document.getElementById('volume-value');
+            const speakBtn = document.getElementById('speak-btn');
+            const pauseBtn = document.getElementById('pause-btn');
+            const resumeBtn = document.getElementById('resume-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const clearTextBtn = document.getElementById('clear-text');
+            const statusMessage = document.getElementById('status-message');
+            
+            // Speech Synthesis Setup
+            const synth = window.speechSynthesis;
+            let voices = [];
+            let currentUtterance = null;
+            let audioBlob = null;
+            
+            // Initialize voices
+            function populateVoiceList() {
+                voices = synth.getVoices();
+                
+                // Clear existing options
+                voiceSelect.innerHTML = '';
+                
+                // Group voices by language
+                const voicesByLang = {};
+                voices.forEach(voice => {
+                    if (!voicesByLang[voice.lang]) {
+                        voicesByLang[voice.lang] = [];
+                    }
+                    voicesByLang[voice.lang].push(voice);
+                });
+                
+                // Create option groups by language
+                Object.keys(voicesByLang).sort().forEach(lang => {
+                    const langVoices = voicesByLang[lang];
+                    const langName = new Intl.DisplayNames([navigator.language], {type: 'language'}).of(lang.split('-')[0]);
+                    
+                    const optGroup = document.createElement('optgroup');
+                    optGroup.label = `${langName} (${lang})`;
+                    
+                    langVoices.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.name;
+                        option.textContent = `${voice.name} ${voice.default ? '(Default)' : ''}`;
+                        optGroup.appendChild(option);
+                    });
+                    
+                    voiceSelect.appendChild(optGroup);
+                });
+                
+                // Select default voice
+                const defaultVoice = voices.find(voice => voice.default);
+                if (defaultVoice) {
+                    voiceSelect.value = defaultVoice.name;
+                }
+            }
+            
+            // Handle voices changing
+            if (synth.onvoiceschanged !== undefined) {
+                synth.onvoiceschanged = populateVoiceList;
+            }
+            
+            // Initial population attempt
+            populateVoiceList();
+            
+            // Update character and word count
+            function updateCounts() {
+                const text = textInput.value;
+                characterCount.textContent = `${text.length} characters`;
+                const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+                wordCount.textContent = `${words} words`;
+            }
+            
+            // Update slider values
+            function updateSliderValues() {
+                rateValue.textContent = rateSlider.value;
+                pitchValue.textContent = pitchSlider.value;
+                volumeValue.textContent = volumeSlider.value;
+            }
+            
+            // Speak the text
+            function speakText() {
+                const text = textInput.value.trim();
+                
+                if (text === '') {
+                    statusMessage.textContent = 'Please enter some text to speak';
+                    statusMessage.classList.add('text-red-600');
+                    setTimeout(() => {
+                        statusMessage.textContent = 'Ready to convert text to speech';
+                        statusMessage.classList.remove('text-red-600');
+                    }, 3000);
+                    return;
+                }
+                
+                // Stop any ongoing speech
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                
+                // Create a new utterance
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Set selected voice
+                const selectedVoiceName = voiceSelect.value;
+                const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                
+                // Set language
+                utterance.lang = languageSelect.value;
+                
+                // Set rate and pitch
+                utterance.rate = parseFloat(rateSlider.value);
+                utterance.pitch = parseFloat(pitchSlider.value);
+                utterance.volume = parseFloat(volumeSlider.value);
+                
+                // Event handlers
+                utterance.onstart = () => {
+                    statusMessage.textContent = 'Speaking...';
+                    speakBtn.disabled = true;
+                    pauseBtn.disabled = false;
+                    stopBtn.disabled = false;
+                    resumeBtn.disabled = true;
+                };
+                
+                utterance.onend = () => {
+                    statusMessage.textContent = 'Speech completed';
+                    speakBtn.disabled = false;
+                    pauseBtn.disabled = true;
+                    stopBtn.disabled = true;
+                    resumeBtn.disabled = true;
+                    currentUtterance = null;
+                };
+                
+                utterance.onerror = (event) => {
+                    statusMessage.textContent = `Error: ${event.error}`;
+                    statusMessage.classList.add('text-red-600');
+                    speakBtn.disabled = false;
+                    pauseBtn.disabled = true;
+                    stopBtn.disabled = true;
+                    resumeBtn.disabled = true;
+                    currentUtterance = null;
+                    
+                    setTimeout(() => {
+                        statusMessage.textContent = 'Ready to convert text to speech';
+                        statusMessage.classList.remove('text-red-600');
+                    }, 3000);
+                };
+                
+                // Speak the utterance
+                synth.speak(utterance);
+                currentUtterance = utterance;
+                
+                // Try to create audio blob for download (browser support varies)
+                try {
+                    // This is a simplified approach and may not work in all browsers
+                    // For a more robust solution, a server-side approach or a dedicated library would be needed
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const source = audioContext.createBufferSource();
+                    const destination = audioContext.createMediaStreamDestination();
+                    source.connect(destination);
+                    
+                    const mediaRecorder = new MediaRecorder(destination.stream);
+                    const audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+                    
+                    mediaRecorder.onstop = () => {
+                        audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        downloadBtn.disabled = false;
+                    };
+                    
+                    mediaRecorder.start();
+                    setTimeout(() => mediaRecorder.stop(), 5000); // This is a simplification
+                } catch (error) {
+                    console.log('Audio recording not supported in this browser');
+                }
+            }
+            
+            // Pause speech
+            function pauseSpeech() {
+                if (synth.speaking) {
+                    synth.pause();
+                    statusMessage.textContent = 'Speech paused';
+                    pauseBtn.disabled = true;
+                    resumeBtn.disabled = false;
+                }
+            }
+            
+            // Resume speech
+            function resumeSpeech() {
+                if (synth.paused) {
+                    synth.resume();
+                    statusMessage.textContent = 'Speaking...';
+                    pauseBtn.disabled = false;
+                    resumeBtn.disabled = true;
+                }
+            }
+            
+            // Stop speech
+            function stopSpeech() {
+                if (synth.speaking) {
+                    synth.cancel();
+                    statusMessage.textContent = 'Speech stopped';
+                    speakBtn.disabled = false;
+                    pauseBtn.disabled = true;
+                    stopBtn.disabled = true;
+                    resumeBtn.disabled = true;
+                    currentUtterance = null;
+                }
+            }
+            
+            // Download audio
+            function downloadAudio() {
+                if (audioBlob) {
+                    const url = URL.createObjectURL(audioBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'speech.wav';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } else {
+                    statusMessage.textContent = 'Audio download not available';
+                    statusMessage.classList.add('text-red-600');
+                    setTimeout(() => {
+                        statusMessage.textContent = 'Ready to convert text to speech';
+                        statusMessage.classList.remove('text-red-600');
+                    }, 3000);
+                }
+            }
+            
+            // Clear text
+            function clearText() {
+                textInput.value = '';
+                updateCounts();
+                statusMessage.textContent = 'Text cleared';
+                setTimeout(() => {
+                    statusMessage.textContent = 'Ready to convert text to speech';
+                }, 2000);
+            }
+            
+            // Event Listeners
+            textInput.addEventListener('input', updateCounts);
+            rateSlider.addEventListener('input', updateSliderValues);
+            pitchSlider.addEventListener('input', updateSliderValues);
+            volumeSlider.addEventListener('input', updateSliderValues);
+            speakBtn.addEventListener('click', speakText);
+            pauseBtn.addEventListener('click', pauseSpeech);
+            resumeBtn.addEventListener('click', resumeSpeech);
+            stopBtn.addEventListener('click', stopSpeech);
+            downloadBtn.addEventListener('click', downloadAudio);
+            clearTextBtn.addEventListener('click', clearText);
+            
+            // Initialize
+            updateCounts();
+            updateSliderValues();
+        });
+    </script>
+</body>
+</html>

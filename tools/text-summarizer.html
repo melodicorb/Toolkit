@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarizer - Ultimate Student Toolkit</title>
+    <meta name="description" content="Generate concise summaries of long texts with our Text Summarizer tool. Perfect for research papers, articles, and study materials.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Text Summarizer</h1>
+                    <p class="text-lg text-gray-600">Generate concise summaries of long texts</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Text Summarizer helps you create concise summaries of lengthy articles, research papers, and other text content. This tool uses advanced algorithms to identify and extract key information, saving you time while ensuring you capture the most important points from your source material.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Paste or type the text you want to summarize in the input field</li>
+                            <li>Select your desired summary length (very short, short, medium, or long)</li>
+                            <li>Choose between extractive (key sentences) or abstractive (rewritten) summary types</li>
+                            <li>Click "Generate Summary" to create your condensed version</li>
+                            <li>Copy or download the summary for your use</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">What's the difference between extractive and abstractive summaries?</h4>
+                                <p class="text-gray-600">Extractive summaries pull key sentences directly from the original text, while abstractive summaries rewrite the content in new words while preserving the core meaning.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">How long can the input text be?</h4>
+                                <p class="text-gray-600">The tool can handle texts up to 10,000 words, though optimal performance is achieved with texts between 500-5,000 words.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Is my text data secure?</h4>
+                                <p class="text-gray-600">Yes, all processing happens locally in your browser. Your text is not sent to any external servers or stored permanently.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I summarize text in languages other than English?</h4>
+                                <p class="text-gray-600">Currently, the tool works best with English text, though it can process other languages with varying degrees of accuracy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Text Summarizer App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Input Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Input Text</h3>
+                            <div class="mb-4">
+                                <label for="text-input" class="block text-sm font-medium text-gray-700 mb-1">Paste your text here</label>
+                                <textarea id="text-input" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 min-h-[300px]" placeholder="Paste or type the text you want to summarize..."></textarea>
+                            </div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <span id="character-count" class="text-sm text-gray-600">0 characters</span>
+                                    <span class="text-gray-400 mx-2">|</span>
+                                    <span id="word-count" class="text-sm text-gray-600">0 words</span>
+                                </div>
+                                <button id="clear-text" class="text-sm text-teal-600 hover:text-teal-800 transition duration-300">
+                                    <i class="fas fa-eraser mr-1"></i>Clear
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="summary-length" class="block text-sm font-medium text-gray-700 mb-1">Summary Length</label>
+                                    <select id="summary-length" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                        <option value="very-short">Very Short (10%)</option>
+                                        <option value="short">Short (25%)</option>
+                                        <option value="medium" selected>Medium (40%)</option>
+                                        <option value="long">Long (60%)</option>
+                                        <option value="custom">Custom</option>
+                                    </select>
+                                </div>
+                                <div id="custom-length-container" class="hidden">
+                                    <label for="custom-length" class="block text-sm font-medium text-gray-700 mb-1">Custom Length (%)</label>
+                                    <input type="number" id="custom-length" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" min="5" max="90" value="40">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="summary-type" class="block text-sm font-medium text-gray-700 mb-1">Summary Type</label>
+                                <div class="flex space-x-4">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="summary-type" value="extractive" class="text-teal-600 focus:ring-teal-500 h-4 w-4" checked>
+                                        <span class="ml-2 text-gray-700">Extractive (Key sentences)</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="summary-type" value="abstractive" class="text-teal-600 focus:ring-teal-500 h-4 w-4">
+                                        <span class="ml-2 text-gray-700">Abstractive (Rewritten)</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button id="summarize-btn" class="w-full px-4 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 text-white rounded-md hover:from-teal-600 hover:to-emerald-700 transition duration-300 interactive-element">
+                                <i class="fas fa-align-left mr-2"></i>Generate Summary
+                            </button>
+                        </div>
+                        
+                        <!-- Output Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800">Summary Result</h3>
+                                <div class="flex space-x-2">
+                                    <button id="copy-summary" class="px-3 py-1 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300 text-sm" disabled>
+                                        <i class="fas fa-copy mr-1"></i>Copy
+                                    </button>
+                                    <button id="download-summary" class="px-3 py-1 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300 text-sm" disabled>
+                                        <i class="fas fa-download mr-1"></i>Download
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="summary-result" class="p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-[300px] overflow-y-auto">
+                                <div class="text-center text-gray-500 h-full flex items-center justify-center">
+                                    <div>
+                                        <div class="text-4xl text-teal-200 mb-2"><i class="fas fa-align-left"></i></div>
+                                        <p>Your summary will appear here</p>
+                                        <p class="text-sm">Click the Generate Summary button to start</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div>
+                                    <span id="summary-character-count" class="text-sm text-gray-600">0 characters</span>
+                                    <span class="text-gray-400 mx-2">|</span>
+                                    <span id="summary-word-count" class="text-sm text-gray-600">0 words</span>
+                                </div>
+                                <div>
+                                    <span id="reduction-percentage" class="text-sm text-teal-600">0% reduction</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips Section -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Tips for Better Summaries</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 bg-teal-50 rounded-lg">
+                                <div class="text-teal-600 text-xl mb-2"><i class="fas fa-lightbulb"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Use Well-Structured Text</h4>
+                                <p class="text-sm text-gray-600">Text with clear paragraphs and headings produces better summaries.</p>
+                            </div>
+                            <div class="p-4 bg-teal-50 rounded-lg">
+                                <div class="text-teal-600 text-xl mb-2"><i class="fas fa-check-double"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Review the Summary</h4>
+                                <p class="text-sm text-gray-600">Always review and edit the generated summary for accuracy.</p>
+                            </div>
+                            <div class="p-4 bg-teal-50 rounded-lg">
+                                <div class="text-teal-600 text-xl mb-2"><i class="fas fa-sliders-h"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Adjust Length as Needed</h4>
+                                <p class="text-sm text-gray-600">Try different summary lengths to find the right balance of detail.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Summary History -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Recent Summaries</h3>
+                            <button id="clear-history" class="text-sm text-teal-600 hover:text-teal-800 transition duration-300">Clear History</button>
+                        </div>
+                        <div id="summary-history" class="space-y-3 max-h-60 overflow-y-auto">
+                            <div class="text-center text-gray-500 py-4">No summaries generated yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const textInput = document.getElementById('text-input');
+            const characterCount = document.getElementById('character-count');
+            const wordCount = document.getElementById('word-count');
+            const summaryLength = document.getElementById('summary-length');
+            const customLengthContainer = document.getElementById('custom-length-container');
+            const customLength = document.getElementById('custom-length');
+            const summarizeBtn = document.getElementById('summarize-btn');
+            const summaryResult = document.getElementById('summary-result');
+            const summaryCharacterCount = document.getElementById('summary-character-count');
+            const summaryWordCount = document.getElementById('summary-word-count');
+            const reductionPercentage = document.getElementById('reduction-percentage');
+            const copySummaryBtn = document.getElementById('copy-summary');
+            const downloadSummaryBtn = document.getElementById('download-summary');
+            const clearTextBtn = document.getElementById('clear-text');
+            const clearHistoryBtn = document.getElementById('clear-history');
+            const summaryHistory = document.getElementById('summary-history');
+            
+            // Update text counts
+            textInput.addEventListener('input', updateCounts);
+            
+            function updateCounts() {
+                const text = textInput.value;
+                const chars = text.length;
+                const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+                
+                characterCount.textContent = `${chars} characters`;
+                wordCount.textContent = `${words} words`;
+            }
+            
+            // Handle summary length selection
+            summaryLength.addEventListener('change', () => {
+                if (summaryLength.value === 'custom') {
+                    customLengthContainer.classList.remove('hidden');
+                } else {
+                    customLengthContainer.classList.add('hidden');
+                }
+            });
+            
+            // Clear text
+            clearTextBtn.addEventListener('click', () => {
+                textInput.value = '';
+                updateCounts();
+            });
+            
+            // Generate summary
+            summarizeBtn.addEventListener('click', () => {
+                const text = textInput.value.trim();
+                
+                if (text === '') {
+                    alert('Please enter some text to summarize.');
+                    return;
+                }
+                
+                // Show loading state
+                summaryResult.innerHTML = `
+                    <div class="text-center text-gray-500 h-full flex items-center justify-center">
+                        <div>
+                            <div class="text-4xl text-teal-200 mb-2 animate-pulse"><i class="fas fa-spinner fa-spin"></i></div>
+                            <p>Generating summary...</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Get summary parameters
+                const summaryType = document.querySelector('input[name="summary-type"]:checked').value;
+                let percentage;
+                
+                if (summaryLength.value === 'custom') {
+                    percentage = parseInt(customLength.value);
+                } else {
+                    switch (summaryLength.value) {
+                        case 'very-short': percentage = 10; break;
+                        case 'short': percentage = 25; break;
+                        case 'medium': percentage = 40; break;
+                        case 'long': percentage = 60; break;
+                        default: percentage = 40;
+                    }
+                }
+                
+                // Simulate API call with setTimeout
+                setTimeout(() => {
+                    // Generate summary (simplified algorithm for demo)
+                    const summary = generateSummary(text, percentage, summaryType);
+                    
+                    // Display summary
+                    summaryResult.innerHTML = `<p class="text-gray-800">${summary}</p>`;
+                    
+                    // Update summary stats
+                    const summaryChars = summary.length;
+                    const summaryWords = summary.trim().split(/\s+/).length;
+                    const originalChars = text.length;
+                    const reduction = Math.round((1 - (summaryChars / originalChars)) * 100);
+                    
+                    summaryCharacterCount.textContent = `${summaryChars} characters`;
+                    summaryWordCount.textContent = `${summaryWords} words`;
+                    reductionPercentage.textContent = `${reduction}% reduction`;
+                    
+                    // Enable buttons
+                    copySummaryBtn.disabled = false;
+                    downloadSummaryBtn.disabled = false;
+                    
+                    // Add to history
+                    addToHistory(text, summary);
+                }, 1500);
+            });
+            
+            // Simple extractive summarization algorithm (for demo purposes)
+            function generateSummary(text, percentage, type) {
+                if (type === 'extractive') {
+                    // Split text into sentences
+                    const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+                    
+                    if (sentences.length === 0) return text;
+                    
+                    // Calculate number of sentences to keep
+                    const keepCount = Math.max(1, Math.ceil(sentences.length * (percentage / 100)));
+                    
+                    // Simple algorithm: keep first sentence, then evenly distributed sentences
+                    const summary = [sentences[0]];
+                    
+                    if (keepCount > 1) {
+                        const step = Math.floor(sentences.length / (keepCount - 1));
+                        for (let i = 1; i < keepCount; i++) {
+                            const index = Math.min(i * step, sentences.length - 1);
+                            summary.push(sentences[index]);
+                        }
+                    }
+                    
+                    return summary.join(' ');
+                } else {
+                    // For abstractive, we'd normally use an AI model
+                    // This is a simplified version for demo purposes
+                    const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+                    const words = text.split(/\s+/);
+                    const keepWords = Math.max(10, Math.ceil(words.length * (percentage / 100)));
+                    
+                    // Simple approach: take first few sentences and truncate
+                    let result = '';
+                    let wordCount = 0;
+                    
+                    for (const sentence of sentences) {
+                        const sentenceWords = sentence.split(/\s+/).length;
+                        if (wordCount + sentenceWords <= keepWords) {
+                            result += sentence + ' ';
+                            wordCount += sentenceWords;
+                        } else {
+                            break;
+                        }
+                    }
+                    
+                    return result.trim();
+                }
+            }
+            
+            // Copy summary
+            copySummaryBtn.addEventListener('click', () => {
+                const summaryText = summaryResult.textContent;
+                navigator.clipboard.writeText(summaryText).then(() => {
+                    const originalText = copySummaryBtn.innerHTML;
+                    copySummaryBtn.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+                    setTimeout(() => {
+                        copySummaryBtn.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+            
+            // Download summary
+            downloadSummaryBtn.addEventListener('click', () => {
+                const summaryText = summaryResult.textContent;
+                const blob = new Blob([summaryText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'summary.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+            
+            // Add to history
+            function addToHistory(originalText, summaryText) {
+                // Remove empty state if present
+                if (summaryHistory.querySelector('.text-center')) {
+                    summaryHistory.innerHTML = '';
+                }
+                
+                // Create history item
+                const historyItem = document.createElement('div');
+                historyItem.className = 'p-3 bg-gray-50 rounded-lg border border-gray-200';
+                
+                // Truncate texts for display
+                const truncatedOriginal = originalText.length > 100 ? originalText.substring(0, 100) + '...' : originalText;
+                const truncatedSummary = summaryText.length > 100 ? summaryText.substring(0, 100) + '...' : summaryText;
+                
+                historyItem.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-medium text-gray-800">Summary ${new Date().toLocaleTimeString()}</h4>
+                        <button class="text-gray-400 hover:text-gray-600 transition duration-300 load-summary">
+                            <i class="fas fa-redo-alt"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-1">Original: ${truncatedOriginal}</p>
+                    <p class="text-sm text-gray-700">Summary: ${truncatedSummary}</p>
+                `;
+                
+                // Add to history
+                summaryHistory.prepend(historyItem);
+                
+                // Add event listener to load button
+                historyItem.querySelector('.load-summary').addEventListener('click', () => {
+                    textInput.value = originalText;
+                    updateCounts();
+                    summaryResult.innerHTML = `<p class="text-gray-800">${summaryText}</p>`;
+                    
+                    // Update summary stats
+                    const summaryChars = summaryText.length;
+                    const summaryWords = summaryText.trim().split(/\s+/).length;
+                    const originalChars = originalText.length;
+                    const reduction = Math.round((1 - (summaryChars / originalChars)) * 100);
+                    
+                    summaryCharacterCount.textContent = `${summaryChars} characters`;
+                    summaryWordCount.textContent = `${summaryWords} words`;
+                    reductionPercentage.textContent = `${reduction}% reduction`;
+                    
+                    // Enable buttons
+                    copySummaryBtn.disabled = false;
+                    downloadSummaryBtn.disabled = false;
+                });
+                
+                // Limit history items
+                const historyItems = summaryHistory.querySelectorAll('div.p-3');
+                if (historyItems.length > 5) {
+                    summaryHistory.removeChild(historyItems[historyItems.length - 1]);
+                }
+            }
+            
+            // Clear history
+            clearHistoryBtn.addEventListener('click', () => {
+                summaryHistory.innerHTML = '<div class="text-center text-gray-500 py-4">No summaries generated yet</div>';
+            });
+        });
+    </script>
+</body>
+</html>

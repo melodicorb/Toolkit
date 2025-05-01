@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Converter - Ultimate Student Toolkit</title>
+    <meta name="description" content="Convert files between different formats with our free File Converter tool. Perfect for students, researchers, and professionals.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- FileSaver.js for saving files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-100 via-cyan-100 to-teal-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">File Converter</h1>
+                    <p class="text-lg text-gray-600">Convert files between different formats for your projects and assignments</p>
+                </div>
+                
+                <!-- File Converter Main Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    <!-- Left Column: File Upload and Conversion Options -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Convert Your Files</h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex flex-col space-y-4">
+                                <!-- File Upload Area -->
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition duration-300" id="file-drop-area">
+                                    <i class="fas fa-file-upload text-4xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-600 mb-2">Drag & drop your file here or</p>
+                                    <button id="browse-files-btn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                                        Browse Files
+                                    </button>
+                                    <input type="file" id="file-input" class="hidden">
+                                </div>
+                                
+                                <!-- Selected File Info -->
+                                <div id="file-info" class="hidden p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-file text-blue-500 text-xl mr-3"></i>
+                                        <div class="flex-1">
+                                            <p id="file-name" class="font-medium text-gray-800">filename.ext</p>
+                                            <p id="file-size" class="text-sm text-gray-500">0 KB</p>
+                                        </div>
+                                        <button id="remove-file-btn" class="text-red-500 hover:text-red-700">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Conversion Options -->
+                                <div>
+                                    <label for="conversion-type" class="block text-sm font-medium text-gray-700 mb-1">Conversion Type</label>
+                                    <select id="conversion-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Select conversion type</option>
+                                        <option value="document">Document Conversion</option>
+                                        <option value="image">Image Conversion</option>
+                                        <option value="audio">Audio Conversion</option>
+                                        <option value="video">Video Conversion</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Format Options (will be dynamically updated based on conversion type) -->
+                                <div>
+                                    <label for="output-format" class="block text-sm font-medium text-gray-700 mb-1">Output Format</label>
+                                    <select id="output-format" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" disabled>
+                                        <option value="">Select output format</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                
+                                <!-- Additional Options (will be shown/hidden based on conversion type) -->
+                                <div id="additional-options" class="hidden">
+                                    <!-- Quality options for images -->
+                                    <div id="image-options" class="hidden">
+                                        <label for="image-quality" class="block text-sm font-medium text-gray-700 mb-1">Image Quality</label>
+                                        <input type="range" id="image-quality" min="1" max="100" value="80" class="w-full">
+                                        <div class="flex justify-between text-xs text-gray-500">
+                                            <span>Low</span>
+                                            <span>Medium</span>
+                                            <span>High</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Convert Button -->
+                                <button id="convert-btn" class="w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-lg hover:from-blue-600 hover:to-teal-600 transition duration-300 mt-2" disabled>
+                                    Convert File
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Conversion Status and Download -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Conversion Status</h2>
+                        
+                        <!-- Initial State -->
+                        <div id="initial-state" class="p-6 bg-gray-50 rounded-lg text-center">
+                            <i class="fas fa-file-export text-5xl text-gray-300 mb-4"></i>
+                            <p class="text-gray-500">Upload a file and select conversion options to get started</p>
+                        </div>
+                        
+                        <!-- Processing State -->
+                        <div id="processing-state" class="hidden p-6 bg-gray-50 rounded-lg text-center">
+                            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid mx-auto mb-4"></div>
+                            <p class="text-gray-700 font-medium">Converting your file...</p>
+                            <p class="text-gray-500 text-sm mt-2">This may take a moment depending on file size</p>
+                        </div>
+                        
+                        <!-- Success State -->
+                        <div id="success-state" class="hidden p-6 bg-gray-50 rounded-lg text-center">
+                            <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-4">
+                                <i class="fas fa-check-circle text-2xl mr-2"></i>
+                                <span>Conversion completed successfully!</span>
+                            </div>
+                            <div class="mt-4">
+                                <button id="download-btn" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                                    <i class="fas fa-download mr-2"></i> Download Converted File
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Error State -->
+                        <div id="error-state" class="hidden p-6 bg-gray-50 rounded-lg text-center">
+                            <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+                                <i class="fas fa-exclamation-circle text-2xl mr-2"></i>
+                                <span>Conversion failed. Please try again.</span>
+                            </div>
+                            <p id="error-message" class="text-gray-600 mt-2">Error details will appear here</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Supported Formats Section -->
+                <div class="mt-12 bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Supported Formats</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <!-- Document Formats -->
+                        <div class="p-4 bg-blue-50 rounded-lg">
+                            <h3 class="font-medium text-blue-700 mb-2">Document Formats</h3>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>PDF (.pdf)</li>
+                                <li>Word (.docx, .doc)</li>
+                                <li>Text (.txt)</li>
+                                <li>Rich Text (.rtf)</li>
+                                <li>HTML (.html)</li>
+                                <li>Markdown (.md)</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Image Formats -->
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <h3 class="font-medium text-green-700 mb-2">Image Formats</h3>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>JPEG (.jpg, .jpeg)</li>
+                                <li>PNG (.png)</li>
+                                <li>GIF (.gif)</li>
+                                <li>BMP (.bmp)</li>
+                                <li>TIFF (.tiff)</li>
+                                <li>WebP (.webp)</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Audio Formats -->
+                        <div class="p-4 bg-yellow-50 rounded-lg">
+                            <h3 class="font-medium text-yellow-700 mb-2">Audio Formats</h3>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>MP3 (.mp3)</li>
+                                <li>WAV (.wav)</li>
+                                <li>AAC (.aac)</li>
+                                <li>FLAC (.flac)</li>
+                                <li>OGG (.ogg)</li>
+                                <li>M4A (.m4a)</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Video Formats -->
+                        <div class="p-4 bg-purple-50 rounded-lg">
+                            <h3 class="font-medium text-purple-700 mb-2">Video Formats</h3>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>MP4 (.mp4)</li>
+                                <li>AVI (.avi)</li>
+                                <li>MOV (.mov)</li>
+                                <li>MKV (.mkv)</li>
+                                <li>WebM (.webm)</li>
+                                <li>FLV (.flv)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Usage Tips Section -->
+                <div class="mt-8 bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Tips for File Conversion</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-lightbulb text-blue-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-1">Choose the Right Format</h3>
+                                <p class="text-sm text-gray-600">Consider the purpose of your file when selecting an output format. For example, use PDF for documents that need to maintain formatting, JPEG for photographs, and PNG for images with transparency.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-file-alt text-blue-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-1">Check File Size</h3>
+                                <p class="text-sm text-gray-600">Be aware that some conversions may result in larger or smaller file sizes. If file size is important, consider using formats with good compression like PDF for documents or WebP for images.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-image text-blue-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-1">Image Quality</h3>
+                                <p class="text-sm text-gray-600">When converting images, adjust the quality slider to find the right balance between file size and image quality. Higher quality means larger files.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-lock text-blue-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-1">Privacy Protection</h3>
+                                <p class="text-sm text-gray-600">All file conversions happen directly in your browser. Your files are not uploaded to any server, ensuring your data remains private and secure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 shadow-lg mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year"></span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-gray-900 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-gray-900 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-gray-900 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/file-converter.js"></script>
+</body>
+</html>

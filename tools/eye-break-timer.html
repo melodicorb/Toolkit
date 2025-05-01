@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye Break Timer - Ultimate Student Toolkit</title>
+    <meta name="description" content="Protect your vision with our Eye Break Timer. Set reminders to take regular breaks from screen time and reduce eye strain.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Eye Break Timer</h1>
+                    <p class="text-lg text-gray-600">Protect your vision with regular screen breaks</p>
+                </div>
+                
+                <!-- Timer Display -->
+                <div class="flex flex-col items-center justify-center my-8">
+                    <div class="w-64 h-64 rounded-full bg-white shadow-lg flex items-center justify-center mb-6 animate-pulse">
+                        <div class="text-center">
+                            <div id="timer" class="text-6xl font-bold text-gray-800 mb-2">20:00</div>
+                            <div id="timer-label" class="text-lg text-teal-600 font-medium">Screen Time</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timer Controls -->
+                    <div class="flex space-x-4 mb-8">
+                        <button id="start-btn" class="px-6 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold hover:from-teal-600 hover:to-cyan-700 transition duration-300 interactive-element">
+                            <i class="fas fa-play mr-2"></i>Start
+                        </button>
+                        <button id="pause-btn" class="px-6 py-3 rounded-lg bg-white text-gray-700 font-semibold hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" disabled>
+                            <i class="fas fa-pause mr-2"></i>Pause
+                        </button>
+                        <button id="reset-btn" class="px-6 py-3 rounded-lg bg-white text-gray-700 font-semibold hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                            <i class="fas fa-redo-alt mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Timer Settings -->
+                    <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Timer Settings</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="screen-time" class="block text-sm font-medium text-gray-700 mb-1">Screen Time (minutes)</label>
+                                <input type="number" id="screen-time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" value="20" min="1" max="60">
+                            </div>
+                            <div>
+                                <label for="break-time" class="block text-sm font-medium text-gray-700 mb-1">Break Time (minutes)</label>
+                                <input type="number" id="break-time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" value="1" min="1" max="10">
+                            </div>
+                            <div class="col-span-2">
+                                <label for="eye-exercises" class="block text-sm font-medium text-gray-700 mb-1">Eye Exercise Reminders</label>
+                                <select id="eye-exercises" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="basic">Basic (20-20-20 Rule)</option>
+                                    <option value="intermediate">Intermediate (With Blinking Exercises)</option>
+                                    <option value="advanced">Advanced (Full Eye Workout)</option>
+                                </select>
+                            </div>
+                            <div class="col-span-2 mt-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="sound-enabled" class="rounded text-teal-600 focus:ring-teal-500 h-5 w-5" checked>
+                                    <span class="ml-2 text-gray-700">Enable Sound Notifications</span>
+                                </label>
+                            </div>
+                            <div class="col-span-2 mt-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="desktop-notifications" class="rounded text-teal-600 focus:ring-teal-500 h-5 w-5" checked>
+                                    <span class="ml-2 text-gray-700">Enable Desktop Notifications</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button id="apply-settings" class="mt-4 w-full px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-md hover:from-teal-600 hover:to-cyan-700 transition duration-300">Apply Settings</button>
+                    </div>
+                </div>
+                
+                <!-- Eye Exercise Guide -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Eye Exercise Guide</h3>
+                    <div class="bg-white p-4 rounded-xl shadow-md">
+                        <div id="exercise-container" class="max-h-60 overflow-y-auto">
+                            <div class="border-b border-gray-200 py-3">
+                                <h4 class="font-medium text-teal-600">20-20-20 Rule</h4>
+                                <p class="text-gray-600 mt-1">Every 20 minutes, look at something 20 feet away for 20 seconds.</p>
+                            </div>
+                            <div class="border-b border-gray-200 py-3">
+                                <h4 class="font-medium text-teal-600">Blinking Exercise</h4>
+                                <p class="text-gray-600 mt-1">Blink rapidly for 10-15 seconds to refresh your eyes and prevent dryness.</p>
+                            </div>
+                            <div class="border-b border-gray-200 py-3">
+                                <h4 class="font-medium text-teal-600">Focus Shifting</h4>
+                                <p class="text-gray-600 mt-1">Hold your thumb 10 inches from your face, focus on it, then focus on something in the distance. Repeat 10 times.</p>
+                            </div>
+                            <div class="border-b border-gray-200 py-3">
+                                <h4 class="font-medium text-teal-600">Eye Rolling</h4>
+                                <p class="text-gray-600 mt-1">Roll your eyes clockwise and counterclockwise to exercise eye muscles.</p>
+                            </div>
+                            <div class="py-3">
+                                <h4 class="font-medium text-teal-600">Palming</h4>
+                                <p class="text-gray-600 mt-1">Rub your palms together to warm them, then gently place them over your closed eyes for 30 seconds.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Break History -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Break History</h3>
+                    <div class="bg-white p-4 rounded-xl shadow-md">
+                        <div id="history-container" class="max-h-60 overflow-y-auto">
+                            <p class="text-gray-500 text-center py-4">No breaks taken yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-teal-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-teal-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-teal-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/eye-break-timer.js"></script>
+</body>
+</html>

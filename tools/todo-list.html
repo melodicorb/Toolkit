@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List - Ultimate Student Toolkit</title>
+    <meta name="description" content="Manage your tasks efficiently with our interactive To-Do List tool. Create, organize, and track your academic and personal tasks.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">To-Do List</h1>
+                    <p class="text-lg text-gray-600">Manage your tasks efficiently</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The To-Do List tool helps you organize and prioritize your tasks, assignments, and projects. Keep track of deadlines, set priorities, and categorize your tasks to improve your productivity and ensure nothing important gets forgotten.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Add new tasks using the form at the top</li>
+                            <li>Include details like description, due date, priority, and category</li>
+                            <li>Mark tasks as complete by checking the checkbox</li>
+                            <li>Filter tasks by status (All, Active, Completed)</li>
+                            <li>Sort tasks by date added, due date, priority, or alphabetically</li>
+                            <li>Edit or delete tasks as needed</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Are my tasks saved when I close the browser?</h4>
+                                <p class="text-gray-600">Yes! All your tasks are automatically saved to your browser's local storage, so they'll be there when you return.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I export my tasks?</h4>
+                                <p class="text-gray-600">Currently, there isn't an export feature, but we're considering adding this functionality in a future update.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">How do I know if a task is overdue?</h4>
+                                <p class="text-gray-600">Overdue tasks are highlighted with a red indicator and counted in the statistics section at the bottom of the page.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I set recurring tasks?</h4>
+                                <p class="text-gray-600">The current version doesn't support recurring tasks, but you can easily create new tasks with similar details as needed.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- To-Do List App -->
+                <div class="my-8">
+                    <!-- Add Task Form -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Add New Task</h3>
+                        <form id="task-form" class="space-y-4">
+                            <div>
+                                <label for="task-title" class="block text-sm font-medium text-gray-700 mb-1">Task Title</label>
+                                <input type="text" id="task-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Enter task title" required>
+                            </div>
+                            <div>
+                                <label for="task-description" class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                                <textarea id="task-description" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Enter task description" rows="2"></textarea>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="task-due-date" class="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+                                    <input type="date" id="task-due-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                </div>
+                                <div>
+                                    <label for="task-priority" class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                                    <select id="task-priority" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="task-category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <select id="task-category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                        <option value="academic">Academic</option>
+                                        <option value="personal">Personal</option>
+                                        <option value="work">Work</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-md hover:from-pink-600 hover:to-purple-700 transition duration-300 interactive-element">
+                                <i class="fas fa-plus mr-2"></i>Add Task
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Task Filters -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button id="filter-all" class="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-md hover:from-pink-600 hover:to-purple-700 transition duration-300 interactive-element">
+                            All Tasks
+                        </button>
+                        <button id="filter-active" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                            Active
+                        </button>
+                        <button id="filter-completed" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                            Completed
+                        </button>
+                        <div class="ml-auto">
+                            <select id="sort-tasks" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                <option value="date-added">Date Added</option>
+                                <option value="due-date">Due Date</option>
+                                <option value="priority">Priority</option>
+                                <option value="alphabetical">Alphabetical</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Tasks List -->
+                    <div id="tasks-container" class="space-y-3">
+                        <div class="empty-state text-center py-12">
+                            <div class="text-6xl text-pink-200 mb-4"><i class="fas fa-clipboard-list"></i></div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">No tasks yet</h3>
+                            <p class="text-gray-500">Add a new task to get started</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Task Stats -->
+                    <div class="mt-6 bg-white p-4 rounded-xl shadow-md">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div class="p-3">
+                                <div class="text-2xl font-bold text-pink-600" id="total-tasks">0</div>
+                                <div class="text-sm text-gray-600">Total Tasks</div>
+                            </div>
+                            <div class="p-3">
+                                <div class="text-2xl font-bold text-purple-600" id="completed-tasks">0</div>
+                                <div class="text-sm text-gray-600">Completed</div>
+                            </div>
+                            <div class="p-3">
+                                <div class="text-2xl font-bold text-indigo-600" id="pending-tasks">0</div>
+                                <div class="text-sm text-gray-600">Pending</div>
+                            </div>
+                            <div class="p-3">
+                                <div class="text-2xl font-bold text-rose-600" id="overdue-tasks">0</div>
+                                <div class="text-sm text-gray-600">Overdue</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const taskForm = document.getElementById('task-form');
+            const taskTitle = document.getElementById('task-title');
+            const taskDescription = document.getElementById('task-description');
+            const taskDueDate = document.getElementById('task-due-date');
+            const taskPriority = document.getElementById('task-priority');
+            const taskCategory = document.getElementById('task-category');
+            const tasksContainer = document.getElementById('tasks-container');
+            const emptyState = document.querySelector('.empty-state');
+            const filterAllBtn = document.getElementById('filter-all');
+            const filterActiveBtn = document.getElementById('filter-active');
+            const filterCompletedBtn = document.getElementById('filter-completed');
+            const sortTasksSelect = document.getElementById('sort-tasks');
+            const totalTasksEl = document.getElementById('total-tasks');
+            const completedTasksEl = document.getElementById('completed-tasks');
+            const pendingTasksEl = document.getElementById('pending-tasks');
+            const overdueTasksEl = document.getElementById('overdue-tasks');
+            
+            // Task data
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let currentFilter = 'all';
+            let currentSort = 'date-added';
+            
+            // Initialize
+            renderTasks();
+            updateStats();
+            
+            // Event Listeners
+            taskForm.addEventListener('submit', addTask);
+            filterAllBtn.addEventListener('click', () => filterTasks('all'));
+            filterActiveBtn.addEventListener('click', () => filterTasks('active'));
+            filterCompletedBtn.addEventListener('click', () => filterTasks('completed'));
+            sortTasksSelect.addEventListener('change', sortTasks);
+            
+            // Add new task
+            function addTask(e) {
+                e.preventDefault();
+                
+                if (!taskTitle.value.trim()) return;
+                
+                const newTask = {
+                    id: Date.now(),
+                    title: taskTitle.value.trim(),
+                    description: taskDescription.value.trim(),
+                    dueDate: taskDueDate.value,
+                    priority: taskPriority.value,
+                    category: taskCategory.value,
+                    completed: false,
+                    dateAdded: new Date().toISOString()
+                };
+                
+                tasks.push(newTask);
+                saveTasks();
+                renderTasks();
+                updateStats();
+                
+                // Reset form
+                taskForm.reset();
+                taskTitle.focus();
+                
+                // Show notification
+                showNotification('Task added successfully!');
+            }
+            
+            // Render tasks based on current filter and sort
+            function renderTasks() {
+                // Filter tasks
+                let filteredTasks = tasks;
+                if (currentFilter === 'active') {
+                    filteredTasks = tasks.filter(task => !task.completed);
+                } else if (currentFilter === 'completed') {
+                    filteredTasks = tasks.filter(task => task.completed);
+                }
+                
+                // Sort tasks
+                filteredTasks = sortTasksList(filteredTasks, currentSort);
+                
+                // Clear container
+                tasksContainer.innerHTML = '';
+                
+                // Show empty state if no tasks
+                if (filteredTasks.length === 0) {
+                    tasksContainer.appendChild(emptyState.cloneNode(true));
+                    return;
+                }
+                
+                // Render each task
+                filteredTasks.forEach(task => {
+                    const taskEl = createTaskElement(task);
+                    tasksContainer.appendChild(taskEl);
+                });
+            }
+            
+            // Create task element
+            function createTaskElement(task) {
+                const taskEl = document.createElement('div');
+                taskEl.className = `bg-white p-4 rounded-xl shadow-md ${task.completed ? 'opacity-70' : ''}`;
+                
+                // Priority indicator
+                let priorityColor = '';
+                if (task.priority === 'high') {
+                    priorityColor = 'bg-rose-500';
+                } else if (task.priority === 'medium') {
+                    priorityColor = 'bg-amber-500';
+                } else {
+                    priorityColor = 'bg-emerald-500';
+                }
+                
+                // Check if task is overdue
+                const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !task.completed;
+                
+                taskEl.innerHTML = `
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-3">
+                            <input type="checkbox" class="task-checkbox h-5 w-5 rounded text-pink-600 focus:ring-pink-500" data-id="${task.id}" ${task.completed ? 'checked' : ''}>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-lg font-semibold ${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${task.title}</h3>
+                                <div class="ml-2 w-3 h-3 rounded-full ${priorityColor}"></div>
+                                ${isOverdue ? '<span class="ml-2 text-xs bg-rose-100 text-rose-800 px-2 py-0.5 rounded">Overdue</span>' : ''}
+                            </div>
+                            ${task.description ? `<p class="text-gray-600 mb-2">${task.description}</p>` : ''}
+                            <div class="flex flex-wrap gap-2 text-sm">
+                                ${task.dueDate ? `<span class="bg-gray-100 text-gray-700 px-2 py-1 rounded"><i class="far fa-calendar-alt mr-1"></i>${formatDate(task.dueDate)}</span>` : ''}
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded"><i class="far fa-folder mr-1"></i>${task.category}</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 ml-2">
+                            <button class="delete-task-btn text-gray-400 hover:text-rose-500 transition duration-300" data-id="${task.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add event listeners
+                const checkbox = taskEl.querySelector('.task-checkbox');
+                checkbox.addEventListener('change', () => toggleTaskStatus(task.id));
+                
+                const deleteBtn = taskEl.querySelector('.delete-task-btn');
+                deleteBtn.addEventListener('click', () => deleteTask(task.id));
+                
+                return taskEl;
+            }
+            
+            // Toggle task status
+            function toggleTaskStatus(taskId) {
+                const taskIndex = tasks.findIndex(task => task.id === taskId);
+                if (taskIndex !== -1) {
+                    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                    saveTasks();
+                    renderTasks();
+                    updateStats();
+                }
+            }
+            
+            // Delete task
+            function deleteTask(taskId) {
+                tasks = tasks.filter(task => task.id !== taskId);
+                saveTasks();
+                renderTasks();
+                updateStats();
+                showNotification('Task deleted');
+            }
+            
+            // Filter tasks
+            function filterTasks(filter) {
+                currentFilter = filter;
+                
+                // Update active filter button
+                [filterAllBtn, filterActiveBtn, filterCompletedBtn].forEach(btn => {
+                    btn.classList.remove('bg-gradient-to-r', 'from-pink-500', 'to-purple-600', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-700');
+                });
+                
+                let activeBtn;
+                if (filter === 'all') activeBtn = filterAllBtn;
+                else if (filter === 'active') activeBtn = filterActiveBtn;
+                else activeBtn = filterCompletedBtn;
+                
+                activeBtn.classList.remove('bg-white', 'text-gray-700');
+                activeBtn.classList.add('bg-gradient-to-r', 'from-pink-500', 'to-purple-600', 'text-white');
+                
+                renderTasks();
+            }
+            
+            // Sort tasks
+            function sortTasks() {
+                currentSort = sortTasksSelect.value;
+                renderTasks();
+            }
+            
+            // Sort tasks list based on criteria
+            function sortTasksList(tasksList, sortBy) {
+                const sortedTasks = [...tasksList];
+                
+                switch (sortBy) {
+                    case 'date-added':
+                        return sortedTasks.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                    case 'due-date':
+                        return sortedTasks.sort((a, b) => {
+                            if (!a.dueDate) return 1;
+                            if (!b.dueDate) return -1;
+                            return new Date(a.dueDate) - new Date(b.dueDate);
+                        });
+                    case 'priority':
+                        const priorityOrder = { high: 0, medium: 1, low: 2 };
+                        return sortedTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+                    case 'alphabetical':
+                        return sortedTasks.sort((a, b) => a.title.localeCompare(b.title));
+                    default:
+                        return sortedTasks;
+                }
+            }
+            
+            // Update task statistics
+            function updateStats() {
+                const total = tasks.length;
+                const completed = tasks.filter(task => task.completed).length;
+                const pending = total - completed;
+                const overdue = tasks.filter(task => 
+                    task.dueDate && new Date(task.dueDate) < new Date() && !task.completed
+                ).length;
+                
+                totalTasksEl.textContent = total;
+                completedTasksEl.textContent = completed;
+                pendingTasksEl.textContent = pending;
+                overdueTasksEl.textContent = overdue;
+            }
+            
+            // Save tasks to localStorage
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+            
+            // Format date for display
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+            
+            // Show notification
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-white p-4 rounded-lg shadow-lg z-50 animate-fade-in';
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-pink-600 mr-2"></i>
+                        <p class="text-gray-800">${message}</p>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => notification.remove(), 500);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

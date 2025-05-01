@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Sheet - Ultimate Student Toolkit</title>
+    <meta name="description" content="Access a comprehensive collection of formulas for mathematics, physics, chemistry, and more. Search, save favorites, and visualize formulas easily.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- MathJax for formula rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Formula Sheet</h1>
+                    <p class="text-lg text-gray-600">Access essential formulas for all your academic needs</p>
+                </div>
+                
+                <!-- Formula Sheet App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <!-- Sidebar: Categories & Search -->
+                        <div class="lg:col-span-1 space-y-6">
+                            <!-- Search -->
+                            <div class="bg-white p-4 rounded-xl shadow-md">
+                                <div class="relative">
+                                    <input type="text" id="formula-search" class="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Search formulas...">
+                                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Categories -->
+                            <div class="bg-white p-4 rounded-xl shadow-md">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">Categories</h3>
+                                <ul id="formula-categories" class="space-y-2">
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-600 text-white hover:from-indigo-600 hover:to-blue-700 transition duration-300" data-category="all">
+                                            All Formulas
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="algebra">
+                                            Algebra
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="calculus">
+                                            Calculus
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="geometry">
+                                            Geometry & Trigonometry
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="physics">
+                                            Physics
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="chemistry">
+                                            Chemistry
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="statistics">
+                                            Statistics & Probability
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Favorites -->
+                            <div class="bg-white p-4 rounded-xl shadow-md">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-semibold text-gray-800">Favorites</h3>
+                                    <button id="clear-favorites" class="text-xs text-indigo-600 hover:text-indigo-800 transition duration-300">Clear All</button>
+                                </div>
+                                <div id="favorites-list" class="space-y-2 max-h-64 overflow-y-auto">
+                                    <div class="text-center text-gray-500 py-2">No favorites yet</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Content: Formula Display -->
+                        <div class="lg:col-span-3">
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <div id="current-category-title" class="text-2xl font-bold mb-4 text-gray-800">All Formulas</div>
+                                
+                                <!-- Formula Cards Container -->
+                                <div id="formula-container" class="space-y-4">
+                                    <!-- Formula cards will be dynamically inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-12 max-w-4xl mx-auto">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Formula Sheet Features</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-search text-indigo-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800">Quick Search</h3>
+                            </div>
+                            <p class="text-gray-600">Instantly find the formulas you need with our powerful search functionality. Filter by keywords or browse by category.</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-star text-purple-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800">Save Favorites</h3>
+                            </div>
+                            <p class="text-gray-600">Mark frequently used formulas as favorites for quick access. Your favorites are saved locally for future sessions.</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-square-root-variable text-blue-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800">Beautiful Rendering</h3>
+                            </div>
+                            <p class="text-gray-600">All mathematical formulas are beautifully rendered using MathJax, making complex equations easy to read and understand.</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-graduation-cap text-pink-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800">Comprehensive Coverage</h3>
+                            </div>
+                            <p class="text-gray-600">Access formulas across multiple disciplines including mathematics, physics, chemistry, and statistics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2023</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/formula-sheet.js"></script>
+</body>
+</html>

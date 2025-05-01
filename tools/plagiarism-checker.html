@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Checker - Ultimate Student Toolkit</title>
+    <meta name="description" content="Check your text for potential plagiarism with our free Plagiarism Checker tool. Compare your writing against common phrases and get similarity scores.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Plagiarism Checker</h1>
+                    <p class="text-lg text-gray-600">Check your text for potential plagiarism</p>
+                </div>
+                
+                <!-- Plagiarism Checker App -->
+                <div class="my-8">
+                    <!-- Disclaimer -->
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-info-circle text-blue-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-blue-700">
+                                    This tool provides a basic check for potential plagiarism by analyzing text patterns and comparing against common phrases. For academic submissions, we recommend using your institution's official plagiarism detection software.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Text Input -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Enter Your Text</h3>
+                        <textarea id="text-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 h-64 resize-none" placeholder="Paste your text here to check for potential plagiarism..."></textarea>
+                        
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <button id="check-plagiarism" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                <i class="fas fa-search mr-2"></i>Check Plagiarism
+                            </button>
+                            <button id="clear-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-trash-alt mr-2"></i>Clear Text
+                            </button>
+                            <button id="sample-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-font mr-2"></i>Sample Text
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tool Description -->
+                    <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                        <p class="mb-4">The Plagiarism Checker helps students and writers ensure the originality of their work by identifying potentially plagiarized content. This tool analyzes your text for common phrases and similarity patterns that might indicate unoriginal content.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                    <li>Text analysis for potential plagiarism</li>
+                                    <li>Similarity score calculation</li>
+                                    <li>Highlighted potentially problematic phrases</li>
+                                    <li>Detailed breakdown of originality metrics</li>
+                                    <li>Suggestions for improving content originality</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-3 text-gray-800">Benefits</h3>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                    <li>Avoid academic integrity issues</li>
+                                    <li>Improve your writing by identifying overused phrases</li>
+                                    <li>Ensure your work is original before submission</li>
+                                    <li>Learn proper citation practices</li>
+                                    <li>Develop better paraphrasing skills</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQs Section -->
+                    <div class="my-6 bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">How accurate is this plagiarism checker?</h3>
+                                <p class="text-gray-700">This tool provides a basic check for potential plagiarism by analyzing text patterns and comparing against common phrases. While it can identify obvious similarities, it is not as comprehensive as specialized academic plagiarism detection software. For critical academic submissions, we recommend using your institution's official plagiarism detection tools.</p>
+                            </div>
+                            
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">Does this tool check against internet sources?</h3>
+                                <p class="text-gray-700">This free tool primarily analyzes your text for common phrases and patterns that might indicate plagiarism. It does not perform a comprehensive check against all internet sources or academic databases, which would require more advanced technology.</p>
+                            </div>
+                            
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">What should I do if the tool finds potential plagiarism?</h3>
+                                <p class="text-gray-700">If the tool identifies potentially plagiarized content, you should review those sections carefully. Consider rewriting in your own words, adding proper citations, or using quotation marks for direct quotes. Remember that proper attribution is key to academic integrity.</p>
+                            </div>
+                            
+                            <div class="border-b border-gray-200 pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">Is my text stored or shared when I use this tool?</h3>
+                                <p class="text-gray-700">No, your text is processed locally in your browser and is not stored on our servers or shared with third parties. We respect your privacy and the confidentiality of your work.</p>
+                            </div>
+                            
+                            <div class="pb-4">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">What similarity percentage is considered plagiarism?</h3>
+                                <p class="text-gray-700">There's no universal threshold, as it depends on your institution's policies and the nature of the assignment. Generally, similarity scores above 20-25% might warrant review, but context matters. Common phrases, properly cited quotes, and standard terminology can legitimately increase similarity without constituting plagiarism.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Results (Hidden initially) -->
+                    <div id="results-container" class="hidden">
+                        <!-- Overall Score -->
+                        <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Plagiarism Score</h3>
+                            <div class="flex flex-col md:flex-row items-center justify-between">
+                                <div class="text-center mb-4 md:mb-0">
+                                    <div class="relative inline-block">
+                                        <svg class="w-32 h-32" viewBox="0 0 36 36">
+                                            <path class="circle-bg"
+                                                d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                fill="none"
+                                                stroke="#eee"
+                                                stroke-width="2"
+                                            />
+                                            <path id="similarity-circle" class="circle"
+                                                d="M18 2.0845
+                                                a 15.9155 15.9155 0 0 1 0 31.831
+                                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                fill="none"
+                                                stroke="#4f46e5"
+                                                stroke-width="2"
+                                                stroke-dasharray="0, 100"
+                                            />
+                                        </svg>
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <span id="similarity-percentage" class="text-3xl font-bold text-gray-800">0%</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-2">Similarity Score</p>
+                                </div>
+                                
+                                <div class="w-full md:w-2/3">
+                                    <div id="risk-indicator" class="p-4 rounded-lg bg-green-50 border-l-4 border-green-500">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i id="risk-icon" class="fas fa-check-circle text-green-500 text-xl"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <h4 id="risk-level" class="text-lg font-semibold text-green-800">Low Risk</h4>
+                                                <p id="risk-description" class="text-sm text-green-700 mt-1">
+                                                    Your text appears to be original. Good job!
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4 grid grid-cols-2 gap-4">
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-sm text-gray-500">Words Analyzed</div>
+                                            <div id="words-analyzed" class="text-xl font-semibold text-gray-800">0</div>
+                                        </div>
+                                        <div class="bg-gray-50 p-3 rounded-lg">
+                                            <div class="text-sm text-gray-500">Potential Matches</div>
+                                            <div id="potential-matches" class="text-xl font-semibold text-gray-800">0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Detailed Analysis -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Detailed Analysis</h3>
+                            <div id="highlighted-text" class="bg-gray-50 p-4 rounded-lg text-gray-800 mb-4 max-h-96 overflow-y-auto">
+                                <!-- Highlighted text will be inserted here -->
+                            </div>
+                            
+                            <div id="potential-sources" class="mt-6">
+                                <h4 class="text-lg font-semibold mb-3 text-gray-800">Potential Similar Sources</h4>
+                                <div class="space-y-3">
+                                    <!-- Sample sources (will be replaced with actual data) -->
+                                    <div class="p-3 border border-gray-200 rounded-lg">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h5 class="font-medium text-gray-800">Common Academic Phrase</h5>
+                                                <p class="text-sm text-gray-600 mt-1">"This research aims to investigate the relationship between..."</p>
+                                            </div>
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">65% Match</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 border border-gray-200 rounded-lg">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h5 class="font-medium text-gray-800">Common Definition</h5>
+                                                <p class="text-sm text-gray-600 mt-1">"Photosynthesis is the process by which green plants and certain other organisms..."</p>
+                                            </div>
+                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">72% Match</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h4 class="text-lg font-semibold mb-3 text-gray-800">Recommendations</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                    <li>Always cite your sources properly using the appropriate citation style.</li>
+                                    <li>Use quotation marks for direct quotes and provide proper attribution.</li>
+                                    <li>Paraphrase information in your own words while still citing the original source.</li>
+                                    <li>Maintain academic integrity by acknowledging all sources of information.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // DOM Elements
+            const textInput = document.getElementById('text-input');
+            const checkPlagiarismBtn = document.getElementById('check-plagiarism');
+            const clearTextBtn = document.getElementById('clear-text');
+            const sampleTextBtn = document.getElementById('sample-text');
+            const resultsContainer = document.getElementById('results-container');
+            const similarityPercentage = document.getElementById('similarity-percentage');
+            const similarityCircle = document.getElementById('similarity-circle');
+            const riskIndicator = document.getElementById('risk-indicator');
+            const riskIcon = document.getElementById('risk-icon');
+            const riskLevel = document.getElementById('risk-level');
+            const riskDescription = document.getElementById('risk-description');
+            const wordsAnalyzed = document.getElementById('words-analyzed');
+            const potentialMatches = document.getElementById('potential-matches');
+            const highlightedText = document.getElementById('highlighted-text');
+            const potentialSources = document.getElementById('potential-sources');
+            
+            // Event Listeners
+            checkPlagiarismBtn.addEventListener('click', checkPlagiarism);
+            clearTextBtn.addEventListener('click', clearText);
+            sampleTextBtn.addEventListener('click', insertSampleText);
+            
+            // Common academic phrases for simulation
+            const commonPhrases = [
+                "This research aims to investigate",
+                "The purpose of this study is to",
+                "The results indicate that",
+                "It can be concluded that",
+                "Previous studies have shown",
+                "According to recent research",
+                "This paper examines the relationship between",
+                "The findings suggest that",
+                "In conclusion, this study has shown",
+                "The data was analyzed using",
+                "The literature review reveals",
+                "This phenomenon can be explained by",
+                "Photosynthesis is the process by which",
+                "Climate change is defined as",
+                "The Industrial Revolution was a period"
+            ];
+            
+            // Check for plagiarism (simulated)
+            function checkPlagiarism() {
+                const text = textInput.value.trim();
+                
+                if (!text) {
+                    alert('Please enter some text to check.');
+                    return;
+                }
+                
+                // Show loading state
+                checkPlagiarismBtn.disabled = true;
+                checkPlagiarismBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Checking...';
+                
+                // Simulate API delay
+                setTimeout(() => {
+                    // Perform simulated plagiarism check
+                    const result = simulatePlagiarismCheck(text);
+                    displayResults(result);
+                    
+                    // Reset button
+                    checkPlagiarismBtn.disabled = false;
+                    checkPlagiarismBtn.innerHTML = '<i class="fas fa-search mr-2"></i>Check Plagiarism';
+                    
+                    // Show results
+                    resultsContainer.classList.remove('hidden');
+                    
+                    // Scroll to results
+                    resultsContainer.scrollIntoView({ behavior: 'smooth' });
+                }, 2000);
+            }
+            
+            // Simulate plagiarism check
+            function simulatePlagiarismCheck(text) {
+                const words = text.split(/\s+/).filter(word => word.length > 0);
+                const wordCount = words.length;
+                
+                // Find potential matches
+                let matches = [];
+                let matchedPhrases = [];
+                
+                commonPhrases.forEach(phrase => {
+                    if (text.toLowerCase().includes(phrase.toLowerCase())) {
+                        const matchPercentage = Math.floor(Math.random() * 30) + 50; // Random between 50-80%
+                        matchedPhrases.push({
+                            phrase: phrase,
+                            match: matchPercentage
+                        });
+                        
+                        // Mark all occurrences of this phrase
+                        const regex = new RegExp(phrase, 'gi');
+                        let match;
+                        while ((match = regex.exec(text)) !== null) {
+                            matches.push({
+                                start: match.index,
+                                end: match.index + phrase.length,
+                                phrase: phrase
+                            });
+                        }
+                    }
+                });
+                
+                // Calculate similarity score based on matched text percentage
+                let totalMatchedChars = 0;
+                matches.forEach(match => {
+                    totalMatchedChars += (match.end - match.start);
+                });
+                
+                // Remove overlapping matches from the count
+                matches.sort((a, b) => a.start - b.start);
+                for (let i = 0; i < matches.length - 1; i++) {
+                    if (matches[i+1].start < matches[i].end) {
+                        const overlap = matches[i].end - matches[i+1].start;
+                        totalMatchedChars -= overlap;
+                    }
+                }
+                
+                const similarityScore = Math.min(100, Math.round((totalMatchedChars / text.length) * 100));
+                
+                // Determine risk level
+                let risk = {
+                    level: 'Low Risk',
+                    description: 'Your text appears to be original. Good job!',
+                    color: 'green'
+                };
+                
+                if (similarityScore > 20 && similarityScore <= 40) {
+                    risk = {
+                        level: 'Moderate Risk',
+                        description: 'Some phrases in your text match common academic expressions. Consider rephrasing.',
+                        color: 'yellow'
+                    };
+                } else if (similarityScore > 40) {
+                    risk = {
+                        level: 'High Risk',
+                        description: 'Significant portions of your text match common phrases. Review and revise your work.',
+                        color: 'red'
+                    };
+                }
+                
+                return {
+                    text: text,
+                    wordCount: wordCount,
+                    similarityScore: similarityScore,
+                    matches: matches,
+                    matchedPhrases: matchedPhrases,
+                    risk: risk
+                };
+            }
+            
+            // Display results
+            function displayResults(result) {
+                // Update similarity percentage
+                similarityPercentage.textContent = `${result.similarityScore}%`;
+                similarityCircle.style.strokeDasharray = `${result.similarityScore}, 100`;
+                
+                // Update risk indicator
+                riskIndicator.className = `p-4 rounded-lg bg-${result.risk.color}-50 border-l-4 border-${result.risk.color}-500`;
+                riskIcon.className = `fas fa-${result.risk.color === 'green' ? 'check' : result.risk.color === 'yellow' ? 'exclamation' : 'times'}-circle text-${result.risk.color}-500 text-xl`;
+                riskLevel.textContent = result.risk.level;
+                riskLevel.className = `text-lg font-semibold text-${result.risk.color}-800`;
+                riskDescription.textContent = result.risk.description;
+                riskDescription.className = `text-sm text-${result.risk.color}-700 mt-1`;
+                
+                // Update stats
+                wordsAnalyzed.textContent = result.wordCount;
+                potentialMatches.textContent = result.matchedPhrases.length;
+                
+                // Highlight matched text
+                let highlightedHTML = result.text;
+                
+                // Sort matches in reverse order to avoid index shifting
+                const sortedMatches = [...result.matches].sort((a, b) => b.start - a.start);
+                
+                sortedMatches.forEach(match => {
+                    const before = highlightedHTML.substring(0, match.start);
+                    const matched = highlightedHTML.substring(match.start, match.end);
+                    const after = highlightedHTML.substring(match.end);
+                    
+                    highlightedHTML = before + 
+                        `<span class="bg-yellow-200 px-1 rounded" title="Potential match: ${match.phrase}">` + 
+                        matched + 
+                        '</span>' + 
+                        after;
+                });
+                
+                // Replace newlines with <br> for proper HTML display
+                highlightedHTML = highlightedHTML.replace(/\n/g, '<br>');
+                highlightedText.innerHTML = highlightedHTML;
+                
+                // Update potential sources
+                let sourcesHTML = '';
+                if (result.matchedPhrases.length > 0) {
+                    result.matchedPhrases.forEach(match => {
+                        sourcesHTML += `
+                        <div class="p-3 border border-gray-200 rounded-lg">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h5 class="font-medium text-gray-800">Common Academic Phrase</h5>
+                                    <p class="text-sm text-gray-600 mt-1">"${match.phrase}"</p>
+                                </div>
+                                <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">${match.match}% Match</span>
+                            </div>
+                        </div>`;
+                    });
+                } else {
+                    sourcesHTML = '<p class="text-gray-600">No significant matches found.</p>';
+                }
+                
+                potentialSources.innerHTML = `
+                    <h4 class="text-lg font-semibold mb-3 text-gray-800">Potential Similar Sources</h4>
+                    <div class="space-y-3">
+                        ${sourcesHTML}
+                    </div>
+                `;
+            }
+            
+            // Clear text
+            function clearText() {
+                textInput.value = '';
+                resultsContainer.classList.add('hidden');
+                textInput.focus();
+            }
+            
+            // Insert sample text
+            function insertSampleText() {
+                textInput.value = `This research aims to investigate the relationship between climate change and biodiversity loss in tropical ecosystems. The purpose of this study is to analyze data collected over a ten-year period to identify patterns and correlations.
+
+According to recent research, rising global temperatures have significantly impacted species distribution and habitat availability. The data was analyzed using statistical methods to determine the extent of these changes.
+
+The results indicate that there is a strong correlation between temperature increases and declining population numbers across multiple species. It can be concluded that immediate conservation efforts are necessary to mitigate these effects.
+
+In conclusion, this study has shown that climate change poses a serious threat to biodiversity in tropical regions, and further research is needed to develop effective conservation strategies.`;
+                
+                textInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Checker - Ultimate Student Toolkit</title>
+    <meta name="description" content="Check your writing for grammar, spelling, and punctuation errors with our free Grammar Checker tool. Perfect for essays, assignments and research papers.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Grammar Checker</h1>
+                    <p class="text-lg text-gray-600">Check your writing for grammar, spelling, and punctuation errors</p>
+                </div>
+                
+                <!-- Grammar Checker App -->
+                <div class="my-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Enter Your Text</h3>
+                        <textarea id="text-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 h-64 resize-none" placeholder="Type or paste your text here to check for grammar, spelling, and punctuation errors..."></textarea>
+                        
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <button id="check-grammar" class="px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-md hover:from-teal-600 hover:to-cyan-700 transition duration-300 interactive-element">
+                                <i class="fas fa-spell-check mr-2"></i>Check Grammar
+                            </button>
+                            <button id="clear-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-trash-alt mr-2"></i>Clear Text
+                            </button>
+                            <button id="copy-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-copy mr-2"></i>Copy Text
+                            </button>
+                            <button id="sample-text" class="px-4 py-2 bg-white text-gray-700 rounded-md hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                                <i class="fas fa-font mr-2"></i>Sample Text
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Section -->
+                    <div id="results-container" class="bg-white p-6 rounded-xl shadow-md mb-6 hidden">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Grammar Check Results</h3>
+                        
+                        <!-- Summary Stats -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-gradient-to-br from-teal-50 to-cyan-50 p-4 rounded-xl shadow-sm text-center">
+                                <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-check-circle text-teal-600 text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-700 mb-1">Grammar</h4>
+                                <p id="grammar-issues" class="text-3xl font-bold text-teal-600">0</p>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-cyan-50 to-sky-50 p-4 rounded-xl shadow-sm text-center">
+                                <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-spell-check text-cyan-600 text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-700 mb-1">Spelling</h4>
+                                <p id="spelling-issues" class="text-3xl font-bold text-cyan-600">0</p>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-sky-50 to-blue-50 p-4 rounded-xl shadow-sm text-center">
+                                <div class="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-exclamation-circle text-sky-600 text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-700 mb-1">Punctuation</h4>
+                                <p id="punctuation-issues" class="text-3xl font-bold text-sky-600">0</p>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl shadow-sm text-center">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-star text-blue-600 text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-700 mb-1">Score</h4>
+                                <p id="writing-score" class="text-3xl font-bold text-blue-600">100</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Detailed Issues -->
+                        <div id="issues-list" class="space-y-4 mb-6">
+                            <div class="text-center text-gray-500 py-8">No issues found in your text!</div>
+                        </div>
+                        
+                        <!-- Corrected Text -->
+                        <div class="mt-6">
+                            <h4 class="text-lg font-semibold mb-3 text-gray-800">Corrected Text</h4>
+                            <div id="corrected-text" class="p-4 bg-gray-50 rounded-lg min-h-[100px] whitespace-pre-wrap"></div>
+                            <button id="apply-corrections" class="mt-4 px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-md hover:from-teal-600 hover:to-cyan-700 transition duration-300 interactive-element">
+                                <i class="fas fa-check mr-2"></i>Apply All Corrections
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Writing Tips -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Writing Tips</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-lightbulb text-teal-600"></i>
+                                </div>
+                                <p class="text-gray-700">Use active voice instead of passive voice for clearer, more direct writing.</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-lightbulb text-teal-600"></i>
+                                </div>
+                                <p class="text-gray-700">Avoid redundant phrases and words that don't add meaning to your sentences.</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-lightbulb text-teal-600"></i>
+                                </div>
+                                <p class="text-gray-700">Be consistent with tense throughout your writing to maintain clarity.</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-lightbulb text-teal-600"></i>
+                                </div>
+                                <p class="text-gray-700">Use transitional phrases to connect ideas and improve the flow of your writing.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-teal-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-teal-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-teal-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/grammar-checker.js"></script>
+</body>
+</html>

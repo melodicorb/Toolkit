@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Calendar - Ultimate Student Toolkit</title>
+    <meta name="description" content="Plan and organize your study schedule with our interactive Study Calendar. Track assignments, exams, and study sessions.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Study Calendar</h1>
+                    <p class="text-lg text-gray-600">Plan and organize your study schedule effectively</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Study Calendar is a comprehensive scheduling tool designed to help you organize your academic life. Plan study sessions, track assignments, exams, and lectures all in one place to ensure you never miss important deadlines and maintain a balanced study routine.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Click "Add Study Event" to create a new calendar entry</li>
+                            <li>Enter event details including title, date, start and end times</li>
+                            <li>Select an event type (study session, exam, assignment, etc.)</li>
+                            <li>Choose a color to categorize different types of events</li>
+                            <li>Add optional notes with additional details</li>
+                            <li>Navigate through months using the arrow buttons</li>
+                            <li>Click on any event in the calendar to view or edit its details</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I set recurring events?</h4>
+                                <p class="text-gray-600">Currently, each event needs to be created individually, but we're working on adding recurring event functionality in a future update.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Is there a limit to how many events I can create?</h4>
+                                <p class="text-gray-600">There's no hard limit, but since events are stored in your browser's local storage, very large numbers of events might eventually use up available space.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I get reminders for upcoming events?</h4>
+                                <p class="text-gray-600">The current version doesn't include notifications, but you can view all upcoming events in the sidebar to stay informed about what's next.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I sync my calendar across devices?</h4>
+                                <p class="text-gray-600">Events are stored locally in your browser, so they're only available on the device where you created them. Consider using the same browser across devices for consistency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Study Calendar App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Calendar View -->
+                        <div class="lg:col-span-2">
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-semibold text-gray-800">Calendar</h3>
+                                    <div class="flex space-x-2">
+                                        <button id="prev-month" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-300">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <span id="current-month" class="p-2 font-medium">September 2023</span>
+                                        <button id="next-month" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-300">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Calendar Grid -->
+                                <div id="calendar-grid" class="mt-4">
+                                    <!-- Calendar will be generated here by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Event Management -->
+                        <div class="lg:col-span-1">
+                            <!-- Create Event Button -->
+                            <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                                <button id="create-event-btn" class="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 flex items-center justify-center">
+                                    <i class="fas fa-plus mr-2"></i> Add Study Event
+                                </button>
+                            </div>
+                            
+                            <!-- Upcoming Events -->
+                            <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">Upcoming Events</h3>
+                                <div id="upcoming-events" class="space-y-4">
+                                    <!-- Upcoming events will be listed here by JavaScript -->
+                                    <div class="empty-state text-center py-8 hidden" id="no-events-message">
+                                        <div class="text-4xl text-blue-200 mb-2"><i class="fas fa-calendar-day"></i></div>
+                                        <p class="text-gray-500">No upcoming events</p>
+                                        <p class="text-sm text-gray-400 mt-2">Create your first study event to get started</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Statistics -->
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">Study Statistics</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">Total Events:</span>
+                                        <span id="total-events" class="font-semibold">0</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">This Week:</span>
+                                        <span id="events-this-week" class="font-semibold">0</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">This Month:</span>
+                                        <span id="events-this-month" class="font-semibold">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Event Modal -->
+    <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="event-modal-title" class="text-xl font-semibold">Create Study Event</h3>
+                <button id="close-event-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="event-form">
+                <div class="space-y-4">
+                    <div>
+                        <label for="event-title" class="block text-sm font-medium text-gray-700 mb-1">Event Title</label>
+                        <input type="text" id="event-title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Math Study Session" required>
+                    </div>
+                    
+                    <div>
+                        <label for="event-date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                        <input type="date" id="event-date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="event-start-time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                            <input type="time" id="event-start-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div>
+                            <label for="event-end-time" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                            <input type="time" id="event-end-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="event-type" class="block text-sm font-medium text-gray-700 mb-1">Event Type</label>
+                        <select id="event-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="study">Study Session</option>
+                            <option value="exam">Exam</option>
+                            <option value="assignment">Assignment</option>
+                            <option value="lecture">Lecture</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="event-color" class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                        <select id="event-color" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="red">Red</option>
+                            <option value="purple">Purple</option>
+                            <option value="yellow">Yellow</option>
+                            <option value="pink">Pink</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="event-notes" class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                        <textarea id="event-notes" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Additional details about this event..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" id="cancel-event-btn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-300">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300">Save Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Event Details Modal -->
+    <div id="event-details-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="event-details-title" class="text-xl font-semibold">Event Details</h3>
+                <button id="close-event-details" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="event-details-content" class="space-y-4">
+                <!-- Event details will be populated here by JavaScript -->
+            </div>
+            
+            <div class="flex justify-end space-x-3 mt-6">
+                <button id="delete-event-btn" class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition duration-300">Delete</button>
+                <button id="edit-event-btn" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300">Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2023</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-gray-800 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/study-calendar.js"></script>
+</body>
+</html>

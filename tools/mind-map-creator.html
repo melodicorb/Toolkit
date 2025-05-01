@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Map Creator - Ultimate Student Toolkit</title>
+    <meta name="description" content="Create visual mind maps to organize concepts, ideas, and study materials with our free online Mind Map Creator tool.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- D3.js for visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Mind Map Creator</h1>
+                    <p class="text-lg text-gray-600">Visualize concepts and ideas with interactive mind maps</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-700 mb-4">The Mind Map Creator is a powerful visual thinking tool designed to help students organize information, connect ideas, and enhance learning through spatial relationships. Mind maps are diagrams that visually organize information around a central concept, making complex topics easier to understand and remember.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Intuitive drag-and-drop interface for creating mind map nodes</li>
+                                <li>Customizable node colors to categorize different types of information</li>
+                                <li>Ability to add, edit, and delete nodes with simple controls</li>
+                                <li>Hierarchical structure to represent relationships between concepts</li>
+                                <li>Export functionality to save and share your mind maps</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">How It Helps</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Improves information retention through visual association</li>
+                                <li>Helps break down complex subjects into manageable components</li>
+                                <li>Facilitates brainstorming and creative thinking</li>
+                                <li>Creates clear study guides for exam preparation</li>
+                                <li>Enhances note-taking efficiency and organization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                               
+                <!-- FAQs -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">How many nodes can I add to my mind map?</h3>
+                            <p class="text-gray-700">While there's no strict limit on the number of nodes you can add, we recommend keeping your mind maps focused with 15-25 nodes for optimal clarity and usability. For complex subjects, consider creating multiple interconnected mind maps.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Can I save my mind map and continue working on it later?</h3>
+                            <p class="text-gray-700">Currently, the tool doesn't support saving work in progress. We recommend exporting your mind map as an image when you need to take a break, and recreating it when you return. We're working on adding save functionality in a future update.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">What's the best way to structure a mind map for studying?</h3>
+                            <p class="text-gray-700">Start with your main topic in the center, then add primary concepts as first-level branches. Break these down into subtopics, examples, and details as you move outward. Use colors to group related ideas and keep your structure balanced around the central topic.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Can I collaborate with others on a mind map?</h3>
+                            <p class="text-gray-700">The current version doesn't support real-time collaboration. However, you can export your mind map and share it with others for feedback, or use it during group study sessions as a visual aid for discussion.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">How do mind maps improve learning and retention?</h3>
+                            <p class="text-gray-700">Mind maps leverage visual learning by creating associations between ideas. This mirrors how our brains naturally connect information, making it easier to recall complex topics. The process of creating a mind map also reinforces active learning, which significantly improves retention compared to passive reading.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mind Map Creator App -->
+                <div class="my-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <!-- Controls -->
+                        <div class="flex flex-col md:flex-row justify-between mb-6 gap-4">
+                            <div class="flex-1">
+                                <label for="central-topic" class="block text-sm font-medium text-gray-700 mb-1">Central Topic</label>
+                                <div class="flex">
+                                    <input type="text" id="central-topic" class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" placeholder="Enter main topic..." value="Main Topic">
+                                    <button id="update-central-topic" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-r-md hover:from-cyan-600 hover:to-sky-700 transition duration-300">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button id="add-node-btn" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-md hover:from-cyan-600 hover:to-sky-700 transition duration-300">
+                                    <i class="fas fa-plus mr-2"></i>Add Node
+                                </button>
+                                <button id="clear-btn" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition duration-300">
+                                    <i class="fas fa-trash-alt mr-2"></i>Clear All
+                                </button>
+                                <button id="export-btn" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition duration-300">
+                                    <i class="fas fa-download mr-2"></i>Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Node Editor (Hidden by default) -->
+                        <div id="node-editor" class="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Edit Node</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="node-text" class="block text-sm font-medium text-gray-700 mb-1">Node Text</label>
+                                    <input type="text" id="node-text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" placeholder="Enter node text...">
+                                </div>
+                                <div>
+                                    <label for="node-color" class="block text-sm font-medium text-gray-700 mb-1">Node Color</label>
+                                    <select id="node-color" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500">
+                                        <option value="#60a5fa">Blue</option>
+                                        <option value="#34d399">Green</option>
+                                        <option value="#f87171">Red</option>
+                                        <option value="#fbbf24">Yellow</option>
+                                        <option value="#a78bfa">Purple</option>
+                                        <option value="#f472b6">Pink</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                                <button id="delete-node-btn" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300">
+                                    <i class="fas fa-trash-alt mr-1"></i>Delete
+                                </button>
+                                <button id="cancel-edit-btn" class="px-3 py-1 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition duration-300">
+                                    Cancel
+                                </button>
+                                <button id="save-node-btn" class="px-3 py-1 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-md hover:from-cyan-600 hover:to-sky-700 transition duration-300">
+                                    <i class="fas fa-save mr-1"></i>Save
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Mind Map Canvas -->
+                        <div class="relative bg-gray-50 border border-gray-200 rounded-lg overflow-hidden" style="height: 500px;">
+                            <div id="mind-map-canvas" class="w-full h-full"></div>
+                            
+                            <!-- Zoom Controls -->
+                            <div class="absolute bottom-4 right-4 bg-white rounded-lg shadow-md p-2 flex space-x-2">
+                                <button id="zoom-in-btn" class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 transition duration-300">
+                                    <i class="fas fa-plus text-gray-700"></i>
+                                </button>
+                                <button id="zoom-out-btn" class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 transition duration-300">
+                                    <i class="fas fa-minus text-gray-700"></i>
+                                </button>
+                                <button id="zoom-reset-btn" class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 transition duration-300">
+                                    <i class="fas fa-home text-gray-700"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Initial Instructions -->
+                            <div id="initial-instructions" class="absolute inset-0 flex items-center justify-center bg-gray-50 bg-opacity-90">
+                                <div class="text-center p-6 max-w-md">
+                                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-cyan-100 flex items-center justify-center">
+                                        <i class="fas fa-diagram-project text-cyan-600 text-2xl"></i>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Create Your Mind Map</h3>
+                                    <p class="text-gray-600 mb-4">Start by setting your central topic, then add connected nodes to build your mind map.</p>
+                                    <button id="start-mapping-btn" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-sky-600 text-white rounded-md hover:from-cyan-600 hover:to-sky-700 transition duration-300">
+                                        <i class="fas fa-play mr-2"></i>Start Mapping
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tips Section -->
+                        <div class="mt-6 p-4 bg-cyan-50 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Mind Mapping Tips</h3>
+                            <ul class="text-gray-700 space-y-2">
+                                <li><i class="fas fa-check-circle text-cyan-600 mr-2"></i>Start with a central idea and branch out with related concepts</li>
+                                <li><i class="fas fa-check-circle text-cyan-600 mr-2"></i>Use different colors to categorize related ideas</li>
+                                <li><i class="fas fa-check-circle text-cyan-600 mr-2"></i>Keep node text concise - use keywords rather than sentences</li>
+                                <li><i class="fas fa-check-circle text-cyan-600 mr-2"></i>Double-click on any node to edit its content</li>
+                                <li><i class="fas fa-check-circle text-cyan-600 mr-2"></i>Click and drag to move the mind map around the canvas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // DOM Elements
+            const centralTopicInput = document.getElementById('central-topic');
+            const updateCentralTopicBtn = document.getElementById('update-central-topic');
+            const addNodeBtn = document.getElementById('add-node-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const nodeEditor = document.getElementById('node-editor');
+            const nodeTextInput = document.getElementById('node-text');
+            const nodeColorSelect = document.getElementById('node-color');
+            const deleteNodeBtn = document.getElementById('delete-node-btn');
+            const cancelEditBtn = document.getElementById('cancel-edit-btn');
+            const saveNodeBtn = document.getElementById('save-node-btn');
+            const mindMapCanvas = document.getElementById('mind-map-canvas');
+            const zoomInBtn = document.getElementById('zoom-in-btn');
+            const zoomOutBtn = document.getElementById('zoom-out-btn');
+            const zoomResetBtn = document.getElementById('zoom-reset-btn');
+            const initialInstructions = document.getElementById('initial-instructions');
+            const startMappingBtn = document.getElementById('start-mapping-btn');
+            
+            // Mind Map Data
+            let mindMapData = {
+                id: 'root',
+                text: 'Main Topic',
+                color: '#60a5fa',
+                children: []
+            };
+            
+            // Try to load saved mind map from localStorage
+            const savedMindMap = localStorage.getItem('mind-map-data');
+            if (savedMindMap) {
+                try {
+                    mindMapData = JSON.parse(savedMindMap);
+                    centralTopicInput.value = mindMapData.text;
+                    initialInstructions.classList.add('hidden');
+                } catch (e) {
+                    console.error('Error loading saved mind map:', e);
+                }
+            }
+            
+            // D3.js Visualization Setup
+            let svg, g;
+            let zoom;
+            let currentScale = 1;
+            let selectedNode = null;
+            
+            // Initialize the mind map
+            function initMindMap() {
+                // Clear any existing SVG
+                d3.select(mindMapCanvas).selectAll('*').remove();
+                
+                // Create SVG and group for zooming
+                const width = mindMapCanvas.clientWidth;
+                const height = mindMapCanvas.clientHeight;
+                
+                svg = d3.select(mindMapCanvas)
+                    .append('svg')
+                    .attr('width', '100%')
+                    .attr('height', '100%')
+                    .attr('viewBox', [0, 0, width, height])
+                    .attr('style', 'font: 12px sans-serif;');
+                
+                // Add a background rect for detecting zoom events
+                svg.append('rect')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .attr('fill', 'none')
+                    .attr('pointer-events', 'all');
+                
+                // Create a group for the mind map
+                g = svg.append('g')
+                    .attr('transform', `translate(${width / 2},${height / 2})`);
+                
+                // Set up zoom behavior
+                zoom = d3.zoom()
+                    .scaleExtent([0.1, 3])
+                    .on('zoom', (event) => {
+                        g.attr('transform', event.transform);
+                        currentScale = event.transform.k;
+                    });
+                
+                svg.call(zoom);
+                
+                // Render the mind map
+                renderMindMap();
+            }
+            
+            // Render the mind map
+            function renderMindMap() {
+                // Clear existing nodes and links
+                g.selectAll('*').remove();
+                
+                // Create a tree layout
+                const treeLayout = d3.tree()
+                    .size([360, 200])
+                    .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth);
+                
+                // Convert data to hierarchy
+                const root = d3.hierarchy(mindMapData);
+                
+                // Apply the tree layout
+                const nodes = treeLayout(root);
+                
+                // Draw links
+                g.selectAll('.link')
+                    .data(nodes.links())
+                    .enter()
+                    .append('path')
+                    .attr('class', 'link')
+                    .attr('d', d => {
+                        return `M${d.source.y * Math.cos((d.source.x * Math.PI) / 180)},${d.source.y * Math.sin((d.source.x * Math.PI) / 180)}
+                                C${(d.source.y + d.target.y) / 2 * Math.cos((d.source.x * Math.PI) / 180)},${(d.source.y + d.target.y) / 2 * Math.sin((d.source.x * Math.PI) / 180)}
+                                 ${(d.source.y + d.target.y) / 2 * Math.cos((d.target.x * Math.PI) / 180)},${(d.source.y + d.target.y) / 2 * Math.sin((d.target.x * Math.PI) / 180)}
+                                 ${d.target.y * Math.cos((d.target.x * Math.PI) / 180)},${d.target.y * Math.sin((d.target.x * Math.PI) / 180)}`;
+                    })
+                    .attr('fill', 'none')
+                    .attr('stroke', '#aaa')
+                    .attr('stroke-width', 1.5);
+                
+                // Draw nodes
+                const nodeGroups = g.selectAll('.node')
+                    .data(nodes.descendants())
+                    .enter()
+                    .append('g')
+                    .attr('class', 'node')
+                    .attr('transform', d => `translate(${d.y * Math.cos((d.x * Math.PI) / 180)},${d.y * Math.sin((d.x * Math.PI) / 180)})`);
+                
+                // Node circles
+                nodeGroups.append('circle')
+                    .attr('r', d => d.depth === 0 ? 30 : 20)
+                    .attr('fill', d => d.data.color || '#60a5fa')
+                    .attr('stroke', '#fff')
+                    .attr('stroke-width', 2)
+                    .style('cursor', 'pointer')
+                    .on('click', (event, d) => {
+                        selectNode(d);
+                    })
+                    .on('dblclick', (event, d) => {
+                        editNode(d);
+                    });
+                
+                // Node text
+                nodeGroups.append('text')
+                    .attr('dy', '.35em')
+                    .attr('text-anchor', 'middle')
+                    .attr('fill', '#fff')
+                    .style('pointer-events', 'none')
+                    .style('font-weight', 'bold')
+                    .text(d => {
+                        const text = d.data.text;
+                        return text.length > 10 ? text.substring(0, 10) + '...' : text;
+                    });
+                
+                // Save the current state to localStorage
+                localStorage.setItem('mind-map-data', JSON.stringify(mindMapData));
+            }
+            
+            // Select a node
+            function selectNode(node) {
+                // Deselect previously selected node
+                g.selectAll('circle').attr('stroke', '#fff');
+                
+                // Select the new node
+                d3.select(event.currentTarget).attr('stroke', '#fbbf24');
+                
+                selectedNode = node;
+            }
+            
+            // Edit a node
+            function editNode(node) {
+                selectNode(node);
+                
+                // Populate the node editor
+                nodeTextInput.value = node.data.text;
+                nodeColorSelect.value = node.data.color || '#60a5fa';
+                
+                // Show the node editor
+                nodeEditor.classList.remove('hidden');
+                
+                // Disable delete button for root node
+                if (node.depth === 0) {
+                    deleteNodeBtn.disabled = true;
+                    deleteNodeBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    deleteNodeBtn.disabled = false;
+                    deleteNodeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+            
+            // Add a new node
+            function addNewNode() {
+                if (!selectedNode) {
+                    alert('Please select a parent node first');
+                    return;
+                }
+                
+                // Generate a unique ID
+                const newNodeId = 'node_' + Date.now();
+                
+                // Create a new node
+                const newNode = {
+                    id: newNodeId,
+                    text: 'New Node',
+                    color: '#60a5fa',
+                    children: []
+                };
+                
+                // Add the new node to the selected node's children
+                if (!selectedNode.data.children) {
+                    selectedNode.data.children = [];
+                }
+                selectedNode.data.children.push(newNode);
+                
+                // Re-render the mind map
+                renderMindMap();
+                
+                // Find and select the new node
+                const nodes = d3.hierarchy(mindMapData).descendants();
+                const newNodeData = nodes.find(n => n.data.id === newNodeId);
+                if (newNodeData) {
+                    editNode(newNodeData);
+                }
+            }
+            
+            // Save node changes
+            function saveNodeChanges() {
+                if (!selectedNode) return;
+                
+                // Update the node data
+                selectedNode.data.text = nodeTextInput.value;
+                selectedNode.data.color = nodeColorSelect.value;
+                
+                // Hide the node editor
+                nodeEditor.classList.add('hidden');
+                
+                // Re-render the mind map
+                renderMindMap();
+            }
+            
+            // Delete a node
+            function deleteNode() {
+                if (!selectedNode || selectedNode.depth === 0) return;
+                
+                // Find the parent node
+                const parentNode = selectedNode.parent;
+                
+                // Remove the selected node from its parent's children
+                const index = parentNode.data.children.findIndex(child => child.id === selectedNode.data.id);
+                if (index !== -1) {
+                    parentNode.data.children.splice(index, 1);
+                }
+                
+                // Hide the node editor
+                nodeEditor.classList.add('hidden');
+                
+                // Reset selected node
+                selectedNode = null;
+                
+                // Re-render the mind map
+                renderMindMap();
+            }
+            
+            // Clear the mind map
+            function clearMindMap() {
+                if (confirm('Are you sure you want to clear the entire mind map?')) {
+                    // Reset to default
+                    mindMapData = {
+                        id: 'root',
+                        text: centralTopicInput.value,
+                        color: '#60a5fa',
+                        children: []
+                    };
+                    
+                    // Hide the node editor
+                    nodeEditor.classList.add('hidden');
+                    
+                    // Reset selected node
+                    selectedNode = null;
+                    
+                    // Re-render the mind map
+                    renderMindMap();
+                }
+            }
+            
+            // Export the mind map
+            function exportMindMap() {
+                // Create a data URL for the SVG
+                const svgData = new XMLSerializer().serializeToString(svg.node());
+                const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+                const url = URL.createObjectURL(svgBlob);
+                
+                // Create a download link
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'mind-map.svg';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Update central topic
+            function updateCentralTopic() {
+                mindMapData.text = centralTopicInput.value;
+                renderMindMap();
+            }
+            
+            // Event Listeners
+            updateCentralTopicBtn.addEventListener('click', updateCentralTopic);
+            addNodeBtn.addEventListener('click', addNewNode);
+            clearBtn.addEventListener('click', clearMindMap);
+            exportBtn.addEventListener('click', exportMindMap);
+            saveNodeBtn.addEventListener('click', saveNodeChanges);
+            deleteNodeBtn.addEventListener('click', deleteNode);
+            cancelEditBtn.addEventListener('click', () => {
+                nodeEditor.classList.add('hidden');
+            });
+            
+            // Zoom controls
+            zoomInBtn.addEventListener('click', () => {
+                svg.transition().call(zoom.scaleBy, 1.2);
+            });
+            
+            zoomOutBtn.addEventListener('click', () => {
+                svg.transition().call(zoom.scaleBy, 0.8);
+            });
+            
+            zoomResetBtn.addEventListener('click', () => {
+                svg.transition().call(
+                    zoom.transform,
+                    d3.zoomIdentity.translate(mindMapCanvas.clientWidth / 2, mindMapCanvas.clientHeight / 2).scale(1)
+                );
+            });
+            
+            // Start mapping button
+            startMappingBtn.addEventListener('click', () => {
+                initialInstructions.classList.add('hidden');
+                updateCentralTopic();
+            });
+            
+            // Initialize the mind map
+            window.addEventListener('resize', initMindMap);
+            initMindMap();
+        });
+    </script>
+</body>
+</html>

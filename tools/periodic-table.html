@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periodic Table - Ultimate Student Toolkit</title>
+    <meta name="description" content="Explore the interactive periodic table of elements with detailed information, search functionality, and element properties for chemistry students and professionals.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Periodic Table</h1>
+                    <p class="text-lg text-gray-600">Explore the elements and their properties in this interactive periodic table</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-700 mb-4">The Periodic Table tool provides a comprehensive, interactive reference for all chemical elements. Designed for chemistry students, educators, and professionals, this tool allows you to explore detailed information about each element, filter by categories, and visualize important chemical properties.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Interactive periodic table with color-coded element categories</li>
+                                <li>Detailed information for all 118 elements</li>
+                                <li>Filter elements by category (metals, nonmetals, etc.)</li>
+                                <li>View various properties (atomic mass, electronegativity, etc.)</li>
+                                <li>Search functionality to quickly find specific elements</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">How It Helps</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Provides quick access to essential chemical data</li>
+                                <li>Helps visualize trends and patterns across the periodic table</li>
+                                <li>Supports chemistry homework and exam preparation</li>
+                                <li>Assists in understanding element relationships and properties</li>
+                                <li>Serves as a reliable reference for laboratory work</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Guide -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">User Guide</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 1: Navigate the Periodic Table</h3>
+                            <p class="text-gray-700">The main grid displays all elements in their traditional periodic table arrangement. Elements are color-coded by category (alkali metals, noble gases, etc.) as shown in the legend below the table.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 2: Filter Elements</h3>
+                            <p class="text-gray-700">Use the category buttons in the sidebar to filter the periodic table by element type. Select "All Elements" to return to the complete table view.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 3: Search for Elements</h3>
+                            <p class="text-gray-700">Use the search box at the top of the sidebar to quickly find elements by name, symbol, or atomic number. The matching elements will be highlighted in the table.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 4: View Element Details</h3>
+                            <p class="text-gray-700">Click on any element in the table to display its detailed information, including atomic properties, physical characteristics, and electron configuration.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 5: Change Property Display</h3>
+                            <p class="text-gray-700">Use the "View Properties" dropdown menu to change which property is displayed within each element tile (atomic number, mass, electronegativity, etc.).</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQs -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Is the data in this periodic table up-to-date?</h3>
+                            <p class="text-gray-700">Yes, our periodic table includes all 118 elements currently recognized by IUPAC (International Union of Pure and Applied Chemistry), with the most current verified data for each element.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Can I use this tool offline?</h3>
+                            <p class="text-gray-700">This tool requires an internet connection to load initially. However, once loaded, most functionality will work offline if you keep the browser tab open.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Why are some element properties listed as "Unknown"?</h3>
+                            <p class="text-gray-700">For some of the newest synthetic elements, certain properties haven't been definitively measured or calculated yet due to their extremely short half-lives and limited production.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Can I print the periodic table from this tool?</h3>
+                            <p class="text-gray-700">Yes, you can use your browser's print function (Ctrl+P or Cmd+P) to print the current view of the periodic table. For best results, use landscape orientation.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">How are the element categories determined?</h3>
+                            <p class="text-gray-700">The element categories follow the standard classification system used in chemistry, based on electron configuration and chemical properties. These groupings help identify elements with similar characteristics.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Periodic Table App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <!-- Sidebar: Search & Filters -->
+                        <div class="lg:col-span-1 space-y-6">
+                            <!-- Search -->
+                            <div class="bg-white p-4 rounded-xl shadow-md">
+                                <div class="relative">
+                                    <input type="text" id="element-search" class="w-full px-3 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search elements...">
+                                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Element Categories -->
+                            <div class="bg-white p-4 rounded-xl shadow-md">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">Element Categories</h3>
+                                <ul id="element-categories" class="space-y-2">
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 transition duration-300" data-category="all">
+                                            All Elements
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="alkali-metals">
+                                            Alkali Metals
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="alkaline-earth-metals">
+                                            Alkaline Earth Metals
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="transition-metals">
+                                            Transition Metals
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="post-transition-metals">
+                                            Post-Transition Metals
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="metalloids">
+                                            Metalloids
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="nonmetals">
+                                            Nonmetals
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="halogens">
+                                            Halogens
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="noble-gases">
+                                            Noble Gases
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="lanthanides">
+                                            Lanthanides
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="category-btn w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 transition duration-300" data-category="actinides">
+                                            Actinides
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Property Selector -->
+                            <div class="bg-white p-4 rounded-xl shadow-md">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">View Properties</h3>
+                                <select id="property-selector" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="atomic-number">Atomic Number</option>
+                                    <option value="atomic-mass">Atomic Mass</option>
+                                    <option value="electronegativity">Electronegativity</option>
+                                    <option value="electron-configuration">Electron Configuration</option>
+                                    <option value="melting-point">Melting Point</option>
+                                    <option value="boiling-point">Boiling Point</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Content: Periodic Table & Element Details -->
+                        <div class="lg:col-span-3">
+                            <!-- Periodic Table Grid -->
+                            <div class="bg-white p-4 rounded-xl shadow-md mb-6">
+                                <div id="periodic-table-container" class="overflow-x-auto">
+                                    <!-- The periodic table will be generated here by JavaScript -->
+                                </div>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-red-400 rounded mr-1"></div>
+                                        <span class="text-xs">Alkali Metals</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-orange-400 rounded mr-1"></div>
+                                        <span class="text-xs">Alkaline Earth Metals</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-yellow-400 rounded mr-1"></div>
+                                        <span class="text-xs">Transition Metals</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-green-400 rounded mr-1"></div>
+                                        <span class="text-xs">Post-Transition Metals</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-teal-400 rounded mr-1"></div>
+                                        <span class="text-xs">Metalloids</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-blue-400 rounded mr-1"></div>
+                                        <span class="text-xs">Nonmetals</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-indigo-400 rounded mr-1"></div>
+                                        <span class="text-xs">Halogens</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-purple-400 rounded mr-1"></div>
+                                        <span class="text-xs">Noble Gases</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-pink-400 rounded mr-1"></div>
+                                        <span class="text-xs">Lanthanides</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-rose-400 rounded mr-1"></div>
+                                        <span class="text-xs">Actinides</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Element Details -->
+                            <div id="element-details" class="bg-white p-6 rounded-xl shadow-md hidden">
+                                <div class="flex items-center mb-4">
+                                    <div id="element-symbol" class="w-16 h-16 flex items-center justify-center text-3xl font-bold rounded-lg mr-4">H</div>
+                                    <div>
+                                        <h3 id="element-name" class="text-2xl font-semibold">Hydrogen</h3>
+                                        <p id="element-category" class="text-sm text-gray-600">Nonmetal</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600">Atomic Number</p>
+                                        <p id="element-atomic-number" class="font-semibold">1</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Atomic Mass</p>
+                                        <p id="element-atomic-mass" class="font-semibold">1.008 u</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Electron Configuration</p>
+                                        <p id="element-electron-config" class="font-semibold">1s¹</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Electronegativity</p>
+                                        <p id="element-electronegativity" class="font-semibold">2.20</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Melting Point</p>
+                                        <p id="element-melting-point" class="font-semibold">-259.16 °C</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Boiling Point</p>
+                                        <p id="element-boiling-point" class="font-semibold">-252.87 °C</p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p class="text-sm text-gray-600 mb-1">Description</p>
+                                    <p id="element-description" class="text-sm">Hydrogen is the lightest element and the most abundant chemical substance in the universe, constituting roughly 75% of all normal matter.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2023</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-gray-900 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-gray-900 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-gray-900 transition duration-300">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/periodic-table.js"></script>
+</body>
+</html>

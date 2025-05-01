@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Student Toolkit - 30 Essential Academic Tools</title>
+    <meta name="description" content="Access 30 essential academic tools for students, professionals and developers. Boost productivity with our free, interactive toolkit.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</h1>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">Home</a>
+                    <a href="about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 py-12 md:py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-6xl font-bold mb-6 text-gray-800">30 Essential Academic Tools</h2>
+            <p class="text-xl md:text-2xl mb-10 text-gray-600 max-w-3xl mx-auto">Boost your productivity with our comprehensive collection of tools designed for students, professionals, and developers.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#tools" class="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-lg font-semibold hover:from-purple-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105">Explore Tools</a>
+                <a href="about.html" class="px-6 py-3 rounded-lg bg-white text-gray-700 text-lg font-semibold hover:bg-gray-100 transition duration-300 transform hover:scale-105 border border-gray-300">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="relative z-10 py-16 bg-white bg-opacity-90 rounded-t-3xl">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">Our Tools Collection</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tool 1 -->
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-clock text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Pomodoro Timer</h3>
+                        <p class="text-gray-600 mb-4">Stay focused with timed work sessions</p>
+                        <a href="tools/pomodoro-timer.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-sm hover:from-purple-600 hover:to-indigo-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 2 -->
+                <div class="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-list-check text-pink-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">To-Do List</h3>
+                        <p class="text-gray-600 mb-4">Manage your tasks efficiently</p>
+                        <a href="tools/todo-list.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 text-white text-sm hover:from-pink-600 hover:to-purple-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 3 -->
+                <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-note-sticky text-indigo-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Quick Notes</h3>
+                        <p class="text-gray-600 mb-4">Capture ideas instantly</p>
+                        <a href="tools/quick-notes.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-600 text-white text-sm hover:from-indigo-600 hover:to-blue-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 4 -->
+                <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Habit Tracker</h3>
+                        <p class="text-gray-600 mb-4">Build consistent study habits</p>
+                        <a href="tools/habit-tracker.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 text-white text-sm hover:from-green-600 hover:to-teal-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 5 -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-calendar-days text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Study Calendar</h3>
+                        <p class="text-gray-600 mb-4">Plan your study schedule</p>
+                        <a href="tools/study-calendar.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-600 text-white text-sm hover:from-blue-600 hover:to-cyan-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 6 -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-clone text-amber-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Flashcards</h3>
+                        <p class="text-gray-600 mb-4">Create and study digital flashcards</p>
+                        <a href="tools/flashcards.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm hover:from-amber-600 hover:to-orange-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 7 -->
+                <div class="bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-quote-left text-violet-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Citation Generator</h3>
+                        <p class="text-gray-600 mb-4">Format citations in various styles</p>
+                        <a href="tools/citation-generator.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500 to-purple-600 text-white text-sm hover:from-violet-600 hover:to-purple-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 8 -->
+                <div class="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-align-left text-teal-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Text Summarizer</h3>
+                        <p class="text-gray-600 mb-4">Generate concise summaries of long texts</p>
+                        <a href="tools/text-summarizer.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-emerald-600 text-white text-sm hover:from-teal-600 hover:to-emerald-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 9 -->
+                <div class="bg-gradient-to-br from-rose-50 to-pink-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-book text-rose-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Dictionary</h3>
+                        <p class="text-gray-600 mb-4">Look up definitions quickly</p>
+                        <a href="tools/dictionary.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-rose-500 to-pink-600 text-white text-sm hover:from-rose-600 hover:to-pink-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 10 -->
+                <div class="bg-gradient-to-br from-cyan-50 to-sky-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-diagram-project text-cyan-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Mind Map Creator</h3>
+                        <p class="text-gray-600 mb-4">Visualize concepts and ideas</p>
+                        <a href="tools/mind-map-creator.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-sky-600 text-white text-sm hover:from-cyan-600 hover:to-sky-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 11 -->
+                <div class="bg-gradient-to-br from-fuchsia-50 to-violet-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-fuchsia-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-chalkboard text-fuchsia-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Digital Whiteboard</h3>
+                        <p class="text-gray-600 mb-4">Create visual diagrams and study materials</p>
+                        <a href="tools/digital-whiteboard.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-violet-600 text-white text-sm hover:from-fuchsia-600 hover:to-violet-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 12 -->
+                <div class="bg-gradient-to-br from-sky-50 to-blue-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-calculator text-sky-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Scientific Calculator</h3>
+                        <p class="text-gray-600 mb-4">Perform complex calculations</p>
+                        <a href="tools/scientific-calculator.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 text-white text-sm hover:from-sky-600 hover:to-blue-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 13 -->
+                <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-exchange-alt text-emerald-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Word Counter</h3>
+                        <p class="text-gray-600 mb-4">Count words, characters and paragraphs</p>
+                        <a href="tools/word-counter.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-green-600 text-white text-sm hover:from-emerald-600 hover:to-green-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 14 -->
+                <div class="bg-gradient-to-br from-purple-50 to-fuchsia-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-graduation-cap text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Grade Calculator</h3>
+                        <p class="text-gray-600 mb-4">Calculate your GPA and final grades</p>
+                        <a href="tools/grade-calculator.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-fuchsia-600 text-white text-sm hover:from-purple-600 hover:to-fuchsia-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 15 -->
+                <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-book-open text-orange-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Flashcard Quiz</h3>
+                        <p class="text-gray-600 mb-4">Test your knowledge with interactive quizzes</p>
+                        <a href="tools/flashcard-quiz.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-amber-600 text-white text-sm hover:from-orange-600 hover:to-amber-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 16 -->
+                <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-magnifying-glass text-red-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Plagiarism Checker</h3>
+                        <p class="text-gray-600 mb-4">Check your work for originality</p>
+                        <a href="tools/plagiarism-checker.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-rose-600 text-white text-sm hover:from-red-600 hover:to-rose-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 17 -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-book-bookmark text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Bibliography Generator</h3>
+                        <p class="text-gray-600 mb-4">Create formatted bibliographies</p>
+                        <a href="tools/bibliography-generator.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm hover:from-blue-600 hover:to-indigo-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 18 -->
+                <div class="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-calendar-check text-teal-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Study Planner</h3>
+                        <p class="text-gray-600 mb-4">Create detailed study plans</p>
+                        <a href="tools/study-planner.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-600 text-white text-sm hover:from-teal-600 hover:to-cyan-700 transition duration-300">Coming Soon</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 19 -->
+                <div class="bg-gradient-to-br from-lime-50 to-yellow-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-lime-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-language text-lime-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Language Translator</h3>
+                        <p class="text-gray-600 mb-4">Translate text between languages</p>
+                        <a href="tools/language-translator.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-lime-500 to-yellow-600 text-white text-sm hover:from-lime-600 hover:to-yellow-700 transition duration-300">Coming Soon</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 20 -->
+                <div class="bg-gradient-to-br from-slate-50 to-gray-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-code text-slate-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Code Formatter</h3>
+                        <p class="text-gray-600 mb-4">Format and beautify code snippets</p>
+                        <a href="tools/code-formatter.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-slate-500 to-gray-600 text-white text-sm hover:from-slate-600 hover:to-gray-700 transition duration-300">Try Now</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 21 -->
+                <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-file-pdf text-red-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">PDF Tools</h3>
+                        <p class="text-gray-600 mb-4">Merge, split and compress PDF files</p>
+                        <a href="tools/pdf-tools.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-orange-600 text-white text-sm hover:from-red-600 hover:to-orange-700 transition duration-300">Open pdf</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 22 -->
+                <div class="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-highlighter text-yellow-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Text Highlighter</h3>
+                        <p class="text-gray-600 mb-4">Highlight and annotate text documents</p>
+                        <a href="tools/text-highlighter.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-amber-600 text-white text-sm hover:from-yellow-600 hover:to-amber-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 23 -->
+                <div class="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-brain text-indigo-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Memory Games</h3>
+                        <p class="text-gray-600 mb-4">Improve memory with fun exercises</p>
+                        <a href="#" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-600 text-white text-sm hover:from-indigo-600 hover:to-violet-700 transition duration-300">Coming Soon</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 24 -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-volume-high text-emerald-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Text to Speech</h3>
+                        <p class="text-gray-600 mb-4">Convert text to spoken audio</p>
+                        <a href="#" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm hover:from-emerald-600 hover:to-teal-700 transition duration-300">Coming Soon</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 25 -->
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-chart-pie text-pink-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Study Statistics</h3>
+                        <p class="text-gray-600 mb-4">Track and visualize your study progress</p>
+                        <a href="tools/study-statistics.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-rose-600 text-white text-sm hover:from-pink-600 hover:to-rose-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 26 -->
+                <div class="bg-gradient-to-br from-blue-50 to-sky-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-volume-high text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Text to Speech</h3>
+                        <p class="text-gray-600 mb-4">Convert text into natural speech</p>
+                        <a href="tools/text-to-speech.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-sky-600 text-white text-sm hover:from-blue-600 hover:to-sky-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 27 -->
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-image text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Image Editor</h3>
+                        <p class="text-gray-600 mb-4">Edit images for presentations</p>
+                        <a href="tools/image-editor.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-sm hover:from-purple-600 hover:to-indigo-700 transition duration-300">Open Tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 28 -->
+                <div class="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-lightbulb text-amber-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Idea Generator</h3>
+                        <p class="text-gray-600 mb-4">Get inspiration for projects and essays</p>
+                        <a href="tools/idea-generator.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-sm hover:from-amber-600 hover:to-yellow-700 transition duration-300">Open tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 29 -->
+                <div class="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-chart-column text-cyan-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Data Visualizer</h3>
+                        <p class="text-gray-600 mb-4">Create charts and graphs from data</p>
+                        <a href="tools/data-visualizer.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm hover:from-cyan-600 hover:to-blue-700 transition duration-300">Open tool</a>
+                    </div>
+                </div>
+                
+                <!-- Tool 30 -->
+                <div class="bg-gradient-to-br from-fuchsia-50 to-purple-50 rounded-xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <div class="p-6">
+                        <div class="w-12 h-12 rounded-full bg-fuchsia-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-comments text-fuchsia-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Study Group Chat</h3>
+                        <p class="text-gray-600 mb-4">Collaborate with study partners</p>
+                        <a href="tools/study-group-chat.html" class="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm hover:from-cyan-600 hover:to-blue-700 transition duration-300">Open tool</a>
+                    </div>
+                </div>
+                
+                <!-- View All 30 Tools button -->
+                <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center mt-8">
+                    <a href="all-tools.html" class="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-lg font-semibold hover:from-purple-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105">View All 30 Tools</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="relative z-10 py-16 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-800">Why Choose Our Toolkit?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-bolt text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Fast & Responsive</h3>
+                    <p class="text-gray-600">All tools load instantly and work smoothly on any device, from desktop to mobile.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-full bg-pink-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-lock text-pink-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Privacy Focused</h3>
+                    <p class="text-gray-600">Your data stays on your device with local storage. No accounts or sign-ups required.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-palette text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Beautiful Design</h3>
+                    <p class="text-gray-600">Enjoy a colorful, intuitive interface with 3D animations that make studying more engaging.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-link text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Interconnected</h3>
+                    <p class="text-gray-600">Seamlessly navigate between related tools to create an efficient workflow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="relative z-10 py-16 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-800">Ready to Boost Your Productivity?</h2>
+            <p class="text-xl mb-8 text-gray-600 max-w-3xl mx-auto">Start using our free toolkit today and transform your academic journey.</p>
+            <a href="all-tools.html" class="inline-block px-8 py-4 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xl font-semibold hover:from-purple-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105 shadow-lg">Get Started Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <h3 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400">Ultimate Student Toolkit</h3>
+                    <p class="text-gray-300 mb-4">Your all-in-one solution for academic success.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white transition duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white transition duration-300"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white transition duration-300"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-300 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="all-tools.html" class="text-gray-300 hover:text-white transition duration-300">All Tools</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="tools/pomodoro-timer.html" class="text-gray-300 hover:text-white transition duration-300">Pomodoro Timer</a></li>
+                        <li><a href="tools/flashcards.html" class="text-gray-300 hover:text-white transition duration-300">Flashcards</a></li>
+                        <li><a href="tools/citation-generator.html" class="text-gray-300 hover:text-white transition duration-300">Citation Generator</a></li>
+                        <li><a href="tools/scientific-calculator.html" class="text-gray-300 hover:text-white transition duration-300">Scientific Calculator</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="text-gray-300 hover:text-white transition duration-300">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-300 hover:text-white transition duration-300">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; <span id="current-year"></span> Ultimate Student Toolkit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/animation.js"></script>
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Define colors for 3D objects
+        const colors = [
+                0x9c27b0, // purple
+                0xe91e63, // pink
+                0x3f51b5, // indigo
+                0x2196f3, // blue
+                0x00bcd4, // cyan
+                0x4caf50, // green
+                0xffeb3b, // yellow
+                0xff9800  // orange
+            ];
+            
+            // Create geometry objects
+            function createObjects() {
+                // Books
+                for (let i = 0; i < 5; i++) {
+                    const geometry = new THREE.BoxGeometry(1, 1.5, 0.2);
+                    const material = new THREE.MeshBasicMaterial({ color: colors[Math.floor(Math.random() * colors.length)] });
+                    const book = new THREE.Mesh(geometry, material);
+                    
+                    book.position.x = Math.random() * 20 - 10;
+                    book.position.y = Math.random() * 20 - 10;
+                    book.position.z = Math.random() * 10 - 20;
+                    
+                    book.rotation.x = Math.random() * Math.PI;
+                    book.rotation.y = Math.random() * Math.PI;
+                    
+                    book.userData = {
+                        rotationSpeed: {
+                            x: (Math.random() - 0.5) * 0.01,
+                            y: (Math.random() - 0.5) * 0.01,
+                            z: (Math.random() - 0.5) * 0.01
+                        },
+                        movementSpeed: {
+                            x: (Math.random() - 0.5) * 0.01,
+                            y: (Math.random() - 0.5) * 0.01,
+                            z: (Math.random() - 0.5) * 0.01
+                        }
+                    };
+                    
+                    scene.add(book);
+                    objects.push(book);
+                }
+                
+                // Pencils
+                for (let i = 0; i < 5; i++) {
+                    const geometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 32);
+                    const material = new THREE.MeshBasicMaterial({ color: colors[Math.floor(Math.random() * colors.length)] });
+                    const pencil = new THREE.Mesh(geometry, material);
+                    
+                    pencil.position.x = Math.random() * 20 - 10;
+                    pencil.position.y = Math.random() * 20 - 10;
+                    pencil.position.z = Math.random() * 10 - 20;
+                    
+                    pencil.rotation.x = Math.random() * Math.PI;
+                    pencil.rotation.y = Math.random() * Math.PI;
+                    
+                    pencil.userData = {
+                        rotationSpeed: {
+                            x: (Math.random() - 0.5) * 0.01,
+                            y: (Math.random() - 0.5) * 0.01,
+                            z: (Math.random() - 0.5) * 0.01
+                        },
+                        movementSpeed: {
+                            x: (Math.random() - 0.5) * 0.01,
+                            y: (Math.random() - 0.5) * 0.01,
+                            z: (Math.random() - 0.5) * 0.01
+                        }
+                    };
+                    
+                    scene.add(pencil);
+                    objects.push(pencil);
+                }
+                
+                // Calculators
+                for (let i = 0; i < 3; i++) {
+                    const geometry = new THREE.BoxGeometry(0.8, 1.2, 0.1);
+                    const material = new THREE.MeshBasicMaterial({ color: colors[Math.floor(Math.random() * colors.length)] });
+                    const calculator = new THREE.Mesh(geometry, material);
+                    
+                    calculator.position.x = Math.random() * 20 - 10;
+                    calculator.position.y = Math.random() * 20 - 10;
+                    calculator.position.z = Math.random() * 10 - 20;
+                    
+                    calculator.rotation.x = Math.random() * Math.PI;
+                    calculator.rotation.y = Math.random() * Math.PI;
+                    
+                    calculator.userData = {
+                        rotationSpeed: {
+                            x: (Math.random() - 0.5) * 0.01,
+                            y: (Math.random() - 0.5) * 0.01,
+                            z: (Math.random() - 0.5) * 0.01
+                        },
+                        movementSpeed: {
+                            x: (Math.random() - 0.5) * 0.01,
+                            y: (Math.random() - 0.5) * 0.01,
+                            z: (Math.random() - 0.5) * 0.01
+                        }
+                    };
+                    
+                    scene.add(calculator);
+                    objects.push(calculator);
+                }
+            }
+            
+            createObjects();
+            
+            // Position camera
+            camera.position.z = 5;
+            
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Animate objects
+                objects.forEach(obj => {
+                    // Rotate object
+                    obj.rotation.x += obj.userData.rotationSpeed.x;
+                    obj.rotation.y += obj.userData.rotationSpeed.y;
+                    obj.rotation.z += obj.userData.rotationSpeed.z;
+                    
+                    // Move object
+                    obj.position.x += obj.userData.movementSpeed.x;
+                    obj.position.y += obj.userData.movementSpeed.y;
+                    obj.position.z += obj.userData.movementSpeed.z;
+                    
+                    // Boundary check and reverse direction if needed
+                    if (Math.abs(obj.position.x) > 15) {
+                        obj.userData.movementSpeed.x *= -1;
+                    }
+                    if (Math.abs(obj.position.y) > 15) {
+                        obj.userData.movementSpeed.y *= -1;
+                    }
+                    if (Math.abs(obj.position.z) > 25) {
+                        obj.userData.movementSpeed.z *= -1;
+                    }
+                });
+                
+                renderer.render(scene, camera);
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            animate();

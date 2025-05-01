@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Statistics - Ultimate Student Toolkit</title>
+    <meta name="description" content="Track and analyze your academic performance with our Study Statistics tool. Visualize study time, grades, and progress over time to improve your study habits.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Study Statistics</h1>
+                    <p class="text-lg text-gray-600">Track and analyze your academic performance over time</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-700 mb-4">The Study Statistics tool is a comprehensive analytics platform designed to help students track, visualize, and improve their academic performance. By monitoring study time, grades, and task completion, this tool provides valuable insights into your study habits and helps identify areas for improvement.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Key Features</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Track study time by subject and date</li>
+                                <li>Record and analyze grade performance</li>
+                                <li>Monitor task completion rates</li>
+                                <li>Visualize data with interactive charts</li>
+                                <li>Store study session notes and reflections</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">How It Helps</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                <li>Identifies your most productive study times</li>
+                                <li>Highlights subjects that need more attention</li>
+                                <li>Provides motivation through progress tracking</li>
+                                <li>Helps establish consistent study habits</li>
+                                <li>Enables data-driven decisions about study strategies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Guide -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">User Guide</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 1: Record Study Sessions</h3>
+                            <p class="text-gray-700">Use the "Add Study Session" form to log your study activities. Enter the subject, duration (hours and minutes), date, and optional notes about what you studied.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 2: Track Your Grades</h3>
+                            <p class="text-gray-700">Record your academic performance using the "Add Grade Entry" form. Include the assignment name, subject, percentage grade, date, and any relevant notes.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 3: Analyze Your Dashboard</h3>
+                            <p class="text-gray-700">Review your statistics dashboard to see total study time, average grade, and completed tasks. The charts visualize your study time by subject and grade progress over time.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 4: Monitor Recent Activity</h3>
+                            <p class="text-gray-700">Check your recent activity log to see a chronological history of your study sessions and grade entries. This helps track your consistency and progress.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Step 5: Adjust Your Study Strategy</h3>
+                            <p class="text-gray-700">Based on the data and visualizations, identify patterns and adjust your study habits to improve performance in areas that need attention.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQs -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Frequently Asked Questions</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Is my data private?</h3>
+                            <p class="text-gray-700">Yes, all your study statistics are stored locally in your browser. We don't collect or store your personal academic data on our servers. However, this means your data won't sync across devices.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Can I export my study data?</h3>
+                            <p class="text-gray-700">Currently, we don't have an export feature, but we're working on adding this functionality in a future update to allow you to download your data as CSV or PDF.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">What happens if I clear my browser data?</h3>
+                            <p class="text-gray-700">Clearing your browser data or local storage will erase your saved study statistics. Consider taking screenshots of important data or charts if you plan to clear your browser data.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">How can I track group study sessions?</h3>
+                            <p class="text-gray-700">You can log group study sessions the same way as individual sessions. Consider adding a note mentioning it was a group session and what was accomplished collectively.</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Can I set study goals or targets?</h3>
+                            <p class="text-gray-700">While we don't currently have a goal-setting feature, you can mentally track your progress against personal targets. We plan to add goal-setting functionality in future updates.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Study Statistics App -->
+                <div class="my-8">
+                    <!-- Dashboard Overview -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <!-- Study Time Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800">Total Study Time</h3>
+                                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                                    <i class="fas fa-clock text-indigo-600"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-indigo-600 mb-2" id="total-study-time">0h 0m</div>
+                            <p class="text-sm text-gray-500">This week: <span id="week-study-time">0h 0m</span></p>
+                        </div>
+                        
+                        <!-- Average Grade Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800">Average Grade</h3>
+                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                                    <i class="fas fa-chart-line text-purple-600"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-purple-600 mb-2" id="average-grade">0%</div>
+                            <p class="text-sm text-gray-500">Trend: <span id="grade-trend" class="text-green-500"><i class="fas fa-arrow-up"></i> 0%</span></p>
+                        </div>
+                        
+                        <!-- Completed Tasks Card -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800">Completed Tasks</h3>
+                                <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center">
+                                    <i class="fas fa-tasks text-pink-600"></i>
+                                </div>
+                            </div>
+                            <div class="text-3xl font-bold text-pink-600 mb-2" id="completed-tasks">0</div>
+                            <p class="text-sm text-gray-500">Completion rate: <span id="completion-rate">0%</span></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <!-- Study Time Chart -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Study Time by Subject</h3>
+                            <div class="h-64">
+                                <canvas id="study-time-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Grade Progress Chart -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Grade Progress</h3>
+                            <div class="h-64">
+                                <canvas id="grade-progress-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Entry Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Add Study Session -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Add Study Session</h3>
+                            <form id="study-session-form">
+                                <div class="mb-4">
+                                    <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                                    <input type="text" id="subject" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Mathematics" required>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="hours" class="block text-sm font-medium text-gray-700 mb-1">Hours</label>
+                                        <input type="number" id="hours" min="0" max="24" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" value="0" required>
+                                    </div>
+                                    <div>
+                                        <label for="minutes" class="block text-sm font-medium text-gray-700 mb-1">Minutes</label>
+                                        <input type="number" id="minutes" min="0" max="59" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" value="0" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                    <input type="date" id="date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
+                                    <textarea id="notes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" rows="2" placeholder="What did you study?"></textarea>
+                                </div>
+                                <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                    <i class="fas fa-plus mr-2"></i>Add Session
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Add Grade Entry -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Add Grade Entry</h3>
+                            <form id="grade-entry-form">
+                                <div class="mb-4">
+                                    <label for="assignment-name" class="block text-sm font-medium text-gray-700 mb-1">Assignment Name</label>
+                                    <input type="text" id="assignment-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Midterm Exam" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="assignment-subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                                    <input type="text" id="assignment-subject" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Mathematics" required>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="grade" class="block text-sm font-medium text-gray-700 mb-1">Grade (%)</label>
+                                        <input type="number" id="grade" min="0" max="100" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                                    </div>
+                                    <div>
+                                        <label for="grade-date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                        <input type="date" id="grade-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="grade-notes" class="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
+                                    <textarea id="grade-notes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" rows="2" placeholder="Any comments about this grade?"></textarea>
+                                </div>
+                                <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-md hover:from-pink-600 hover:to-purple-700 transition duration-300 interactive-element">
+                                    <i class="fas fa-plus mr-2"></i>Add Grade
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Recent Activity</h3>
+                            <button id="clear-data" class="text-sm text-red-600 hover:text-red-800 transition duration-300">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear All Data
+                            </button>
+                        </div>
+                        <div id="activity-list" class="max-h-64 overflow-y-auto">
+                            <div class="text-center text-gray-500 py-4">No activity recorded yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Set today's date as default for date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+            document.getElementById('grade-date').value = today;
+            
+            // Initialize data from localStorage
+            let studySessions = JSON.parse(localStorage.getItem('studySessions')) || [];
+            let gradeEntries = JSON.parse(localStorage.getItem('gradeEntries')) || [];
+            
+            // DOM Elements
+            const studySessionForm = document.getElementById('study-session-form');
+            const gradeEntryForm = document.getElementById('grade-entry-form');
+            const activityList = document.getElementById('activity-list');
+            const clearDataBtn = document.getElementById('clear-data');
+            
+            // Stats Elements
+            const totalStudyTimeEl = document.getElementById('total-study-time');
+            const weekStudyTimeEl = document.getElementById('week-study-time');
+            const averageGradeEl = document.getElementById('average-grade');
+            const gradeTrendEl = document.getElementById('grade-trend');
+            const completedTasksEl = document.getElementById('completed-tasks');
+            const completionRateEl = document.getElementById('completion-rate');
+            
+            // Charts
+            let studyTimeChart;
+            let gradeProgressChart;
+            
+            // Initialize charts and stats
+            initializeCharts();
+            updateStats();
+            updateActivityList();
+            
+            // Event Listeners
+            studySessionForm.addEventListener('submit', addStudySession);
+            gradeEntryForm.addEventListener('submit', addGradeEntry);
+            clearDataBtn.addEventListener('click', clearAllData);
+            
+            // Add Study Session
+            function addStudySession(e) {
+                e.preventDefault();
+                
+                const subject = document.getElementById('subject').value;
+                const hours = parseInt(document.getElementById('hours').value) || 0;
+                const minutes = parseInt(document.getElementById('minutes').value) || 0;
+                const date = document.getElementById('date').value;
+                const notes = document.getElementById('notes').value;
+                
+                // Validate input
+                if (subject.trim() === '' || (hours === 0 && minutes === 0)) {
+                    alert('Please enter a subject and study time');
+                    return;
+                }
+                
+                // Create new study session
+                const newSession = {
+                    id: Date.now(),
+                    subject,
+                    hours,
+                    minutes,
+                    date,
+                    notes,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Add to array and save
+                studySessions.push(newSession);
+                localStorage.setItem('studySessions', JSON.stringify(studySessions));
+                
+                // Reset form
+                document.getElementById('subject').value = '';
+                document.getElementById('hours').value = '0';
+                document.getElementById('minutes').value = '0';
+                document.getElementById('notes').value = '';
+                
+                // Update UI
+                updateStats();
+                updateCharts();
+                updateActivityList();
+            }
+            
+            // Add Grade Entry
+            function addGradeEntry(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('assignment-name').value;
+                const subject = document.getElementById('assignment-subject').value;
+                const grade = parseFloat(document.getElementById('grade').value);
+                const date = document.getElementById('grade-date').value;
+                const notes = document.getElementById('grade-notes').value;
+                
+                // Validate input
+                if (name.trim() === '' || subject.trim() === '' || isNaN(grade)) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Create new grade entry
+                const newGrade = {
+                    id: Date.now(),
+                    name,
+                    subject,
+                    grade,
+                    date,
+                    notes,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Add to array and save
+                gradeEntries.push(newGrade);
+                localStorage.setItem('gradeEntries', JSON.stringify(gradeEntries));
+                
+                // Reset form
+                document.getElementById('assignment-name').value = '';
+                document.getElementById('assignment-subject').value = '';
+                document.getElementById('grade').value = '';
+                document.getElementById('grade-notes').value = '';
+                
+                // Update UI
+                updateStats();
+                updateCharts();
+                updateActivityList();
+            }
+            
+            // Initialize Charts
+            function initializeCharts() {
+                // Study Time Chart
+                const studyTimeCtx = document.getElementById('study-time-chart').getContext('2d');
+                studyTimeChart = new Chart(studyTimeCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: [
+                                '#8b5cf6', // Purple
+                                '#ec4899', // Pink
+                                '#3b82f6', // Blue
+                                '#10b981', // Emerald
+                                '#f59e0b', // Amber
+                                '#ef4444', // Red
+                                '#06b6d4', // Cyan
+                                '#8b5cf6', // Purple
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right'
+                            }
+                        }
+                    }
+                });
+                
+                // Grade Progress Chart
+                const gradeProgressCtx = document.getElementById('grade-progress-chart').getContext('2d');
+                gradeProgressChart = new Chart(gradeProgressCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: []
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Grade (%)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    }
+                });
+                
+                // Update charts with data
+                updateCharts();
+            }
+            
+            // Update Charts
+            function updateCharts() {
+                // Study Time by Subject Chart
+                const subjectTimes = {};
+                
+                studySessions.forEach(session => {
+                    const totalMinutes = (session.hours * 60) + session.minutes;
+                    if (subjectTimes[session.subject]) {
+                        subjectTimes[session.subject] += totalMinutes;
+                    } else {
+                        subjectTimes[session.subject] = totalMinutes;
+                    }
+                });
+                
+                const subjects = Object.keys(subjectTimes);
+                const times = subjects.map(subject => subjectTimes[subject] / 60); // Convert to hours
+                
+                studyTimeChart.data.labels = subjects;
+                studyTimeChart.data.datasets[0].data = times;
+                studyTimeChart.update();
+                
+                // Grade Progress Chart
+                const subjectGrades = {};
+                
+                // Sort grade entries by date
+                const sortedGrades = [...gradeEntries].sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                // Group grades by subject
+                sortedGrades.forEach(entry => {
+                    if (!subjectGrades[entry.subject]) {
+                        subjectGrades[entry.subject] = {
+                            dates: [],
+                            grades: []
+                        };
+                    }
+                    
+                    subjectGrades[entry.subject].dates.push(entry.date);
+                    subjectGrades[entry.subject].grades.push(entry.grade);
+                });
+                
+                // Create datasets for each subject
+                const datasets = [];
+                const colors = ['#8b5cf6', '#ec4899', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
+                
+                let i = 0;
+                for (const subject in subjectGrades) {
+                    datasets.push({
+                        label: subject,
+                        data: subjectGrades[subject].grades,
+                        borderColor: colors[i % colors.length],
+                        backgroundColor: colors[i % colors.length] + '20',
+                        tension: 0.1
+                    });
+                    i++;
+                }
+                
+                // Get all unique dates for x-axis
+                const allDates = sortedGrades.map(entry => entry.date);
+                const uniqueDates = [...new Set(allDates)];
+                
+                gradeProgressChart.data.labels = uniqueDates;
+                gradeProgressChart.data.datasets = datasets;
+                gradeProgressChart.update();
+            }
+            
+            // Update Statistics
+            function updateStats() {
+                // Calculate total study time
+                let totalMinutes = 0;
+                studySessions.forEach(session => {
+                    totalMinutes += (session.hours * 60) + session.minutes;
+                });
+                
+                const totalHours = Math.floor(totalMinutes / 60);
+                const remainingMinutes = totalMinutes % 60;
+                totalStudyTimeEl.textContent = `${totalHours}h ${remainingMinutes}m`;
+                
+                // Calculate this week's study time
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                
+                let weekMinutes = 0;
+                studySessions.forEach(session => {
+                    const sessionDate = new Date(session.date);
+                    if (sessionDate >= oneWeekAgo) {
+                        weekMinutes += (session.hours * 60) + session.minutes;
+                    }
+                });
+                
+                const weekHours = Math.floor(weekMinutes / 60);
+                const weekRemainingMinutes = weekMinutes % 60;
+                weekStudyTimeEl.textContent = `${weekHours}h ${weekRemainingMinutes}m`;
+                
+                // Calculate average grade
+                if (gradeEntries.length > 0) {
+                    const totalGrade = gradeEntries.reduce((sum, entry) => sum + entry.grade, 0);
+                    const averageGrade = totalGrade / gradeEntries.length;
+                    averageGradeEl.textContent = `${averageGrade.toFixed(1)}%`;
+                    
+                    // Calculate grade trend (last 5 vs previous 5)
+                    if (gradeEntries.length >= 10) {
+                        const recentGrades = gradeEntries.slice(-5);
+                        const previousGrades = gradeEntries.slice(-10, -5);
+                        
+                        const recentAvg = recentGrades.reduce((sum, entry) => sum + entry.grade, 0) / 5;
+                        const previousAvg = previousGrades.reduce((sum, entry) => sum + entry.grade, 0) / 5;
+                        
+                        const trend = recentAvg - previousAvg;
+                        const trendText = trend.toFixed(1);
+                        
+                        if (trend > 0) {
+                            gradeTrendEl.innerHTML = `<i class="fas fa-arrow-up"></i> ${trendText}%`;
+                            gradeTrendEl.className = 'text-green-500';
+                        } else if (trend < 0) {
+                            gradeTrendEl.innerHTML = `<i class="fas fa-arrow-down"></i> ${Math.abs(trend).toFixed(1)}%`;
+                            gradeTrendEl.className = 'text-red-500';
+                        } else {
+                            gradeTrendEl.innerHTML = `<i class="fas fa-minus"></i> 0%`;
+                            gradeTrendEl.className = 'text-gray-500';
+                        }
+                    } else {
+                        gradeTrendEl.innerHTML = `<i class="fas fa-minus"></i> N/A`;
+                        gradeTrendEl.className = 'text-gray-500';
+                    }
+                }
+                
+                // Calculate completed tasks
+                const totalTasks = studySessions.length + gradeEntries.length;
+                completedTasksEl.textContent = totalTasks;
+                
+                // Calculate completion rate (placeholder - would need task list with completion status)
+                completionRateEl.textContent = '100%';
+            }
+            
+            // Update Activity List
+            function updateActivityList() {
+                // Combine and sort all activities
+                const allActivities = [];
+                
+                studySessions.forEach(session => {
+                    allActivities.push({
+                        type: 'study',
+                        data: session,
+                        timestamp: new Date(session.timestamp)
+                    });
+                });
+                
+                gradeEntries.forEach(entry => {
+                    allActivities.push({
+                        type: 'grade',
+                        data: entry,
+                        timestamp: new Date(entry.timestamp)
+                    });
+                });
+                
+                // Sort by timestamp (newest first)
+                allActivities.sort((a, b) => b.timestamp - a.timestamp);
+                
+                // Limit to most recent 10 activities
+                const recentActivities = allActivities.slice(0, 10);
+                
+                // Clear current list
+                activityList.innerHTML = '';
+                
+                // If no activities
+                if (recentActivities.length === 0) {
+                    activityList.innerHTML = '<div class="text-center text-gray-500 py-4">No activity recorded yet</div>';
+                    return;
+                }
+                
+                // Create activity items
+                recentActivities.forEach(activity => {
+                    const activityItem = document.createElement('div');
+                    activityItem.className = 'border-b border-gray-200 py-3';
+                    
+                    let icon, title, details;
+                    
+                    if (activity.type === 'study') {
+                        const session = activity.data;
+                        icon = '<div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center"><i class="fas fa-book text-indigo-600"></i></div>';
+                        title = `Studied ${session.subject}`;
+                        details = `${session.hours}h ${session.minutes}m on ${formatDate(session.date)}`;
+                    } else {
+                        const entry = activity.data;
+                        icon = '<div class="w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center"><i class="fas fa-graduation-cap text-pink-600"></i></div>';
+                        title = `${entry.name} (${entry.subject})`;
+                        details = `Grade: ${entry.grade}% on ${formatDate(entry.date)}`;
+                    }
+                    
+                    activityItem.innerHTML = `
+                        <div class="flex items-center">
+                            ${icon}
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-800">${title}</p>
+                                <p class="text-xs text-gray-500">${details}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    activityList.appendChild(activityItem);
+                });
+            }
+            
+            // Format date for display
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+            
+            // Clear all data
+            function clearAllData() {
+                if (confirm('Are you sure you want to clear all your study statistics data? This cannot be undone.')) {
+                    // Clear data arrays
+                    studySessions = [];
+                    gradeEntries = [];
+                    
+                    // Clear localStorage
+                    localStorage.removeItem('studySessions');
+                    localStorage.removeItem('gradeEntries');
+                    
+                    // Update UI
+                    updateStats();
+                    updateCharts();
+                    updateActivityList();
+                    
+                    alert('All data has been cleared.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

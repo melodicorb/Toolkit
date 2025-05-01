@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Generator - Ultimate Student Toolkit</title>
+    <meta name="description" content="Generate properly formatted citations for your academic papers with our free Citation Generator. Supports APA, MLA, Chicago, and Harvard styles.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-2">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Citation Generator</h1>
+                    <p class="text-lg text-gray-600">Create properly formatted citations for your academic papers</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Citation Generator helps you create accurate citations for your research papers, essays, and other academic work. This tool supports multiple citation styles including APA, MLA, Chicago, and Harvard, ensuring your references are properly formatted according to academic standards.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Select your preferred citation style (APA, MLA, Chicago, or Harvard)</li>
+                            <li>Choose the source type (book, journal article, website, etc.)</li>
+                            <li>Fill in the required information for your source</li>
+                            <li>Click "Generate Citation" to create your formatted citation</li>
+                            <li>Copy the citation to your clipboard or add it to your bibliography</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">Which citation styles are supported?</h4>
+                                <p class="text-gray-600">Currently, we support APA (7th Edition), MLA (9th Edition), Chicago (17th Edition), and Harvard (2021 Edition) citation styles.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">What source types can I cite?</h4>
+                                <p class="text-gray-600">You can create citations for books, journal articles, websites, and more. We're continuously adding support for additional source types.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Are the citations stored anywhere?</h4>
+                                <p class="text-gray-600">Citations are stored locally in your browser's storage. They are not sent to any server and will be available only on your current device.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I export my bibliography?</h4>
+                                <p class="text-gray-600">Yes, you can copy individual citations or export your entire bibliography as a text file for use in your documents.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Citation Generator App -->
+                <div class="my-8">
+                    <!-- Citation Style Selection -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Select Citation Style</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <button class="citation-style-btn px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element" data-style="apa">
+                                <span class="block font-semibold">APA</span>
+                                <span class="text-xs">7th Edition</span>
+                            </button>
+                            <button class="citation-style-btn px-4 py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" data-style="mla">
+                                <span class="block font-semibold">MLA</span>
+                                <span class="text-xs">9th Edition</span>
+                            </button>
+                            <button class="citation-style-btn px-4 py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" data-style="chicago">
+                                <span class="block font-semibold">Chicago</span>
+                                <span class="text-xs">17th Edition</span>
+                            </button>
+                            <button class="citation-style-btn px-4 py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" data-style="harvard">
+                                <span class="block font-semibold">Harvard</span>
+                                <span class="text-xs">2021 Edition</span>
+                            </button>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Select Source Type</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <button class="source-type-btn px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element" data-type="book">
+                                <i class="fas fa-book mb-2 text-xl"></i>
+                                <span class="block">Book</span>
+                            </button>
+                            <button class="source-type-btn px-4 py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" data-type="journal">
+                                <i class="fas fa-scroll mb-2 text-xl"></i>
+                                <span class="block">Journal</span>
+                            </button>
+                            <button class="source-type-btn px-4 py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" data-type="website">
+                                <i class="fas fa-globe mb-2 text-xl"></i>
+                                <span class="block">Website</span>
+                            </button>
+                            <button class="source-type-btn px-4 py-3 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" data-type="more">
+                                <i class="fas fa-ellipsis-h mb-2 text-xl"></i>
+                                <span class="block">More</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Source Information Form -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Source Information</h3>
+                            <div>
+                                <span id="current-style" class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">APA 7th Edition</span>
+                                <span id="current-type" class="px-2 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800 ml-2">Book</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Book Form (Default) -->
+                        <form id="book-form" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="book-title" class="block text-sm font-medium text-gray-700 mb-1">Book Title *</label>
+                                    <input type="text" id="book-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter book title" required>
+                                </div>
+                                <div>
+                                    <label for="book-subtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtitle (if any)</label>
+                                    <input type="text" id="book-subtitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter subtitle">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Author(s) *</label>
+                                <div id="authors-container">
+                                    <div class="author-entry grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                                        <div>
+                                            <input type="text" class="author-first w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="First Name" required>
+                                        </div>
+                                        <div>
+                                            <input type="text" class="author-middle w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Middle Name/Initial">
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <input type="text" class="author-last w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Last Name" required>
+                                            <button type="button" class="remove-author px-3 py-2 text-red-500 hover:text-red-700 transition duration-300 hidden">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="add-author" class="mt-2 text-sm text-indigo-600 hover:text-indigo-800 transition duration-300">
+                                    <i class="fas fa-plus mr-1"></i> Add Another Author
+                                </button>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="book-year" class="block text-sm font-medium text-gray-700 mb-1">Publication Year *</label>
+                                    <input type="number" id="book-year" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="YYYY" required>
+                                </div>
+                                <div>
+                                    <label for="book-publisher" class="block text-sm font-medium text-gray-700 mb-1">Publisher *</label>
+                                    <input type="text" id="book-publisher" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Publisher name" required>
+                                </div>
+                                <div>
+                                    <label for="book-location" class="block text-sm font-medium text-gray-700 mb-1">Publication Location</label>
+                                    <input type="text" id="book-location" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="City, Country">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="book-edition" class="block text-sm font-medium text-gray-700 mb-1">Edition</label>
+                                    <input type="text" id="book-edition" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., 2nd Edition">
+                                </div>
+                                <div>
+                                    <label for="book-doi" class="block text-sm font-medium text-gray-700 mb-1">DOI or ISBN</label>
+                                    <input type="text" id="book-doi" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., 10.1000/xyz123 or 978-3-16-148410-0">
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button type="button" id="generate-citation" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                    <i class="fas fa-quote-right mr-2"></i>Generate Citation
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Website Form (Hidden) -->
+                        <form id="website-form" class="space-y-4 hidden">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="website-title" class="block text-sm font-medium text-gray-700 mb-1">Page Title *</label>
+                                    <input type="text" id="website-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter page title" required>
+                                </div>
+                                <div>
+                                    <label for="website-name" class="block text-sm font-medium text-gray-700 mb-1">Website Name *</label>
+                                    <input type="text" id="website-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter website name" required>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Author(s)</label>
+                                <div id="website-authors-container">
+                                    <div class="author-entry grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                                        <div>
+                                            <input type="text" class="author-first w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="First Name">
+                                        </div>
+                                        <div>
+                                            <input type="text" class="author-middle w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Middle Name/Initial">
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <input type="text" class="author-last w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Last Name">
+                                            <button type="button" class="remove-author px-3 py-2 text-red-500 hover:text-red-700 transition duration-300 hidden">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="add-website-author" class="mt-2 text-sm text-indigo-600 hover:text-indigo-800 transition duration-300">
+                                    <i class="fas fa-plus mr-1"></i> Add Another Author
+                                </button>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="website-url" class="block text-sm font-medium text-gray-700 mb-1">URL *</label>
+                                    <input type="url" id="website-url" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="https://example.com" required>
+                                </div>
+                                <div>
+                                    <label for="website-date-published" class="block text-sm font-medium text-gray-700 mb-1">Date Published</label>
+                                    <input type="date" id="website-date-published" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label for="website-date-accessed" class="block text-sm font-medium text-gray-700 mb-1">Date Accessed *</label>
+                                    <input type="date" id="website-date-accessed" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button type="button" id="generate-website-citation" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                    <i class="fas fa-quote-right mr-2"></i>Generate Citation
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Citation Output -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Your Citation</h3>
+                        <div id="citation-output" class="p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-[100px]">
+                            <p class="text-gray-500 italic">Your citation will appear here...</p>
+                        </div>
+                        <div class="flex justify-end mt-4 space-x-3">
+                            <button id="copy-citation" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300 interactive-element">
+                                <i class="fas fa-copy mr-2"></i>Copy
+                            </button>
+                            <button id="save-citation" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300 interactive-element">
+                                <i class="fas fa-save mr-2"></i>Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Citation Tips -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-semibold mb-6 text-center text-gray-800">Citation Tips</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-5 rounded-xl shadow-md">
+                            <div class="text-purple-600 mb-3 text-xl">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold mb-2 text-gray-800">Accuracy Matters</h4>
+                            <p class="text-gray-600">Always double-check your citation information for accuracy. Small errors can make it difficult for readers to locate your sources.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow-md">
+                            <div class="text-purple-600 mb-3 text-xl">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold mb-2 text-gray-800">Consistency is Key</h4>
+                            <p class="text-gray-600">Use the same citation style throughout your entire paper. Mixing styles can confuse readers and affect your credibility.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow-md">
+                            <div class="text-purple-600 mb-3 text-xl">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold mb-2 text-gray-800">Know Your Style Guide</h4>
+                            <p class="text-gray-600">Familiarize yourself with the specific requirements of your chosen citation style. Each style has unique formatting rules.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-600 hover:text-purple-600 transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-purple-600 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-purple-600 transition duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/citation-generator.js"></script>
+</body>
+</html>

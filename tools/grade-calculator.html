@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator - Ultimate Student Toolkit</title>
+    <meta name="description" content="Calculate your final grade with our easy-to-use Grade Calculator. Set custom weights for assignments, exams, and projects to determine your course grade.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Grade Calculator</h1>
+                    <p class="text-lg text-gray-600">Calculate your final grade based on assignment weights</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Grade Calculator helps you determine your final course grade by calculating weighted averages of your assignments, exams, projects, and other course components. This tool is essential for students who want to track their academic progress, set grade goals, or determine what scores they need on upcoming assessments to achieve their desired final grade.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Click "Add Component" to add each graded item (assignments, exams, etc.)</li>
+                            <li>For each component, enter a name, weight (percentage of final grade), and your score</li>
+                            <li>Mark components as "completed" if you've received a grade, or leave unchecked for planned assignments</li>
+                            <li>View your current grade calculation and total weight distribution in real-time</li>
+                            <li>Use the "What-If Scenarios" section to calculate what score you need on remaining work to achieve a target grade</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">What if my total weight doesn't add up to 100%?</h4>
+                                <p class="text-gray-600">The calculator will show you the total weight of all components. For accurate results, your components should add up to 100%. If they don't, consider adjusting the weights or adding missing components.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">How are letter grades determined?</h4>
+                                <p class="text-gray-600">The tool uses a standard grading scale (A: 90-100%, B: 80-89%, C: 70-79%, D: 60-69%, F: 0-59%). Your institution may use a different scale, so consider this as a general reference.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I save my grade calculations?</h4>
+                                <p class="text-gray-600">Currently, grade calculations are stored in your browser's local storage. They will persist between sessions on the same device and browser, but aren't synchronized across devices.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">What does "Needed Grade" mean?</h4>
+                                <p class="text-gray-600">The "Needed Grade" calculation shows what average score you need on all remaining (uncompleted) components to achieve your target final grade.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grade Calculator App -->
+                <div class="my-8">
+                    <!-- Grade Scale Info -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Grade Scale</h3>
+                            <button id="toggle-grade-scale" class="text-sm text-indigo-600 hover:text-indigo-800 transition duration-300">
+                                <span id="grade-scale-text">Show</span> <i id="grade-scale-icon" class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div id="grade-scale-container" class="hidden">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div class="p-3 bg-green-100 rounded-lg">
+                                    <div class="text-lg font-bold text-green-700">A</div>
+                                    <div class="text-sm text-gray-600">90-100%</div>
+                                </div>
+                                <div class="p-3 bg-green-50 rounded-lg">
+                                    <div class="text-lg font-bold text-green-600">B</div>
+                                    <div class="text-sm text-gray-600">80-89%</div>
+                                </div>
+                                <div class="p-3 bg-yellow-50 rounded-lg">
+                                    <div class="text-lg font-bold text-yellow-600">C</div>
+                                    <div class="text-sm text-gray-600">70-79%</div>
+                                </div>
+                                <div class="p-3 bg-orange-50 rounded-lg">
+                                    <div class="text-lg font-bold text-orange-600">D</div>
+                                    <div class="text-sm text-gray-600">60-69%</div>
+                                </div>
+                                <div class="p-3 bg-red-50 rounded-lg md:col-start-2">
+                                    <div class="text-lg font-bold text-red-600">F</div>
+                                    <div class="text-sm text-gray-600">0-59%</div>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-sm text-gray-500">
+                                <p>Note: This is a standard grade scale. Your institution may use a different scale.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grade Components -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Grade Components</h3>
+                        <div id="grade-components">
+                            <!-- Components will be added here -->
+                        </div>
+                        <div class="mt-4">
+                            <button id="add-component" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                <i class="fas fa-plus mr-2"></i>Add Component
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Final Grade -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Final Grade</h3>
+                        <div class="flex flex-col md:flex-row items-center justify-between">
+                            <div class="text-center mb-4 md:mb-0">
+                                <div id="final-grade-percentage" class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">0%</div>
+                                <div id="final-grade-letter" class="text-2xl font-semibold text-gray-700 mt-2">F</div>
+                            </div>
+                            <div class="w-full md:w-2/3 bg-gray-100 p-4 rounded-lg">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-700">Total Weight:</span>
+                                    <span id="total-weight" class="font-semibold text-purple-600">0%</span>
+                                </div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-700">Completed Weight:</span>
+                                    <span id="completed-weight" class="font-semibold text-purple-600">0%</span>
+                                </div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-700">Current Grade:</span>
+                                    <span id="current-grade" class="font-semibold text-purple-600">0%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-700">Remaining Weight:</span>
+                                    <span id="remaining-weight" class="font-semibold text-purple-600">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- What-If Scenarios -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">What-If Scenarios</h3>
+                        <div class="mb-4">
+                            <label for="target-grade" class="block text-sm font-medium text-gray-700 mb-1">Target Grade</label>
+                            <div class="flex space-x-2">
+                                <input type="number" id="target-grade" min="0" max="100" value="90" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <button id="calculate-needed" class="px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-md hover:from-green-600 hover:to-teal-700 transition duration-300 interactive-element">
+                                    Calculate
+                                </button>
+                            </div>
+                        </div>
+                        <div id="needed-grade-container" class="bg-gray-50 p-4 rounded-lg hidden">
+                            <div class="text-center">
+                                <p class="text-gray-700 mb-2">To achieve your target grade of <span id="target-grade-display" class="font-semibold text-green-600">90%</span>, you need to score at least:</p>
+                                <div id="needed-grade" class="text-3xl font-bold text-green-600 mb-2">0%</div>
+                                <p class="text-sm text-gray-500">on your remaining assignments (worth <span id="remaining-weight-display">0%</span> of your grade)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // DOM Elements
+            const gradeComponents = document.getElementById('grade-components');
+            const addComponentBtn = document.getElementById('add-component');
+            const finalGradePercentage = document.getElementById('final-grade-percentage');
+            const finalGradeLetter = document.getElementById('final-grade-letter');
+            const totalWeight = document.getElementById('total-weight');
+            const completedWeight = document.getElementById('completed-weight');
+            const currentGrade = document.getElementById('current-grade');
+            const remainingWeight = document.getElementById('remaining-weight');
+            const targetGradeInput = document.getElementById('target-grade');
+            const calculateNeededBtn = document.getElementById('calculate-needed');
+            const neededGradeContainer = document.getElementById('needed-grade-container');
+            const targetGradeDisplay = document.getElementById('target-grade-display');
+            const neededGrade = document.getElementById('needed-grade');
+            const remainingWeightDisplay = document.getElementById('remaining-weight-display');
+            const toggleGradeScaleBtn = document.getElementById('toggle-grade-scale');
+            const gradeScaleContainer = document.getElementById('grade-scale-container');
+            const gradeScaleText = document.getElementById('grade-scale-text');
+            const gradeScaleIcon = document.getElementById('grade-scale-icon');
+            
+            // Component counter
+            let componentCounter = 0;
+            
+            // Event Listeners
+            addComponentBtn.addEventListener('click', addComponent);
+            calculateNeededBtn.addEventListener('click', calculateNeededGrade);
+            toggleGradeScaleBtn.addEventListener('click', toggleGradeScale);
+            
+            // Toggle Grade Scale
+            function toggleGradeScale() {
+                gradeScaleContainer.classList.toggle('hidden');
+                if (gradeScaleContainer.classList.contains('hidden')) {
+                    gradeScaleText.textContent = 'Show';
+                    gradeScaleIcon.classList.remove('fa-chevron-up');
+                    gradeScaleIcon.classList.add('fa-chevron-down');
+                } else {
+                    gradeScaleText.textContent = 'Hide';
+                    gradeScaleIcon.classList.remove('fa-chevron-down');
+                    gradeScaleIcon.classList.add('fa-chevron-up');
+                }
+            }
+            
+            // Add a new grade component
+            function addComponent() {
+                const id = componentCounter++;
+                const component = document.createElement('div');
+                component.className = 'grade-component bg-gray-50 p-4 rounded-lg mb-4';
+                component.dataset.id = id;
+                
+                component.innerHTML = `
+                    <div class="flex flex-col md:flex-row md:items-center mb-2">
+                        <div class="flex-grow mb-2 md:mb-0 md:mr-4">
+                            <label for="component-name-${id}" class="block text-sm font-medium text-gray-700 mb-1">Component Name</label>
+                            <input type="text" id="component-name-${id}" class="component-name w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Midterm Exam" value="Component ${id + 1}">
+                        </div>
+                        <div class="md:w-1/4 mb-2 md:mb-0 md:mr-4">
+                            <label for="component-weight-${id}" class="block text-sm font-medium text-gray-700 mb-1">Weight (%)</label>
+                            <input type="number" id="component-weight-${id}" class="component-weight w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" min="0" max="100" value="10">
+                        </div>
+                        <div class="md:w-1/4">
+                            <label for="component-score-${id}" class="block text-sm font-medium text-gray-700 mb-1">Score (%)</label>
+                            <input type="number" id="component-score-${id}" class="component-score w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" min="0" max="100" value="">
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-500">
+                            <span class="component-contribution">0%</span> contribution to final grade
+                        </div>
+                        <button class="delete-component text-red-500 hover:text-red-700 transition duration-300">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listeners to the new component
+                const weightInput = component.querySelector(`#component-weight-${id}`);
+                const scoreInput = component.querySelector(`#component-score-${id}`);
+                const deleteBtn = component.querySelector('.delete-component');
+                
+                weightInput.addEventListener('input', updateGrades);
+                scoreInput.addEventListener('input', updateGrades);
+                deleteBtn.addEventListener('click', () => {
+                    component.remove();
+                    updateGrades();
+                });
+                
+                gradeComponents.appendChild(component);
+                updateGrades();
+            }
+            
+            // Update grades based on current components
+            function updateGrades() {
+                const components = document.querySelectorAll('.grade-component');
+                let totalWeightValue = 0;
+                let completedWeightValue = 0;
+                let weightedScore = 0;
+                
+                components.forEach(component => {
+                    const weight = parseFloat(component.querySelector('.component-weight').value) || 0;
+                    const score = component.querySelector('.component-score').value;
+                    const contributionElement = component.querySelector('.component-contribution');
+                    
+                    totalWeightValue += weight;
+                    
+                    if (score !== '') {
+                        const scoreValue = parseFloat(score) || 0;
+                        completedWeightValue += weight;
+                        weightedScore += (scoreValue * weight / 100);
+                        
+                        // Update contribution
+                        const contribution = (scoreValue * weight / 100).toFixed(1);
+                        contributionElement.textContent = `${contribution}%`;
+                    } else {
+                        contributionElement.textContent = '0%';
+                    }
+                });
+                
+                // Update UI
+                totalWeight.textContent = `${totalWeightValue.toFixed(1)}%`;
+                completedWeight.textContent = `${completedWeightValue.toFixed(1)}%`;
+                remainingWeight.textContent = `${(totalWeightValue - completedWeightValue).toFixed(1)}%`;
+                
+                let currentGradeValue = 0;
+                if (completedWeightValue > 0) {
+                    currentGradeValue = (weightedScore / completedWeightValue * 100);
+                    currentGrade.textContent = `${currentGradeValue.toFixed(1)}%`;
+                } else {
+                    currentGrade.textContent = '0%';
+                }
+                
+                // Calculate final grade (assuming 0 for incomplete components)
+                const finalGradeValue = (weightedScore / totalWeightValue * 100) || 0;
+                finalGradePercentage.textContent = `${finalGradeValue.toFixed(1)}%`;
+                finalGradeLetter.textContent = getLetterGrade(finalGradeValue);
+                
+                // Hide needed grade container when grades change
+                neededGradeContainer.classList.add('hidden');
+            }
+            
+            // Calculate needed grade to achieve target
+            function calculateNeededGrade() {
+                const components = document.querySelectorAll('.grade-component');
+                let totalWeightValue = 0;
+                let completedWeightValue = 0;
+                let weightedScore = 0;
+                
+                components.forEach(component => {
+                    const weight = parseFloat(component.querySelector('.component-weight').value) || 0;
+                    const score = component.querySelector('.component-score').value;
+                    
+                    totalWeightValue += weight;
+                    
+                    if (score !== '') {
+                        const scoreValue = parseFloat(score) || 0;
+                        completedWeightValue += weight;
+                        weightedScore += (scoreValue * weight / 100);
+                    }
+                });
+                
+                const remainingWeightValue = totalWeightValue - completedWeightValue;
+                const targetGradeValue = parseFloat(targetGradeInput.value) || 0;
+                
+                // Calculate needed grade
+                let neededGradeValue = 0;
+                if (remainingWeightValue > 0) {
+                    neededGradeValue = ((targetGradeValue * totalWeightValue / 100) - weightedScore) / remainingWeightValue * 100;
+                    neededGradeValue = Math.max(0, Math.min(100, neededGradeValue)); // Clamp between 0-100
+                }
+                
+                // Update UI
+                targetGradeDisplay.textContent = `${targetGradeValue}%`;
+                neededGrade.textContent = `${neededGradeValue.toFixed(1)}%`;
+                remainingWeightDisplay.textContent = `${remainingWeightValue.toFixed(1)}%`;
+                neededGradeContainer.classList.remove('hidden');
+                
+                // Add color coding based on feasibility
+                if (neededGradeValue > 100) {
+                    neededGrade.className = 'text-3xl font-bold text-red-600 mb-2';
+                    neededGrade.textContent = 'Not possible';
+                } else if (neededGradeValue > 90) {
+                    neededGrade.className = 'text-3xl font-bold text-orange-600 mb-2';
+                } else {
+                    neededGrade.className = 'text-3xl font-bold text-green-600 mb-2';
+                }
+            }
+            
+            // Get letter grade from percentage
+            function getLetterGrade(percentage) {
+                if (percentage >= 90) return 'A';
+                if (percentage >= 80) return 'B';
+                if (percentage >= 70) return 'C';
+                if (percentage >= 60) return 'D';
+                return 'F';
+            }
+            
+            // Initialize with two components
+            addComponent();
+            addComponent();
+        });
+    </script>
+</body>
+</html>

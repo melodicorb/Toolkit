@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - Ultimate Student Toolkit</title>
+    <meta name="description" content="Build consistent study habits with our interactive Habit Tracker. Set goals, track your progress, and visualize your success streaks.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Habit Tracker</h1>
+                    <p class="text-lg text-gray-600">Build consistent study habits and track your progress over time</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Habit Tracker is designed to help you build and maintain consistent study habits. Whether you're trying to establish a daily reading routine, regular exercise, or consistent study sessions, this tool will help you stay accountable and visualize your progress over time.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Click "Create New Habit" to define a new habit you want to track</li>
+                            <li>Give your habit a name, description, and set its frequency</li>
+                            <li>Choose a color to visually distinguish different habits</li>
+                            <li>Check in daily to mark your habits as complete</li>
+                            <li>View your progress on the monthly calendar</li>
+                            <li>Track your streaks and completion rates in the statistics section</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">How do streaks work?</h4>
+                                <p class="text-gray-600">A streak counts consecutive days where you've completed a habit. Missing a day will reset your current streak, but your longest streak will still be saved.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I track multiple habits at once?</h4>
+                                <p class="text-gray-600">Yes! You can create and track as many habits as you need. Each habit will be color-coded for easy identification.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">What happens if I miss a day?</h4>
+                                <p class="text-gray-600">Missing a day will affect your streak and completion rate, but you can always get back on track. The tool is designed to help you build consistency over time.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I edit or delete a habit?</h4>
+                                <p class="text-gray-600">Yes, you can edit habit details or remove habits that are no longer relevant to your goals.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Habit Tracker App -->
+                <div class="my-8">
+                    <!-- Habit Management -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Your Habits</h3>
+                            <button id="create-habit-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 text-white hover:from-green-600 hover:to-teal-700 transition duration-300 interactive-element">
+                                <i class="fas fa-plus mr-2"></i>Create New Habit
+                            </button>
+                        </div>
+                        
+                        <!-- Habit List -->
+                        <div id="habit-list" class="space-y-4">
+                            <div class="empty-state text-center py-8">
+                                <div class="text-4xl text-green-200 mb-2"><i class="fas fa-chart-line"></i></div>
+                                <p class="text-gray-500">No habits tracked yet</p>
+                                <p class="text-gray-500 text-sm">Click the Create New Habit button to get started</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Calendar View -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Monthly Progress</h3>
+                        <div id="calendar-view" class="mb-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <button id="prev-month" class="text-gray-600 hover:text-gray-800 transition duration-300">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h4 id="current-month" class="text-lg font-medium text-gray-700">January 2023</h4>
+                                <button id="next-month" class="text-gray-600 hover:text-gray-800 transition duration-300">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1 text-center">
+                                <div class="text-sm font-medium text-gray-500">Sun</div>
+                                <div class="text-sm font-medium text-gray-500">Mon</div>
+                                <div class="text-sm font-medium text-gray-500">Tue</div>
+                                <div class="text-sm font-medium text-gray-500">Wed</div>
+                                <div class="text-sm font-medium text-gray-500">Thu</div>
+                                <div class="text-sm font-medium text-gray-500">Fri</div>
+                                <div class="text-sm font-medium text-gray-500">Sat</div>
+                                <!-- Calendar days will be generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistics -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Your Statistics</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-gradient-to-br from-green-50 to-teal-50 p-4 rounded-lg">
+                                <h4 class="text-sm font-medium text-gray-500 mb-1">Current Streak</h4>
+                                <p id="current-streak" class="text-2xl font-bold text-green-600">0 days</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-green-50 to-teal-50 p-4 rounded-lg">
+                                <h4 class="text-sm font-medium text-gray-500 mb-1">Longest Streak</h4>
+                                <p id="longest-streak" class="text-2xl font-bold text-green-600">0 days</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-green-50 to-teal-50 p-4 rounded-lg">
+                                <h4 class="text-sm font-medium text-gray-500 mb-1">Completion Rate</h4>
+                                <p id="completion-rate" class="text-2xl font-bold text-green-600">0%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Create/Edit Habit Modal (Hidden by default) -->
+                <div id="habit-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 mx-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 id="habit-modal-title" class="text-xl font-semibold text-gray-800">Create New Habit</h3>
+                            <button id="close-habit-modal" class="text-gray-400 hover:text-gray-600 transition duration-300">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <form id="habit-form" class="space-y-4">
+                            <div>
+                                <label for="habit-name" class="block text-sm font-medium text-gray-700 mb-1">Habit Name</label>
+                                <input type="text" id="habit-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Enter habit name" required>
+                            </div>
+                            <div>
+                                <label for="habit-description" class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                                <textarea id="habit-description" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Enter habit description" rows="2"></textarea>
+                            </div>
+                            <div>
+                                <label for="habit-frequency" class="block text-sm font-medium text-gray-700 mb-1">Frequency</label>
+                                <select id="habit-frequency" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option value="daily">Daily</option>
+                                    <option value="weekdays">Weekdays</option>
+                                    <option value="weekends">Weekends</option>
+                                    <option value="weekly">Weekly</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="habit-color" class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                                <select id="habit-color" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="purple">Purple</option>
+                                    <option value="pink">Pink</option>
+                                    <option value="orange">Orange</option>
+                                    <option value="red">Red</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                                <button type="button" id="cancel-habit-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 text-white hover:from-green-600 hover:to-teal-700 transition duration-300">
+                                    <i class="fas fa-save mr-2"></i>Save Habit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Check-in Modal (Hidden by default) -->
+                <div id="checkin-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 mx-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 id="checkin-modal-title" class="text-xl font-semibold text-gray-800">Check-in</h3>
+                            <button id="close-checkin-modal" class="text-gray-400 hover:text-gray-600 transition duration-300">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <form id="checkin-form" class="space-y-4">
+                            <div>
+                                <label for="checkin-date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                <input type="date" id="checkin-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                            </div>
+                            <div>
+                                <label for="checkin-notes" class="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                                <textarea id="checkin-notes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Add notes about your progress" rows="2"></textarea>
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                                <button type="button" id="cancel-checkin-btn" class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 text-white hover:from-green-600 hover:to-teal-700 transition duration-300">
+                                    <i class="fas fa-check mr-2"></i>Complete
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white bg-opacity-80 shadow-lg mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2023</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-gray-800 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-gray-800 transition duration-300">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/habit-tracker.js"></script>
+</body>
+</html>

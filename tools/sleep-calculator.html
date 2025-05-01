@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Calculator - Ultimate Student Toolkit</title>
+    <meta name="description" content="Calculate optimal sleep times, track sleep quality, and get personalized bedtime recommendations to improve your academic performance.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Sleep Calculator</h1>
+                    <p class="text-lg text-gray-600">Calculate optimal sleep times and improve your sleep quality</p>
+                </div>
+                
+                <!-- Sleep Calculator Main Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                    <!-- Left Column: Sleep Time Calculator -->
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Sleep Cycle Calculator</h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-center justify-center space-x-4 mb-4">
+                                <button id="wake-up-tab" class="px-4 py-2 rounded-lg bg-purple-600 text-white font-medium hover:bg-purple-700 transition duration-300 interactive-element active-tab">I want to wake up at...</button>
+                                <button id="fall-asleep-tab" class="px-4 py-2 rounded-lg bg-white text-gray-700 font-medium hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">I want to fall asleep at...</button>
+                            </div>
+                            
+                            <!-- Wake Up Time Selector -->
+                            <div id="wake-up-section" class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Wake up time:</label>
+                                <div class="flex items-center">
+                                    <select id="wake-hour" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 mr-2">
+                                        <!-- Hours will be populated by JS -->
+                                    </select>
+                                    <span class="mx-1">:</span>
+                                    <select id="wake-minute" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 mr-2">
+                                        <!-- Minutes will be populated by JS -->
+                                    </select>
+                                    <select id="wake-ampm" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Fall Asleep Time Selector (initially hidden) -->
+                            <div id="fall-asleep-section" class="mb-4 hidden">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Fall asleep time:</label>
+                                <div class="flex items-center">
+                                    <select id="sleep-hour" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 mr-2">
+                                        <!-- Hours will be populated by JS -->
+                                    </select>
+                                    <span class="mx-1">:</span>
+                                    <select id="sleep-minute" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 mr-2">
+                                        <!-- Minutes will be populated by JS -->
+                                    </select>
+                                    <select id="sleep-ampm" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Time to fall asleep (minutes):</label>
+                                <input type="number" id="fall-asleep-time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" value="14" min="0" max="60">
+                            </div>
+                            
+                            <button id="calculate-btn" class="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                <i class="fas fa-calculator mr-2"></i>Calculate
+                            </button>
+                        </div>
+                        
+                        <!-- Results Section -->
+                        <div id="results-section" class="hidden">
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">Recommended Bedtimes</h3>
+                            <p class="text-sm text-gray-600 mb-3">For optimal rest, try to fall asleep at one of these times:</p>
+                            
+                            <div class="grid grid-cols-2 gap-3 mb-4">
+                                <div id="result-1" class="p-3 bg-purple-50 rounded-lg border border-purple-200 text-center">
+                                    <span class="text-lg font-bold text-purple-700">--:-- PM</span>
+                                    <span class="block text-xs text-gray-500">6 cycles (9h)</span>
+                                </div>
+                                <div id="result-2" class="p-3 bg-purple-50 rounded-lg border border-purple-200 text-center">
+                                    <span class="text-lg font-bold text-purple-700">--:-- PM</span>
+                                    <span class="block text-xs text-gray-500">5 cycles (7.5h)</span>
+                                </div>
+                                <div id="result-3" class="p-3 bg-purple-50 rounded-lg border border-purple-200 text-center">
+                                    <span class="text-lg font-bold text-purple-700">--:-- PM</span>
+                                    <span class="block text-xs text-gray-500">4 cycles (6h)</span>
+                                </div>
+                                <div id="result-4" class="p-3 bg-purple-50 rounded-lg border border-purple-200 text-center">
+                                    <span class="text-lg font-bold text-purple-700">--:-- PM</span>
+                                    <span class="block text-xs text-gray-500">3 cycles (4.5h)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="text-sm text-gray-600">
+                                <p><i class="fas fa-info-circle text-blue-500 mr-1"></i> Sleep cycles typically last 90 minutes. Waking up at the end of a cycle helps you feel more refreshed.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Sleep Tracker & Tips -->
+                    <div>
+                        <!-- Sleep Tracker -->
+                        <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                            <h2 class="text-xl font-semibold mb-4 text-gray-800">Sleep Tracker</h2>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Date:</label>
+                                <input type="date" id="sleep-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Bedtime:</label>
+                                    <input type="time" id="bedtime" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Wake time:</label>
+                                    <input type="time" id="waketime" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sleep quality:</label>
+                                <div class="flex items-center">
+                                    <div id="sleep-quality" class="flex space-x-1">
+                                        <i class="far fa-star text-xl text-gray-300 cursor-pointer hover:text-yellow-400 transition duration-150"></i>
+                                        <i class="far fa-star text-xl text-gray-300 cursor-pointer hover:text-yellow-400 transition duration-150"></i>
+                                        <i class="far fa-star text-xl text-gray-300 cursor-pointer hover:text-yellow-400 transition duration-150"></i>
+                                        <i class="far fa-star text-xl text-gray-300 cursor-pointer hover:text-yellow-400 transition duration-150"></i>
+                                        <i class="far fa-star text-xl text-gray-300 cursor-pointer hover:text-yellow-400 transition duration-150"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Notes:</label>
+                                <textarea id="sleep-notes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" rows="2" placeholder="How did you feel when you woke up?"></textarea>
+                            </div>
+                            
+                            <button id="save-sleep-btn" class="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 text-white font-semibold hover:from-green-600 hover:to-teal-700 transition duration-300 interactive-element">
+                                <i class="fas fa-save mr-2"></i>Save Entry
+                            </button>
+                        </div>
+                        
+                        <!-- Sleep Tips -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h2 class="text-xl font-semibold mb-4 text-gray-800">Sleep Tips for Students</h2>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-moon text-indigo-600"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-medium text-gray-800">Consistent Schedule</h3>
+                                        <p class="text-sm text-gray-600">Go to bed and wake up at the same time every day, even on weekends.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-laptop-code text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-medium text-gray-800">Screen Time</h3>
+                                        <p class="text-sm text-gray-600">Avoid screens at least 1 hour before bedtime to reduce blue light exposure.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-coffee text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-medium text-gray-800">Limit Caffeine</h3>
+                                        <p class="text-sm text-gray-600">Avoid caffeine after 2 PM as it can interfere with your sleep quality.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-book text-pink-600"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-medium text-gray-800">Study Schedule</h3>
+                                        <p class="text-sm text-gray-600">Plan intense study sessions earlier in the day when your mind is fresh.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sleep History (Initially Hidden) -->
+                <div id="sleep-history" class="mt-8 bg-white p-6 rounded-xl shadow-md hidden">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Your Sleep History</h2>
+                    <div id="sleep-history-chart" class="h-64 mb-4">
+                        <!-- Chart will be rendered here -->
+                    </div>
+                    <div id="sleep-history-entries" class="space-y-3">
+                        <!-- Sleep history entries will be displayed here -->
+                        <p class="text-gray-500 text-center">No sleep data recorded yet. Start tracking your sleep above!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-indigo-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-indigo-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-indigo-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/sleep-calculator.js"></script>
+</body>
+</html>

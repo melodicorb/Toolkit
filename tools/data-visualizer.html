@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualizer - Ultimate Student Toolkit</title>
+    <meta name="description" content="Create beautiful charts and graphs from your data with our Data Visualizer tool. Perfect for research projects, presentations, and data analysis.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Data Visualizer</h1>
+                    <p class="text-lg text-gray-600">Create beautiful charts and graphs from your data</p>
+                </div>
+                
+                <!-- Data Visualizer App -->
+                <div class="my-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Input Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Input Data</h3>
+                            <div class="mb-4">
+                                <label for="chart-title" class="block text-sm font-medium text-gray-700 mb-1">Chart Title</label>
+                                <input type="text" id="chart-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter chart title...">
+                            </div>
+                            <div class="mb-4">
+                                <label for="chart-type" class="block text-sm font-medium text-gray-700 mb-1">Chart Type</label>
+                                <select id="chart-type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="bar">Bar Chart</option>
+                                    <option value="line">Line Chart</option>
+                                    <option value="pie">Pie Chart</option>
+                                    <option value="doughnut">Doughnut Chart</option>
+                                    <option value="radar">Radar Chart</option>
+                                    <option value="polarArea">Polar Area Chart</option>
+                                    <option value="scatter">Scatter Plot</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Data Input Method</label>
+                                <div class="flex space-x-4">
+                                    <button id="manual-input-btn" class="px-3 py-2 rounded-lg bg-blue-100 text-blue-800 border border-blue-300 hover:bg-blue-200 transition duration-300 text-sm active">
+                                        <i class="fas fa-keyboard mr-1"></i>Manual Input
+                                    </button>
+                                    <button id="csv-upload-btn" class="px-3 py-2 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 transition duration-300 text-sm">
+                                        <i class="fas fa-file-csv mr-1"></i>CSV Upload
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Manual Data Input -->
+                            <div id="manual-input-container" class="mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="block text-sm font-medium text-gray-700">Enter your data</label>
+                                    <button id="add-data-row" class="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
+                                        <i class="fas fa-plus mr-1"></i>Add Row
+                                    </button>
+                                </div>
+                                <div id="data-rows" class="space-y-2">
+                                    <div class="data-row flex space-x-2">
+                                        <input type="text" class="label-input w-1/3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Label">
+                                        <input type="number" class="value-input w-2/3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Value">
+                                    </div>
+                                    <div class="data-row flex space-x-2">
+                                        <input type="text" class="label-input w-1/3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Label">
+                                        <input type="number" class="value-input w-2/3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Value">
+                                    </div>
+                                    <div class="data-row flex space-x-2">
+                                        <input type="text" class="label-input w-1/3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Label">
+                                        <input type="number" class="value-input w-2/3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Value">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- CSV Upload -->
+                            <div id="csv-upload-container" class="mb-4 hidden">
+                                <label for="csv-file" class="block text-sm font-medium text-gray-700 mb-2">Upload CSV File</label>
+                                <div class="flex items-center justify-center w-full">
+                                    <label for="csv-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <i class="fas fa-file-upload text-gray-400 text-2xl mb-2"></i>
+                                            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                            <p class="text-xs text-gray-500">CSV files only</p>
+                                        </div>
+                                        <input id="csv-file" type="file" accept=".csv" class="hidden" />
+                                    </label>
+                                </div>
+                                <div id="csv-preview" class="mt-3 text-sm text-gray-500 hidden">
+                                    <p>File: <span id="csv-filename"></span></p>
+                                    <p>Rows: <span id="csv-rows"></span></p>
+                                </div>
+                            </div>
+                            
+                            <button id="generate-chart-btn" class="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-md hover:from-blue-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                                <i class="fas fa-chart-bar mr-2"></i>Generate Chart
+                            </button>
+                        </div>
+                        
+                        <!-- Chart Display Section -->
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800">Chart Preview</h3>
+                                <div class="flex space-x-2">
+                                    <button id="download-chart" class="px-3 py-1 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300 text-sm" disabled>
+                                        <i class="fas fa-download mr-1"></i>Export
+                                    </button>
+                                    <button id="save-chart" class="px-3 py-1 rounded-lg bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 transition duration-300 text-sm" disabled>
+                                        <i class="fas fa-save mr-1"></i>Save
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="chart-container" class="p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-[300px] flex items-center justify-center">
+                                <div class="text-center text-gray-500">
+                                    <div class="text-4xl text-blue-200 mb-2"><i class="fas fa-chart-line"></i></div>
+                                    <p>Your chart will appear here</p>
+                                    <p class="text-sm">Enter your data and click Generate Chart</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Customization -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Chart Customization</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Appearance Options -->
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-3">Appearance</h4>
+                                <div class="mb-4">
+                                    <label for="color-scheme" class="block text-sm font-medium text-gray-700 mb-1">Color Scheme</label>
+                                    <select id="color-scheme" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="default">Default</option>
+                                        <option value="pastel">Pastel</option>
+                                        <option value="vibrant">Vibrant</option>
+                                        <option value="monochrome">Monochrome</option>
+                                        <option value="gradient">Gradient</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="background-color" class="block text-sm font-medium text-gray-700 mb-1">Background Color</label>
+                                    <input type="color" id="background-color" value="#ffffff" class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="font-size" class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                                    <input type="range" id="font-size" min="8" max="24" value="12" class="w-full h-2 bg-blue-100 rounded-lg appearance-none cursor-pointer">
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>Small</span>
+                                        <span>Medium</span>
+                                        <span>Large</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chart Options -->
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-3">Chart Options</h4>
+                                <div class="mb-4">
+                                    <label for="show-legend" class="flex items-center">
+                                        <input type="checkbox" id="show-legend" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                        <span class="ml-2 text-sm text-gray-700">Show Legend</span>
+                                    </label>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="show-grid" class="flex items-center">
+                                        <input type="checkbox" id="show-grid" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                        <span class="ml-2 text-sm text-gray-700">Show Grid Lines</span>
+                                    </label>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="enable-animation" class="flex items-center">
+                                        <input type="checkbox" id="enable-animation" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                        <span class="ml-2 text-sm text-gray-700">Enable Animations</span>
+                                    </label>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="enable-tooltips" class="flex items-center">
+                                        <input type="checkbox" id="enable-tooltips" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                                        <span class="ml-2 text-sm text-gray-700">Enable Tooltips</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips Section -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Data Visualization Tips</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 bg-blue-50 rounded-lg">
+                                <div class="text-blue-600 text-xl mb-2"><i class="fas fa-lightbulb"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Choose the Right Chart</h4>
+                                <p class="text-sm text-gray-600">Select a chart type that best represents your data. Bar charts for comparisons, line charts for trends, pie charts for proportions.</p>
+                            </div>
+                            <div class="p-4 bg-blue-50 rounded-lg">
+                                <div class="text-blue-600 text-xl mb-2"><i class="fas fa-palette"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Use Color Effectively</h4>
+                                <p class="text-sm text-gray-600">Colors should enhance understanding, not distract. Use contrasting colors for different categories.</p>
+                            </div>
+                            <div class="p-4 bg-blue-50 rounded-lg">
+                                <div class="text-blue-600 text-xl mb-2"><i class="fas fa-tag"></i></div>
+                                <h4 class="font-medium text-gray-800 mb-1">Label Clearly</h4>
+                                <p class="text-sm text-gray-600">Always include clear titles, axis labels, and legends to make your charts easy to understand.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Saved Charts -->
+                    <div class="mt-6 bg-white p-6 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Saved Charts</h3>
+                            <button id="clear-saved-charts" class="text-sm text-blue-600 hover:text-blue-800 transition duration-300">Clear All</button>
+                        </div>
+                        <div id="saved-charts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="text-center text-gray-500 py-4 col-span-full">
+                                <p>No charts saved yet</p>
+                                <p class="text-sm">Your saved charts will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script src="../js/data-visualizer.js"></script>
+</body>
+</html>

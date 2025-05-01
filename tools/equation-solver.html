@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equation Solver - Ultimate Student Toolkit</title>
+    <meta name="description" content="Solve mathematical equations with step-by-step solutions. Handles linear, quadratic, and systems of equations with detailed explanations.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Math.js for advanced calculations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <!-- MathJax for displaying mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-gradient-to-r from-purple-100 via-fuchsia-100 to-indigo-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy Policy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Equation Solver</h1>
+                    <p class="text-lg text-gray-600">Solve mathematical equations with step-by-step solutions</p>
+                </div>
+                
+                <!-- Equation Solver App -->
+                <div class="my-8 flex justify-center">
+                    <div class="bg-white p-6 rounded-xl shadow-lg max-w-4xl w-full">
+                        <!-- Equation Type Selection -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">Equation Type</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <button id="linear-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 transition duration-300">Linear Equation</button>
+                                <button id="quadratic-btn" class="px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 transition duration-300">Quadratic Equation</button>
+                                <button id="system-btn" class="px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 transition duration-300">System of Equations</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Input Section -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">Enter Equation</h3>
+                            
+                            <!-- Linear Equation Input -->
+                            <div id="linear-input" class="equation-input">
+                                <div class="flex flex-col md:flex-row md:items-center gap-2 mb-3">
+                                    <input type="text" id="linear-equation" class="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Example: 2x + 3 = 7">
+                                    <button id="solve-linear" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 transition duration-300">Solve</button>
+                                </div>
+                                <p class="text-sm text-gray-500">Format: ax + b = c (where a, b, c are numbers)</p>
+                            </div>
+                            
+                            <!-- Quadratic Equation Input -->
+                            <div id="quadratic-input" class="equation-input hidden">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                    <div class="flex items-center">
+                                        <input type="number" id="quad-a" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="a">
+                                        <span class="ml-2">x²</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="mr-2">+</span>
+                                        <input type="number" id="quad-b" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="b">
+                                        <span class="ml-2">x</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="mr-2">+</span>
+                                        <input type="number" id="quad-c" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="c">
+                                        <span class="ml-2">= 0</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button id="solve-quadratic" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 transition duration-300">Solve</button>
+                                </div>
+                                <p class="text-sm text-gray-500">Format: ax² + bx + c = 0 (where a, b, c are numbers)</p>
+                            </div>
+                            
+                            <!-- System of Equations Input -->
+                            <div id="system-input" class="equation-input hidden">
+                                <div class="flex flex-col gap-3 mb-3">
+                                    <input type="text" id="system-eq1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Equation 1: Example: 2x + 3y = 7">
+                                    <input type="text" id="system-eq2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Equation 2: Example: 4x - 2y = 10">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button id="solve-system" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 transition duration-300">Solve</button>
+                                </div>
+                                <p class="text-sm text-gray-500">Format: ax + by = c (where a, b, c are numbers)</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Solution Section -->
+                        <div id="solution-section" class="hidden">
+                            <div class="border-t border-gray-200 pt-4">
+                                <h3 class="text-lg font-semibold mb-3 text-gray-800">Solution</h3>
+                                <div id="solution-result" class="bg-gray-50 p-4 rounded-lg">
+                                    <!-- Solution will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Steps Section -->
+                        <div id="steps-section" class="hidden mt-6">
+                            <div class="border-t border-gray-200 pt-4">
+                                <h3 class="text-lg font-semibold mb-3 text-gray-800">Step-by-Step Solution</h3>
+                                <div id="solution-steps" class="bg-gray-50 p-4 rounded-lg">
+                                    <!-- Steps will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Features Section -->
+                <div class="mt-8 max-w-4xl mx-auto">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Equation Solver Features</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="text-lg font-semibold mb-2 text-gray-800">Supported Equation Types</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Linear equations (ax + b = c)</li>
+                                <li>Quadratic equations (ax² + bx + c = 0)</li>
+                                <li>Systems of linear equations (2 variables)</li>
+                                <li>Step-by-step solutions with explanations</li>
+                                <li>Real and complex number solutions</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Select the type of equation you want to solve</li>
+                                <li>Enter the equation in the specified format</li>
+                                <li>Click the "Solve" button to get the solution</li>
+                                <li>View the step-by-step solution process</li>
+                                <li>Try different equations to practice</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; <span id="current-year">2025</span> Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // DOM Elements
+            const linearBtn = document.getElementById('linear-btn');
+            const quadraticBtn = document.getElementById('quadratic-btn');
+            const systemBtn = document.getElementById('system-btn');
+            
+            const linearInput = document.getElementById('linear-input');
+            const quadraticInput = document.getElementById('quadratic-input');
+            const systemInput = document.getElementById('system-input');
+            
+            const solveLinearBtn = document.getElementById('solve-linear');
+            const solveQuadraticBtn = document.getElementById('solve-quadratic');
+            const solveSystemBtn = document.getElementById('solve-system');
+            
+            const solutionSection = document.getElementById('solution-section');
+            const stepsSection = document.getElementById('steps-section');
+            const solutionResult = document.getElementById('solution-result');
+            const solutionSteps = document.getElementById('solution-steps');
+            
+            // Switch between equation types
+            linearBtn.addEventListener('click', () => {
+                setActiveButton(linearBtn);
+                showInputSection(linearInput);
+                hideSolutionSections();
+            });
+            
+            quadraticBtn.addEventListener('click', () => {
+                setActiveButton(quadraticBtn);
+                showInputSection(quadraticInput);
+                hideSolutionSections();
+            });
+            
+            systemBtn.addEventListener('click', () => {
+                setActiveButton(systemBtn);
+                showInputSection(systemInput);
+                hideSolutionSections();
+            });
+            
+            // Solve buttons
+            solveLinearBtn.addEventListener('click', solveLinearEquation);
+            solveQuadraticBtn.addEventListener('click', solveQuadraticEquation);
+            solveSystemBtn.addEventListener('click', solveSystemOfEquations);
+            
+            // Helper functions
+            function setActiveButton(activeBtn) {
+                [linearBtn, quadraticBtn, systemBtn].forEach(btn => {
+                    if (btn === activeBtn) {
+                        btn.classList.remove('bg-white', 'border', 'border-gray-300', 'text-gray-700');
+                        btn.classList.add('bg-gradient-to-r', 'from-purple-500', 'to-indigo-600', 'text-white');
+                    } else {
+                        btn.classList.remove('bg-gradient-to-r', 'from-purple-500', 'to-indigo-600', 'text-white');
+                        btn.classList.add('bg-white', 'border', 'border-gray-300', 'text-gray-700');
+                    }
+                });
+            }
+            
+            function showInputSection(section) {
+                [linearInput, quadraticInput, systemInput].forEach(input => {
+                    if (input === section) {
+                        input.classList.remove('hidden');
+                    } else {
+                        input.classList.add('hidden');
+                    }
+                });
+            }
+            
+            function hideSolutionSections() {
+                solutionSection.classList.add('hidden');
+                stepsSection.classList.add('hidden');
+            }
+            
+            function showSolutionSections() {
+                solutionSection.classList.remove('hidden');
+                stepsSection.classList.remove('hidden');
+            }
+            
+            // Linear equation solver
+            function solveLinearEquation() {
+                const equation = document.getElementById('linear-equation').value.trim();
+                if (!equation) {
+                    showError('Please enter a linear equation');
+                    return;
+                }
+                
+                try {
+                    // Parse the equation
+                    const parts = equation.split('=');
+                    if (parts.length !== 2) {
+                        throw new Error('Invalid equation format. Use the format ax + b = c');
+                    }
+                    
+                    const leftSide = parts[0].trim();
+                    const rightSide = parts[1].trim();
+                    
+                    // Move all terms to the left side
+                    const expr = math.parse(`(${leftSide}) - (${rightSide})`);
+                    const simplified = math.simplify(expr);
+                    
+                    // Convert to the form ax + b = 0
+                    const node = simplified;
+                    let a = 0; // coefficient of x
+                    let b = 0; // constant term
+                    
+                    // Use math.js to properly extract coefficients
+                    try {
+                        // Try to get coefficients using math.js polynomial features
+                        const polynomial = math.polynomial(node);
+                        if (polynomial.coefficients.length > 0) {
+                            b = polynomial.coefficients[0] || 0;
+                        }
+                        if (polynomial.coefficients.length > 1) {
+                            a = polynomial.coefficients[1] || 0;
+                        }
+                    } catch (e) {
+                        // Fallback to manual parsing if math.js polynomial fails
+                        const simplifiedStr = simplified.toString();
+                        
+                        // Extract coefficient of x using improved regex
+                        const xTermMatch = simplifiedStr.match(/([+-]?\s*\d*\.?\d*)\s*x(?![a-zA-Z0-9]|\^)/g);
+                        if (xTermMatch) {
+                            xTermMatch.forEach(term => {
+                                const coeff = term.replace('x', '').trim();
+                                if (coeff === '') a += 1;
+                                else if (coeff === '-') a += -1;
+                                else if (coeff === '+') a += 1;
+                                else a += parseFloat(coeff);
+                            });
+                        }
+                        
+                        // Extract constant term using improved regex
+                        // First remove all x terms, then match remaining numbers
+                        let tempStr = simplifiedStr;
+                        tempStr = tempStr.replace(/([+-]?\s*\d*\.?\d*)\s*x(?![a-zA-Z0-9]|\^)/g, '');
+                        const constTerms = tempStr.match(/([+-]?\s*\d+\.?\d*)/g);
+                        if (constTerms) {
+                            constTerms.forEach(term => {
+                                if (term.trim() !== '') {
+                                    b += parseFloat(term);
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Check if it's a higher degree equation
+                    const simplifiedStr = simplified.toString();
+                    if (simplifiedStr.includes('x^2') || simplifiedStr.includes('x*x')) {
+                        throw new Error('This is not a linear equation. Use the quadratic solver for higher degree equations.');
+                    }
+                    
+                    if (a === 0) {
+                        if (b === 0) {
+                            // 0 = 0, infinite solutions
+                            displaySolution('Infinite solutions. Any value of x is a solution.');
+                            displaySteps([
+                                `Starting with the equation: ${equation}`,
+                                `Moving all terms to the left side: ${simplified.toString()} = 0`,
+                                `Simplifying: 0 = 0`,
+                                `Since 0 = 0 is always true, this equation has infinite solutions.`
+                            ]);
+                        } else {
+                            // No solution (contradiction like 5 = 0)
+                            displaySolution('No solution. This equation is a contradiction.');
+                            displaySteps([
+                                `Starting with the equation: ${equation}`,
+                                `Moving all terms to the left side: ${simplified.toString()} = 0`,
+                                `Simplifying: ${b} = 0`,
+                                `Since ${b} ≠ 0, this equation has no solutions.`
+                            ]);
+                        }
+                    } else {
+                        // Normal case: ax + b = 0 => x = -b/a
+                        const solution = -b / a;
+                        const roundedSolution = Math.abs(solution) < 1e-10 ? 0 : solution;
+                        displaySolution(`x = ${roundedSolution}`);
+                        displaySteps([
+                            `Starting with the equation: ${equation}`,
+                            `Moving all terms to the left side: ${simplified.toString()} = 0`,
+                            `Extracting coefficients: ${a}x + ${b} = 0`,
+                            `Subtracting ${b} from both sides: ${a}x = ${-b}`,
+                            `Dividing both sides by ${a}: x = ${roundedSolution}`
+                        ]);
+                    }
+                    
+                    showSolutionSections();
+                } catch (error) {
+                    showError(error.message);
+                }
+            }
+            
+            // Quadratic equation solver
+            function solveQuadraticEquation() {
+                const a = parseFloat(document.getElementById('quad-a').value);
+                const b = parseFloat(document.getElementById('quad-b').value);
+                const c = parseFloat(document.getElementById('quad-c').value);
+                
+                if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                    showError('Please enter valid coefficients');
+                    return;
+                }
+                
+                if (a === 0) {
+                    showError('The coefficient of x² must not be zero. Use the linear equation solver instead.');
+                    return;
+                }
+                
+                try {
+                    // Calculate discriminant
+                    const discriminant = b * b - 4 * a * c;
+                    const steps = [
+                        `Starting with the quadratic equation: ${a}x² + ${b}x + ${c} = 0`,
+                        `Using the quadratic formula: x = (-b ± √(b² - 4ac)) / 2a`,
+                        `Substituting values: x = (-${b} ± √(${b}² - 4 × ${a} × ${c})) / (2 × ${a})`,
+                        `Calculating the discriminant: b² - 4ac = ${b}² - 4 × ${a} × ${c} = ${discriminant}`
+                    ];
+                    
+                    let solution;
+                    
+                    if (discriminant > 0) {
+                        // Two real solutions
+                        const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                        const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                        solution = `x₁ = ${x1}, x₂ = ${x2}`;
+                        
+                        steps.push(
+                            `Since the discriminant is positive, there are two real solutions:`,
+                            `x₁ = (-${b} + √${discriminant}) / ${2 * a} = ${x1}`,
+                            `x₂ = (-${b} - √${discriminant}) / ${2 * a} = ${x2}`
+                        );
+                    } else if (discriminant === 0) {
+                        // One real solution (double root)
+                        const x = -b / (2 * a);
+                        solution = `x = ${x} (double root)`;
+                        
+                        steps.push(
+                            `Since the discriminant is zero, there is one real solution (double root):`,
+                            `x = -${b} / ${2 * a} = ${x}`
+                        );
+                    } else {
+                        // Complex solutions
+                        const realPart = -b / (2 * a);
+                        const imagPart = Math.sqrt(-discriminant) / (2 * a);
+                        solution = `x₁ = ${realPart} + ${imagPart}i, x₂ = ${realPart} - ${imagPart}i`;
+                        
+                        steps.push(
+                            `Since the discriminant is negative, there are two complex solutions:`,
+                            `x₁ = ${realPart} + ${imagPart}i`,
+                            `x₂ = ${realPart} - ${imagPart}i`
+                        );
+                    }
+                    
+                    displaySolution(solution);
+                    displaySteps(steps);
+                    showSolutionSections();
+                } catch (error) {
+                    showError(error.message);
+                }
+            }
+            
+            // System of equations solver
+            function solveSystemOfEquations() {
+                const eq1 = document.getElementById('system-eq1').value.trim();
+                const eq2 = document.getElementById('system-eq2').value.trim();
+                
+                if (!eq1 || !eq2) {
+                    showError('Please enter both equations');
+                    return;
+                }
+                
+                try {
+                    // Parse equations to extract coefficients
+                    const coeffs1 = parseSystemEquation(eq1);
+                    const coeffs2 = parseSystemEquation(eq2);
+                    
+                    const a1 = coeffs1.a;
+                    const b1 = coeffs1.b;
+                    const c1 = coeffs1.c;
+                    
+                    const a2 = coeffs2.a;
+                    const b2 = coeffs2.b;
+                    const c2 = coeffs2.c;
+                    
+                    // Calculate determinant
+                    const det = a1 * b2 - a2 * b1;
+                    
+                    const steps = [
+                        `Starting with the system of equations:`,
+                        `Equation 1: ${a1}x + ${b1}y = ${c1}`,
+                        `Equation 2: ${a2}x + ${b2}y = ${c2}`,
+                        `Using Cramer's rule to solve the system.`,
+                        `Calculating the determinant: det = ${a1} × ${b2} - ${a2} × ${b1} = ${det}`
+                    ];
+                    
+                    let solution;
+                    
+                    if (det === 0) {
+                        // Check if the system has no solution or infinite solutions
+                        const det1 = c1 * b2 - c2 * b1;
+                        const det2 = a1 * c2 - a2 * c1;
+                        
+                        if (det1 === 0 && det2 === 0) {
+                            // Infinite solutions
+                            solution = 'Infinite solutions. The equations represent the same line.';
+                            steps.push(
+                                `Since the determinant is zero and the equations are consistent,`,
+                                `the system has infinite solutions. The equations represent the same line.`
+                            );
+                        } else {
+                            // No solution
+                            solution = 'No solution. The equations represent parallel lines.';
+                            steps.push(
+                                `Since the determinant is zero and the equations are inconsistent,`,
+                                `the system has no solution. The equations represent parallel lines.`
+                            );
+                        }
+                    } else {
+                        // Unique solution
+                        const x = (c1 * b2 - c2 * b1) / det;
+                        const y = (a1 * c2 - a2 * c1) / det;
+                        solution = `x = ${x}, y = ${y}`;
+                        
+                        steps.push(
+                            `Calculating x: x = (${c1} × ${b2} - ${c2} × ${b1}) / ${det} = ${x}`,
+                            `Calculating y: y = (${a1} × ${c2} - ${a2} × ${c1}) / ${det} = ${y}`,
+                            `The solution to the system is: x = ${x}, y = ${y}`
+                        );
+                    }
+                    
+                    displaySolution(solution);
+                    displaySteps(steps);
+                    showSolutionSections();
+                } catch (error) {
+                    showError(error.message);
+                }
+            }
+            
+            // Helper function to parse system equation
+            function parseSystemEquation(equation) {
+                // Remove spaces and split by '='
+                const parts = equation.split('=');
+                if (parts.length !== 2) {
+                    throw new Error('Invalid equation format. Use the format ax + by = c');
+                }
+                
+                const leftSide = parts[0].trim();
+                const rightSide = parts[1].trim();
+                
+                // Move all terms to the left side
+                const expr = `(${leftSide}) - (${rightSide})`;
+                
+                // Extract coefficients using regex
+                let a = 0, b = 0, c = 0;
+                
+                // Look for x terms
+                const xMatch = expr.match(/([+-]?\s*\d*\.?\d*)\s*x(?![a-zA-Z])/g);
+                if (xMatch) {
+                    xMatch.forEach(term => {
+                        const coeff = term.replace('x', '').trim();
+                        a += coeff === '' ? 1 : coeff === '-' ? -1 : parseFloat(coeff);
+                    });
+                }
+                
+                // Look for y terms
+                const yMatch = expr.match(/([+-]?\s*\d*\.?\d*)\s*y(?![a-zA-Z])/g);
+                if (yMatch) {
+                    yMatch.forEach(term => {
+                        const coeff = term.replace('y', '').trim();
+                        b += coeff === '' ? 1 : coeff === '-' ? -1 : parseFloat(coeff);
+                    });
+                }
+                
+                // Look for constant terms
+                const constMatch = expr.match(/([+-]?\s*\d+\.?\d*)(?![a-zA-Z])/g);
+                if (constMatch) {
+                    constMatch.forEach(term => {
+                        if (term.trim() !== '') {
+                            c -= parseFloat(term);
+                        }
+                    });
+                }
+                
+                return { a, b, c };
+            }
+            
+            // Display functions
+            function displaySolution(solution) {
+                solutionResult.innerHTML = `<p class="text-xl font-semibold text-center text-purple-800">${solution}</p>`;
+            }
+            
+            function displaySteps(steps) {
+                solutionSteps.innerHTML = '';
+                const stepsList = document.createElement('ol');
+                stepsList.className = 'list-decimal list-inside space-y-2';
+                
+                steps.forEach(step => {
+                    const stepItem = document.createElement('li');
+                    stepItem.className = 'text-gray-700';
+                    stepItem.textContent = step;
+                    stepsList.appendChild(stepItem);
+                });
+                
+                solutionSteps.appendChild(stepsList);
+            }
+            
+            function showError(message) {
+                solutionResult.innerHTML = `<p class="text-red-600 text-center">${message}</p>`;
+                solutionSteps.innerHTML = '';
+                showSolutionSections();
+                stepsSection.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>    

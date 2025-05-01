@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer - Ultimate Student Toolkit</title>
+    <meta name="description" content="Stay focused with our Pomodoro Timer. Set work and break intervals to boost your productivity and study efficiency.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 min-h-screen">
+    <!-- 3D Animation Container -->
+    <div id="animation-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 bg-white bg-opacity-80 shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div id="logo-container" class="w-16 h-16 mr-3 relative animate-float"></div>
+                    <a href="../index.html" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600">Ultimate Student Toolkit</a>
+                </div>
+                <nav class="flex space-x-1 md:space-x-4">
+                    <a href="../index.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Home</a>
+                    <a href="../about.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">About</a>
+                    <a href="../contact.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="px-3 py-2 text-sm md:text-base rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition duration-300">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Content -->
+    <section class="relative z-10 py-12">
+        <div class="container mx-auto px-4">
+            <div class="tool-container animate-fade-in">
+                <div class="tool-header text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Pomodoro Timer</h1>
+                    <p class="text-lg text-gray-600">Stay focused with timed work sessions and breaks</p>
+                </div>
+                
+                <!-- Tool Description -->
+                <div class="bg-white p-6 rounded-xl shadow-md mb-6">
+                    <h2 class="text-xl font-semibold mb-3 text-gray-800">About This Tool</h2>
+                    <p class="text-gray-600 mb-4">The Pomodoro Technique is a time management method that uses a timer to break work into intervals, traditionally 25 minutes in length, separated by short breaks. This technique helps improve focus and productivity by creating a sense of urgency and providing regular mental refreshment.</p>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">How to Use</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Set your desired work time, break time, and long break time</li>
+                            <li>Click the Start button to begin your work session</li>
+                            <li>Focus on your task until the timer ends</li>
+                            <li>Take a short break when prompted</li>
+                            <li>After completing a set number of work sessions, enjoy a longer break</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium text-gray-800">What is the Pomodoro Technique?</h4>
+                                <p class="text-gray-600">The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. It uses a timer to break work into intervals, traditionally 25 minutes in length, separated by short breaks.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Why should I use the Pomodoro Technique?</h4>
+                                <p class="text-gray-600">This technique helps combat procrastination, improves focus and concentration, reduces mental fatigue, and increases accountability and motivation.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Can I customize the timer intervals?</h4>
+                                <p class="text-gray-600">Yes! You can adjust the work time, break time, and long break time to suit your personal preferences and workflow.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Does the timer save my progress?</h4>
+                                <p class="text-gray-600">The timer tracks your completed sessions in the Session History section, but this data is not permanently saved between browser sessions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timer Display -->
+                <div class="flex flex-col items-center justify-center my-8">
+                    <div class="w-64 h-64 rounded-full bg-white shadow-lg flex items-center justify-center mb-6 animate-pulse">
+                        <div class="text-center">
+                            <div id="timer" class="text-6xl font-bold text-gray-800 mb-2">25:00</div>
+                            <div id="timer-label" class="text-lg text-purple-600 font-medium">Work Time</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timer Controls -->
+                    <div class="flex space-x-4 mb-8">
+                        <button id="start-btn" class="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold hover:from-purple-600 hover:to-indigo-700 transition duration-300 interactive-element">
+                            <i class="fas fa-play mr-2"></i>Start
+                        </button>
+                        <button id="pause-btn" class="px-6 py-3 rounded-lg bg-white text-gray-700 font-semibold hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300" disabled>
+                            <i class="fas fa-pause mr-2"></i>Pause
+                        </button>
+                        <button id="reset-btn" class="px-6 py-3 rounded-lg bg-white text-gray-700 font-semibold hover:bg-gray-100 transition duration-300 interactive-element border border-gray-300">
+                            <i class="fas fa-redo-alt mr-2"></i>Reset
+                        </button>
+                    </div>
+                    
+                    <!-- Timer Settings -->
+                    <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800">Timer Settings</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="work-time" class="block text-sm font-medium text-gray-700 mb-1">Work Time (minutes)</label>
+                                <input type="number" id="work-time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" value="25" min="1" max="60">
+                            </div>
+                            <div>
+                                <label for="break-time" class="block text-sm font-medium text-gray-700 mb-1">Break Time (minutes)</label>
+                                <input type="number" id="break-time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" value="5" min="1" max="30">
+                            </div>
+                            <div class="col-span-2">
+                                <label for="long-break-time" class="block text-sm font-medium text-gray-700 mb-1">Long Break Time (minutes)</label>
+                                <input type="number" id="long-break-time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" value="15" min="1" max="60">
+                            </div>
+                            <div class="col-span-2">
+                                <label for="sessions" class="block text-sm font-medium text-gray-700 mb-1">Sessions before Long Break</label>
+                                <input type="number" id="sessions" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" value="4" min="1" max="10">
+                            </div>
+                            <div class="col-span-2 mt-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="sound-enabled" class="rounded text-purple-600 focus:ring-purple-500 h-5 w-5">
+                                    <span class="ml-2 text-gray-700">Enable Sound Notifications</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button id="apply-settings" class="mt-4 w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition duration-300">Apply Settings</button>
+                    </div>
+                </div>
+                
+                <!-- Session History -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Session History</h3>
+                    <div class="bg-white p-4 rounded-xl shadow-md">
+                        <div id="history-container" class="max-h-60 overflow-y-auto">
+                            <p class="text-gray-500 text-center py-4">No sessions completed yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-90 py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; 2025 Ultimate Student Toolkit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="../about.html" class="text-gray-600 hover:text-purple-600 transition duration-300">About</a>
+                    <a href="../contact.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Contact</a>
+                    <a href="../privacy.html" class="text-gray-600 hover:text-purple-600 transition duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/animation.js"></script>
+    <script>
+        // Pomodoro Timer Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const timerDisplay = document.getElementById('timer');
+            const timerLabel = document.getElementById('timer-label');
+            const startBtn = document.getElementById('start-btn');
+            const pauseBtn = document.getElementById('pause-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const applySettingsBtn = document.getElementById('apply-settings');
+            const workTimeInput = document.getElementById('work-time');
+            const breakTimeInput = document.getElementById('break-time');
+            const longBreakTimeInput = document.getElementById('long-break-time');
+            const sessionsInput = document.getElementById('sessions');
+            const soundEnabledCheckbox = document.getElementById('sound-enabled');
+            const historyContainer = document.getElementById('history-container');
+            
+            // Timer variables
+            let timer;
+            let timeLeft;
+            let isRunning = false;
+            let isPaused = false;
+            let isWorkTime = true;
+            let completedSessions = 0;
+            let totalSessions = 0;
+            
+            // Settings
+            let workTime = 25 * 60; // 25 minutes in seconds
+            let breakTime = 5 * 60; // 5 minutes in seconds
+            let longBreakTime = 15 * 60; // 15 minutes in seconds
+            let sessionsBeforeLongBreak = 4;
+            let soundEnabled = true;
+            
+            // Initialize timer
+            timeLeft = workTime;
+            updateTimerDisplay();
+            
+            // Create notification sound
+            const notificationSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-software-interface-alert-notification-256.mp3');
+            
+            // Event listeners
+            startBtn.addEventListener('click', startTimer);
+            pauseBtn.addEventListener('click', pauseTimer);
+            resetBtn.addEventListener('click', resetTimer);
+            applySettingsBtn.addEventListener('click', applySettings);
+            
+            // Apply settings from inputs
+            function applySettings() {
+                workTime = parseInt(workTimeInput.value) * 60;
+                breakTime = parseInt(breakTimeInput.value) * 60;
+                longBreakTime = parseInt(longBreakTimeInput.value) * 60;
+                sessionsBeforeLongBreak = parseInt(sessionsInput.value);
+                soundEnabled = soundEnabledCheckbox.checked;
+                
+                // Reset timer with new settings
+                resetTimer();
+                
+                // Show confirmation message
+                showNotification('Settings applied successfully!');
+            }
+            
+            // Start timer
+            function startTimer() {
+                if (isPaused) {
+                    isPaused = false;
+                } else if (!isRunning) {
+                    isRunning = true;
+                    
+                    // Add session start to history if starting a work session
+                    if (isWorkTime && timeLeft === workTime) {
+                        addToHistory(`Session #${totalSessions + 1} started`);
+                    }
+                }
+                
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                
+                timer = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        playNotificationSound();
+                        
+                        if (isWorkTime) {
+                            // Work session completed
+                            completedSessions++;
+                            totalSessions++;
+                            addToHistory(`Work session #${totalSessions} completed`);
+                            
+                            // Check if it's time for a long break
+                            if (completedSessions >= sessionsBeforeLongBreak) {
+                                isWorkTime = false;
+                                timeLeft = longBreakTime;
+                                timerLabel.textContent = 'Long Break';
+                                completedSessions = 0;
+                                showNotification('Time for a long break!');
+                            } else {
+                                isWorkTime = false;
+                                timeLeft = breakTime;
+                                timerLabel.textContent = 'Break Time';
+                                showNotification('Time for a break!');
+                            }
+                        } else {
+                            // Break completed
+                            isWorkTime = true;
+                            timeLeft = workTime;
+                            timerLabel.textContent = 'Work Time';
+                            addToHistory(`Break completed, ready for next session`);
+                            showNotification('Break over! Time to work!');
+                        }
+                        
+                        updateTimerDisplay();
+                        startTimer(); // Automatically start the next session
+                    }
+                }, 1000);
+            }
+            
+            // Pause timer
+            function pauseTimer() {
+                clearInterval(timer);
+                isPaused = true;
+                startBtn.disabled = false;
+                pauseBtn.disabled = true;
+            }
+            
+            // Reset timer
+            function resetTimer() {
+                clearInterval(timer);
+                isRunning = false;
+                isPaused = false;
+                isWorkTime = true;
+                timeLeft = workTime;
+                timerLabel.textContent = 'Work Time';
+                updateTimerDisplay();
+                startBtn.disabled = false;
+                pauseBtn.disabled = true;
+            }
+            
+            // Update timer display
+            function updateTimerDisplay() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update document title
+                document.title = `${timerDisplay.textContent} - ${timerLabel.textContent} - Pomodoro Timer`;
+            }
+            
+            // Play notification sound
+            function playNotificationSound() {
+                if (soundEnabled) {
+                    notificationSound.play();
+                }
+            }
+            
+            // Show notification
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-white p-4 rounded-lg shadow-lg z-50 animate-fade-in';
+                notification.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas fa-bell text-purple-600 mr-2"></i>
+                        <p class="text-gray-800">${message}</p>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => notification.remove(), 500);
+                }, 3000);
+            }
+            
+            // Add entry to session history
+            function addToHistory(text) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const dateString = now.toLocaleDateString();
+                
+                // Remove placeholder if it exists
+                const placeholder = historyContainer.querySelector('p');
+                if (placeholder) {
+                    historyContainer.removeChild(placeholder);
+                }
+                
+                // Create history entry
+                const entry = document.createElement('div');
+                entry.className = 'border-b border-gray-200 py-2';
+                entry.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-800">${text}</span>
+                        <span class="text-sm text-gray-500">${timeString}, ${dateString}</span>
+                    </div>
+                `;
+                
+                // Add to history container
+                historyContainer.insertBefore(entry, historyContainer.firstChild);
+            }
+            
+            // Initialize settings from inputs
+            soundEnabledCheckbox.checked = soundEnabled;
+        });
+    </script>
+</body>
+</html>
